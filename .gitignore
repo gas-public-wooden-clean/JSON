@@ -1,0 +1,11 @@
+# Visual Studio solution data
+/.vs/
+
+# Visual Studio project data
+*.csproj.user
+
+# Build
+bin/
+
+# Build intermediate
+obj/

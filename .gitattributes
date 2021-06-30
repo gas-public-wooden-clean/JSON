@@ -1,0 +1,18 @@
+# Visual Studio solution
+*.sln text
+
+# Visual Studio project
+*.csproj text
+
+# CSharp
+*.cs text
+
+# Globalization Resource
+*.resx text
+
+# Markdown
+*.md text
+
+/LICENSE text
+.gitattributes text
+.gitignore text
