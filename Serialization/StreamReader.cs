@@ -341,13 +341,13 @@ namespace CER.JSON.Stream
 
 		private String ReadString()
 		{
-			Advance();
+			_ = Advance();
 			StringBuilder stringRepresentation = new StringBuilder();
 			char c;
 			bool escaped = false;
 			while (TryPeek(out c))
 			{
-				Advance();
+				_ = Advance();
 
 				if ((ushort)c < 32)
 				{
@@ -356,7 +356,7 @@ namespace CER.JSON.Stream
 
 				if (escaped)
 				{
-					stringRepresentation.Append(c);
+					_ = stringRepresentation.Append(c);
 					escaped = false;
 					switch (c)
 					{
@@ -380,8 +380,8 @@ namespace CER.JSON.Stream
 								{
 									throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Invalid unicode hexadecimal {2}.", _line, _lineCharacter, c));
 								}
-								stringRepresentation.Append(c);
-								Advance();
+								_ = stringRepresentation.Append(c);
+								_ = Advance();
 							}
 							break;
 						default:
@@ -394,12 +394,12 @@ namespace CER.JSON.Stream
 					{
 						case '\\':
 							escaped = true;
-							stringRepresentation.Append(c);
+							_ = stringRepresentation.Append(c);
 							break;
 						case '"':
 							return new String(stringRepresentation.ToString(), true);
 						default:
-							stringRepresentation.Append(c);
+							_ = stringRepresentation.Append(c);
 							break;
 					}
 				}

@@ -77,25 +77,28 @@ namespace CER.JSON.DocumentObjectModel
 						switch (value[i])
 						{
 							case '"':
-								builder.Append('"');
+								_ = builder.Append('"');
 								break;
 							case '\\':
-								builder.Append('\\');
+								_ = builder.Append('\\');
+								break;
+							case '/':
+								_ = builder.Append('/');
 								break;
 							case 'b':
-								builder.Append('\b');
+								_ = builder.Append('\b');
 								break;
 							case 'f':
-								builder.Append('\f');
+								_ = builder.Append('\f');
 								break;
 							case 'n':
-								builder.Append('\n');
+								_ = builder.Append('\n');
 								break;
 							case 'r':
-								builder.Append('\r');
+								_ = builder.Append('\r');
 								break;
 							case 't':
-								builder.Append('\t');
+								_ = builder.Append('\t');
 								break;
 							case 'u':
 								const int length = 4;
@@ -109,7 +112,7 @@ namespace CER.JSON.DocumentObjectModel
 								{
 									throw new FormatException(string.Format("Value contains invalid hexadecimal number {0}.", hexadecimal));
 								}
-								builder.Append((char)unicode);
+								_ = builder.Append((char)unicode);
 								i += length;
 								break;
 							default:
@@ -126,7 +129,7 @@ namespace CER.JSON.DocumentObjectModel
 							case '"':
 								throw new FormatException("Value contains unescaped double quote.");
 							default:
-								builder.Append(value[i]);
+								_ = builder.Append(value[i]);
 								break;
 						}
 					}
