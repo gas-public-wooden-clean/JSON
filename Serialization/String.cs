@@ -47,7 +47,27 @@ namespace CER.JSON.DocumentObjectModel
 				_ = json.Replace("\t", "\\t");
 				for (ushort controlValue = 0; controlValue <= 31; controlValue++)
 				{
-					_ = json.Replace(((char)controlValue).ToString(), string.Format(CultureInfo.InvariantCulture, "\\u{0:X4}", controlValue));
+					_ = json.Replace(((char)controlValue).ToString(), EscapeChar((char)controlValue));
+				}
+				for (int i = 0; i < json.Length; i++)
+				{
+					bool nextIsLowSurrogate = i + 1 < json.Length && char.IsLowSurrogate(json[i + 1]);
+					bool unpairedHighSurrogate = char.IsHighSurrogate(json[i]) && !nextIsLowSurrogate;
+					if (unpairedHighSurrogate || char.IsLowSurrogate(json[i]))
+					{
+						// The value contains an unpaired surrogate, which can't be written to a
+						// stream unless we escape it.
+						string toInsert = EscapeChar(json[i]);
+						json.Remove(i, 1);
+						json.Insert(i, toInsert);
+						i += toInsert.Length - 1;
+					}
+					else if (char.IsHighSurrogate(json[i]))
+					{
+						// This is a valid surrogate pair. Skip checking the next because we already
+						// know it's the low surrogate.
+						i += 1;
+					}
 				}
 				_json = json.ToString();
 			}
@@ -144,7 +164,63 @@ namespace CER.JSON.DocumentObjectModel
 
 		public override void Serialize(TextWriter writer)
 		{
-			writer.Write("{0}\"{1}\"{2}", Leading.Value, _json, Trailing.Value);
+			writer.Write(Leading.Value);
+			writer.Write("\"");
+
+			for (int i = 0; i < _json.Length; i++)
+			{
+				if (_json[i] == '\\')
+				{
+					int sequenceLength;
+					if (_json[i + 1] == 'u')
+					{
+						// Unicode escape sequence.
+						sequenceLength = 6;
+					}
+					else
+					{
+						sequenceLength = 2;
+					}
+
+					writer.Write(_json.Substring(i, sequenceLength));
+					i += sequenceLength - 1;
+				}
+				else
+				{
+					int sequenceLength = char.IsHighSurrogate(_json[i]) ? 2 : 1;
+
+					bool needsEscape = false;
+					// Check if the sequence is representable natively in the target encoding.
+					try
+					{
+						_ = writer.Encoding.GetByteCount(_json.Substring(i, sequenceLength));
+					}
+					catch (EncoderFallbackException)
+					{
+						needsEscape = true;
+					}
+
+					if (needsEscape)
+					{
+						for (int sequenceIndex = 0; sequenceIndex < sequenceLength; sequenceIndex++)
+						{
+							writer.Write(EscapeChar(_json[i + sequenceIndex]));
+						}
+					}
+					else
+					{
+						writer.Write(_json.Substring(i, sequenceLength));
+					}
+				}
+			}
+
+			writer.Write("\"");
+			writer.Write(Trailing.Value);
+		}
+
+		private static string EscapeChar(char character)
+		{
+			return string.Format(CultureInfo.InvariantCulture, "\\u{0:X4}", (ushort)character);
 		}
 	}
 }
