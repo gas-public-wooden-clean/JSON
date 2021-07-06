@@ -91,6 +91,11 @@ namespace CER.JSON.DocumentObjectModel
 						throw new FormatException("Value contains a control character.");
 					}
 
+					if (IsUnpairedSurrogate(value, i))
+					{
+						throw new FormatException("Value contains an unpaired surrogate.");
+					}
+
 					if (isEscaped)
 					{
 						isEscaped = false;
@@ -221,6 +226,22 @@ namespace CER.JSON.DocumentObjectModel
 		private static string EscapeChar(char character)
 		{
 			return string.Format(CultureInfo.InvariantCulture, "\\u{0:X4}", (ushort)character);
+		}
+
+		private static bool IsUnpairedSurrogate(string value, int index)
+		{
+			if (char.IsHighSurrogate(value[index]))
+			{
+				return index == value.Length - 1 || !char.IsLowSurrogate(value[index + 1]);
+			}
+			else if (char.IsLowSurrogate(value[index]))
+			{
+				return index == 0 || !char.IsHighSurrogate(value[index - 1]);
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }
