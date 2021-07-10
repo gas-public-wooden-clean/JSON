@@ -177,9 +177,10 @@ namespace CER.JSON.DocumentObjectModel
 
 			for (int i = 0; i < _json.Length; i++)
 			{
+				int sequenceLength;
+
 				if (_json[i] == '\\')
 				{
-					int sequenceLength;
 					if (_json[i + 1] == 'u')
 					{
 						// Unicode escape sequence.
@@ -191,11 +192,10 @@ namespace CER.JSON.DocumentObjectModel
 					}
 
 					writer.Write(_json.Substring(i, sequenceLength));
-					i += sequenceLength - 1;
 				}
 				else
 				{
-					int sequenceLength = char.IsHighSurrogate(_json[i]) ? 2 : 1;
+					sequenceLength = char.IsHighSurrogate(_json[i]) ? 2 : 1;
 
 					bool needsEscape = false;
 					// Check if the sequence is representable natively in the target encoding.
@@ -220,6 +220,8 @@ namespace CER.JSON.DocumentObjectModel
 						writer.Write(_json.Substring(i, sequenceLength));
 					}
 				}
+
+				i += sequenceLength - 1;
 			}
 
 			writer.Write("\"");
