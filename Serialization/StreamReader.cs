@@ -1,4 +1,4 @@
-﻿using CER.JSON.DocumentObjectModel;
+using CER.JSON.DocumentObjectModel;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,33 +18,23 @@ namespace CER.JSON.Stream
 			Type = Type.Invalid;
 		}
 
-		private System.IO.TextReader _text;
-		private IList<bool> _stack;
-		private State _state;
-		private int? _buffer;
-		private bool _hasError;
-		private ulong _line;
-		private ulong _lineCharacter;
-		private Type _type;
-		private String _stringValue;
-		private Number _numberValue;
-		private bool _booleanValue;
-		private string _whitespaceValue;
+		readonly System.IO.TextReader _text;
+		readonly IList<bool> _stack;
+		State _state;
+		int? _buffer;
+		bool _hasError;
+		ulong _line;
+		ulong _lineCharacter;
+		Type _type;
+		String _stringValue;
+		Number _numberValue;
+		bool _booleanValue;
+		string _whitespaceValue;
 
 		public Type Type
 		{
-			get
-			{
-				if (_hasError)
-				{
-					throw new InvalidOperationException();
-				}
-				return _type;
-			}
-			private set
-			{
-				_type = value;
-			}
+			get => !_hasError ? _type : throw new InvalidOperationException();
+			private set => _type = value;
 		}
 
 		public String StringValue
@@ -57,10 +47,7 @@ namespace CER.JSON.Stream
 				}
 				return new String(_stringValue.JSON, true);
 			}
-			private set
-			{
-				_stringValue = value;
-			}
+			private set => _stringValue = value;
 		}
 
 		public Number NumberValue
@@ -73,10 +60,7 @@ namespace CER.JSON.Stream
 				}
 				return new Number(_numberValue.JSON);
 			}
-			private set
-			{
-				_numberValue = value;
-			}
+			private set => _numberValue = value;
 		}
 
 		public bool BooleanValue
@@ -103,7 +87,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private static bool IsDecimalDigit(char c)
+		static bool IsDecimalDigit(char c)
 		{
 			switch (c)
 			{
@@ -123,7 +107,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private static bool IsHexDigit(char c)
+		static bool IsHexDigit(char c)
 		{
 			if (IsDecimalDigit(c))
 			{
@@ -187,7 +171,7 @@ namespace CER.JSON.Stream
 				switch (character)
 				{
 					case '{':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartValue)
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected object start.", _line, _lineCharacter));
@@ -197,7 +181,7 @@ namespace CER.JSON.Stream
 						_state = State.StartKey;
 						return true;
 					case '}':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartKey &&
 							_state != State.EndValue)
 						{
@@ -212,7 +196,7 @@ namespace CER.JSON.Stream
 						_state = State.EndValue;
 						return true;
 					case '[':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartValue)
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected array start.", _line, _lineCharacter));
@@ -222,7 +206,7 @@ namespace CER.JSON.Stream
 						_state = State.StartValue;
 						return true;
 					case ']':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartValue &&
 							_state != State.EndValue)
 						{
@@ -237,7 +221,7 @@ namespace CER.JSON.Stream
 						_state = State.EndValue;
 						return true;
 					case ',':
-						Advance();
+						_ = Advance();
 						if (_state != State.EndValue || _stack.Count < 1)
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected comma.", _line, _lineCharacter));
@@ -253,7 +237,7 @@ namespace CER.JSON.Stream
 						}
 						return true;
 					case ':':
-						Advance();
+						_ = Advance();
 						if (_state != State.EndKey || _stack.Count < 1 || !_stack[_stack.Count - 1])
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected colon.", _line, _lineCharacter));
@@ -323,7 +307,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private bool TryReadWhitespace(out string result)
+		bool TryReadWhitespace(out string result)
 		{
 			result = null;
 			char character;
@@ -334,12 +318,12 @@ namespace CER.JSON.Stream
 					result = string.Empty;
 				}
 				result += character;
-				Advance();
+				_ = Advance();
 			}
 			return result != null;
 		}
 
-		private String ReadString()
+		String ReadString()
 		{
 			_ = Advance();
 			StringBuilder stringRepresentation = new StringBuilder();
@@ -407,7 +391,7 @@ namespace CER.JSON.Stream
 			throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file in string.", _line, _lineCharacter));
 		}
 
-		private Number ReadNumber()
+		Number ReadNumber()
 		{
 			StringBuilder stringRepresentation = new StringBuilder();
 			char c;
@@ -418,8 +402,8 @@ namespace CER.JSON.Stream
 			}
 			if (c == '-')
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 			}
 
 			if (!TryPeek(out c))
@@ -428,15 +412,15 @@ namespace CER.JSON.Stream
 			}
 			if (c == '0')
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 			}
 			else if (IsDecimalDigit(c))
 			{
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 				}
 			}
 			else
@@ -446,14 +430,14 @@ namespace CER.JSON.Stream
 
 			if (TryPeek(out c) && c == '.')
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 
 				bool hasDigitAfterDecimal = false;
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 					hasDigitAfterDecimal = true;
 				}
 				if (!hasDigitAfterDecimal)
@@ -465,21 +449,21 @@ namespace CER.JSON.Stream
 			if (TryPeek(out c) &&
 				(c == 'e' || c == 'E'))
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 
 				if (TryPeek(out c) &&
 					(c == '+' || c == '-'))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 				}
 
 				bool hasDigitInExponent = false;
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 				}
 				if (!hasDigitInExponent)
 				{
@@ -490,7 +474,7 @@ namespace CER.JSON.Stream
 			return new Number(stringRepresentation.ToString());
 		}
 
-		private void ReadConstant(string constant)
+		void ReadConstant(string constant)
 		{
 			foreach (char expected in constant)
 			{
@@ -502,7 +486,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private bool TryPeek(out char character)
+		bool TryPeek(out char character)
 		{
 			if (!_buffer.HasValue)
 			{
@@ -521,7 +505,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private char Advance()
+		char Advance()
 		{
 			int value;
 			if (_buffer.HasValue)
@@ -549,7 +533,7 @@ namespace CER.JSON.Stream
 			return (char)value;
 		}
 
-		private enum State
+		enum State
 		{
 			StartValue,
 			EndValue,

@@ -1,4 +1,4 @@
-﻿using CER.JSON.DocumentObjectModel;
+using CER.JSON.DocumentObjectModel;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -8,19 +8,16 @@ namespace UI
 {
 	public partial class WhitespaceControl : UserControl
 	{
-		public WhitespaceControl()
-		{
-			InitializeComponent();
-		}
+		public WhitespaceControl() => InitializeComponent();
 
-		private Whitespace _value;
-		private bool _updating;
+		Whitespace _value;
+		bool _updating;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Whitespace Value
 		{
-			get { return _value; }
+			get => _value;
 			set
 			{
 				_value = value;
@@ -29,7 +26,7 @@ namespace UI
 			}
 		}
 
-		private void SetText(TextBox control, string text)
+		void SetText(TextBox control, string text)
 		{
 			_updating = true;
 			control.Text = text;
@@ -37,12 +34,12 @@ namespace UI
 			control.BackColor = Color.FromName("Window");
 		}
 
-		private static string Escape(string literal)
+		static string Escape(string literal)
 		{
 			return literal.Replace("\t", "\\t").Replace("\r", "\\r").Replace("\n", "\\n");
 		}
 
-		private void LiteralTextChanged(object sender, EventArgs e)
+		void LiteralTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{
@@ -60,7 +57,7 @@ namespace UI
 			SetText(_escapedValue, Escape(Value.Value));
 		}
 
-		private void EscapedTextChanged(object sender, EventArgs e)
+		void EscapedTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{
@@ -79,7 +76,7 @@ namespace UI
 			SetText(_literalValue, Value.Value);
 		}
 
-		private bool Update(string literal)
+		bool Update(string literal)
 		{
 			try
 			{

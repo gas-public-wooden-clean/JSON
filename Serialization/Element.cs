@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using StreamReader = CER.JSON.Stream.StreamReader;
 using Type = CER.JSON.Stream.Type;
@@ -27,19 +27,19 @@ namespace CER.JSON.DocumentObjectModel
 			Trailing = trailing;
 		}
 
-		private Whitespace _leading;
-		private Whitespace _trailing;
+		Whitespace _leading;
+		Whitespace _trailing;
 
 		public Whitespace Leading
 		{
-			get { return _leading; }
-			set { _leading = value ?? throw new ArgumentNullException(nameof(value)); }
+			get => _leading;
+			set => _leading = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		public Whitespace Trailing
 		{
-			get { return _trailing; }
-			set { _trailing = value ?? throw new ArgumentNullException(nameof(value)); }
+			get => _trailing;
+			set => _trailing = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public abstract void Serialize(System.IO.TextWriter writer);
 
-		private static Element ReadElement(StreamReader reader)
+		static Element ReadElement(StreamReader reader)
 		{
 			Element retval;
 
@@ -121,8 +121,10 @@ namespace CER.JSON.DocumentObjectModel
 					}
 					while (reader.Type != Type.EndObject)
 					{
-						ObjectPair pair = new ObjectPair();
-						pair.Key = (String)ReadElement(reader);
+						ObjectPair pair = new ObjectPair
+						{
+							Key = (String)ReadElement(reader)
+						};
 						// Read past the key/value separator.
 						_ = reader.Read();
 						pair.Value = ReadElement(reader);

@@ -14,5 +14,6 @@
 *.md text
 
 /LICENSE text
+.editorconfig text
 .gitattributes text
 .gitignore text

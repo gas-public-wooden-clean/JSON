@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -27,12 +27,12 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
-		private string _value;
-		private string _json;
+		string _value;
+		string _json;
 
 		public string Value
 		{
-			get { return _value; }
+			get => _value;
 			set
 			{
 				_value = value ?? throw new ArgumentNullException(nameof(value));
@@ -58,8 +58,8 @@ namespace CER.JSON.DocumentObjectModel
 						// The value contains an unpaired surrogate, which can't be written to a
 						// stream unless we escape it.
 						string toInsert = EscapeChar(json[i]);
-						json.Remove(i, 1);
-						json.Insert(i, toInsert);
+						_ = json.Remove(i, 1);
+						_ = json.Insert(i, toInsert);
 						i += toInsert.Length - 1;
 					}
 					else if (char.IsHighSurrogate(json[i]))
@@ -75,7 +75,7 @@ namespace CER.JSON.DocumentObjectModel
 
 		public string JSON
 		{
-			get { return _json; }
+			get => _json;
 			set
 			{
 				if (value == null)
@@ -226,12 +226,12 @@ namespace CER.JSON.DocumentObjectModel
 			writer.Write(Trailing.Value);
 		}
 
-		private static string EscapeChar(char character)
+		static string EscapeChar(char character)
 		{
 			return string.Format(CultureInfo.InvariantCulture, "\\u{0:X4}", (ushort)character);
 		}
 
-		private static bool IsUnpairedSurrogate(string value, int index)
+		static bool IsUnpairedSurrogate(string value, int index)
 		{
 			if (char.IsHighSurrogate(value[index]))
 			{

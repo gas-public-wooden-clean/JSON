@@ -1,25 +1,18 @@
-﻿using System;
+using System;
 
 namespace CER.JSON.DocumentObjectModel
 {
 	public class Whitespace
 	{
-		public Whitespace(string whitespace)
-		{
-			Value = whitespace;
-		}
+		public Whitespace(string whitespace) => Value = whitespace;
 
-		private static Whitespace _empty = new Whitespace(string.Empty);
-		private string _validated;
+		string _validated;
 
-		public static Whitespace Empty
-		{
-			get { return _empty; }
-		}
+		public static Whitespace Empty { get; } = new Whitespace(string.Empty);
 
 		public string Value
 		{
-			get { return _validated; }
+			get => _validated;
 			private set
 			{
 				foreach (char c in value)
@@ -34,9 +27,6 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
-		public static bool IsLegal(char c)
-		{
-			return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-		}
+		public static bool IsLegal(char c) => c == ' ' || c == '\t' || c == '\r' || c == '\n';
 	}
 }

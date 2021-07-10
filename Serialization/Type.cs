@@ -1,4 +1,4 @@
-﻿namespace CER.JSON.Stream
+namespace CER.JSON.Stream
 {
 	public enum Type
 	{

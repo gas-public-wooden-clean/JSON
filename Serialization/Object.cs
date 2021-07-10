@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -12,7 +12,7 @@ namespace CER.JSON.DocumentObjectModel
 			EmptyWhitespace = Whitespace.Empty;
 		}
 
-		private Whitespace _emptyWhitespace;
+		Whitespace _emptyWhitespace;
 
 		public IList<ObjectPair> Values
 		{
@@ -22,8 +22,8 @@ namespace CER.JSON.DocumentObjectModel
 
 		public Whitespace EmptyWhitespace
 		{
-			get { return _emptyWhitespace; }
-			set { _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value)); }
+			get => _emptyWhitespace;
+			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
