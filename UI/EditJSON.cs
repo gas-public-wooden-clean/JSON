@@ -1,7 +1,10 @@
 using CER.JSON.DocumentObjectModel;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Security;
+using System.Text;
 using System.Windows.Forms;
 
 using Array = CER.JSON.DocumentObjectModel.Array;
@@ -24,17 +27,49 @@ namespace UI
 			_ = _typeValue.Items.Add(_objectType);
 			_ = _typeValue.Items.Add(_stringType);
 
+			_detected = _utf8;
+
 			LoadElement(new Null());
 		}
 
 		string _path;
 		bool _updating;
+		Encoding _detected;
 		const string _arrayType = "Array";
 		const string _boolType = "Boolean";
 		const string _nullType = "Null";
 		const string _numberType = "Number";
 		const string _objectType = "Object";
 		const string _stringType = "String";
+		readonly Encoding _ascii = Encoding.GetEncoding(20127, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
+		/// <summary>
+		/// UTF-8 with no byte order mark.
+		/// </summary>
+		readonly Encoding _utf8 = new UTF8Encoding(false, true);
+		/// <summary>
+		/// UTF-8 with a byte order mark.
+		/// </summary>
+		readonly Encoding _utf8bom = new UTF8Encoding(true, true);
+		/// <summary>
+		/// Little endian UTF-16 with a byte order mark.
+		/// </summary>
+		readonly Encoding _utf16le = new UnicodeEncoding(false, true, true);
+		/// <summary>
+		/// Big endian UTF-16 with a byte order mark.
+		/// </summary>
+		readonly Encoding _utf16be = new UnicodeEncoding(true, true, true);
+		/// <summary>
+		/// Little endian UTF-32 with a byte order mark.
+		/// </summary>
+		readonly Encoding _utf32le = new UTF32Encoding(false, true, true);
+		/// <summary>
+		/// Big endian UTF-32 with a byte order mark.
+		/// </summary>
+		readonly Encoding _utf32be = new UTF32Encoding(true, true, true);
+		/// <summary>
+		/// Code page 1252.
+		/// </summary>
+		readonly Encoding _cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
 
 		void LoadElement(Element element)
 		{
@@ -55,10 +90,12 @@ namespace UI
 		{
 			UpdateDOM();
 
+			Encoding encoding = GetSelectedEncoding();
+
 			TextWriter writer;
 			try
 			{
-				writer = new StreamWriter(fileName);
+				writer = new StreamWriter(fileName, false, encoding);
 			}
 			catch (SystemException ex)
 			{
@@ -335,7 +372,7 @@ namespace UI
 					element = _stringControl.Value;
 					break;
 				default:
-					// This should never happen.
+					Debug.Assert(false);
 					return;
 			}
 
@@ -355,6 +392,149 @@ namespace UI
 				int index = selected.Parent.Nodes.IndexOf(selected);
 				arrayContainer.Values[index] = element;
 			}
+		}
+
+		void SelectEncoding(ToolStripItem selected)
+		{
+			IEnumerable<ToolStripMenuItem> options = new ToolStripMenuItem[]
+			{
+				_autoOption,
+				_asciiOption,
+				_utf8Option,
+				_utf8bomOption,
+				_utf16leOption,
+				_utf16beOption,
+				_utf32leOption,
+				_utf32beOption,
+			};
+			foreach (ToolStripMenuItem encodingOption in options)
+			{
+				encodingOption.Checked = encodingOption == selected;
+			}
+		}
+
+		bool BytesStartWith(byte[] left, int leftLength, byte[] right)
+		{
+			if (leftLength < right.Length)
+			{
+				return false;
+			}
+
+			for (int i = 0; i < right.Length; i++)
+			{
+				if (left[i] != right[i])
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		Encoding GetSelectedEncoding()
+		{
+			if (_asciiOption.Checked)
+			{
+				return _ascii;
+			}
+			else if (_utf8Option.Checked)
+			{
+				return _utf8;
+			}
+			else if (_utf8bomOption.Checked)
+			{
+				return _utf8bom;
+			}
+			else if (_utf16leOption.Checked)
+			{
+				return _utf16le;
+			}
+			else if (_utf16beOption.Checked)
+			{
+				return _utf16be;
+			}
+			else if (_utf32leOption.Checked)
+			{
+				return _utf32le;
+			}
+			else if (_utf32beOption.Checked)
+			{
+				return _utf32be;
+			}
+			else if (_cp1252Option.Checked)
+			{
+				return _cp1252;
+			}
+			else
+			{
+				return _detected;
+			}
+		}
+
+		Encoding DetectEncoding(Stream stream)
+		{
+			// Check for byte order marks.
+			byte[] buffer = new byte[4];
+			int numRead = stream.Read(buffer, 0, buffer.Length);
+			_ = stream.Seek(0, SeekOrigin.Begin);
+			if (BytesStartWith(buffer, numRead, _utf32le.GetPreamble()))
+			{
+				return _utf32le;
+			}
+			else if (BytesStartWith(buffer, numRead, _utf32be.GetPreamble()))
+			{
+				return _utf32be;
+			}
+			else if (BytesStartWith(buffer, numRead, _utf16le.GetPreamble()))
+			{
+				return _utf16le;
+			}
+			else if (BytesStartWith(buffer, numRead, _utf16be.GetPreamble()))
+			{
+				return _utf16be;
+			}
+			else if (BytesStartWith(buffer, numRead, _utf8bom.GetPreamble()))
+			{
+				return _utf8bom;
+			}
+
+			if (TryEncoding(stream, _ascii))
+			{
+				// Prefer ASCII over UTF-8 because it's more compatible and it doesn't limit us: we
+				// can just use JSON to escape characters that aren't directly representable as
+				// ASCII.
+				return _ascii;
+			}
+			else if (TryEncoding(stream, _utf8))
+			{
+				return _utf8;
+			}
+			else
+			{
+				return _cp1252;
+			}
+		}
+
+		bool TryEncoding(Stream stream, Encoding encoding)
+		{
+			using (TextReader reader = new StreamReader(stream, encoding, false, 4 * 1024, true))
+			{
+				char[] buffer = new char[2 * 1024];
+				try
+				{
+					while (reader.Read(buffer, 0, buffer.Length) > 0) { }
+				}
+				catch (DecoderFallbackException)
+				{
+					return false;
+				}
+				finally
+				{
+					_ = stream.Seek(0, SeekOrigin.Begin);
+				}
+			}
+
+			return true;
 		}
 
 		void BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -381,34 +561,79 @@ namespace UI
 
 			Element element;
 
-			TextReader reader;
-			try
+			using (Stream file = _openDialog.OpenFile())
 			{
-				reader = new StreamReader(_openDialog.FileName);
-			}
-			catch (IOException)
-			{
-				string message = string.Format("{1}{0}Check the file name and try again.", Environment.NewLine, _openDialog.FileName);
-				_ = MessageBox.Show(message, "Open", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-			using (reader)
-			{
-				CER.JSON.Stream.StreamReader json = new CER.JSON.Stream.StreamReader(reader);
+				if (_autoOption.Checked)
+				{
+					_detected = DetectEncoding(file);
+				}
+				else
+				{
+					_detected = GetSelectedEncoding();
+				}
+
+				StreamReader reader;
 				try
 				{
-					element = Element.Deserialize(json);
+					reader = new StreamReader(file, _detected);
 				}
-				catch (Exception ex)
+				catch (IOException)
 				{
-					if (!(ex is InvalidDataException) &&
-						!(ex is CER.JSON.Stream.InvalidTextException))
-					{
-						throw;
-					}
-					string message = string.Format("{1}{0}{2}", Environment.NewLine, _openDialog.FileName, ex.Message);
+					string message = string.Format("{1}{0}Check the file name and try again.", Environment.NewLine, _openDialog.FileName);
 					_ = MessageBox.Show(message, "Open", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					return;
+				}
+				using (reader)
+				{
+					CER.JSON.Stream.StreamReader json = new CER.JSON.Stream.StreamReader(reader);
+					try
+					{
+						element = Element.Deserialize(json);
+					}
+					catch (Exception ex)
+					{
+						if (!(ex is InvalidDataException) &&
+							!(ex is CER.JSON.Stream.InvalidTextException))
+						{
+							throw;
+						}
+						string message = string.Format("{1}{0}{2}", Environment.NewLine, _openDialog.FileName, ex.Message);
+						_ = MessageBox.Show(message, "Open", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
+				}
+
+				if (_detected == _ascii)
+				{
+					_autoOption.Text = "Auto (ASCII)";
+				}
+				else if (_detected ==_utf8)
+				{
+					_autoOption.Text = "Auto (UTF-8)";
+				}
+				else if (_detected == _utf8bom)
+				{
+					_autoOption.Text = "Auto (UTF-8-BOM)";
+				}
+				else if (_detected == _utf16le)
+				{
+					_autoOption.Text = "Auto (UTF-16 LE BOM)";
+				}
+				else if (_detected ==_utf32be)
+				{
+					_autoOption.Text = "Auto (UTF-16 BE BOM)";
+				}
+				else if (_detected == _utf32le)
+				{
+					_autoOption.Text = "Auto (UTF-32 LE BOM)";
+				}
+				else if (_detected == _utf32be)
+				{
+					_autoOption.Text = "Auto (UTF-32 BE BOM)";
+				}
+				else
+				{
+					Debug.Assert(false);
 				}
 			}
 			LoadElement(element);
@@ -470,7 +695,7 @@ namespace UI
 					newValue = new String();
 					break;
 				default:
-					// This should never happen.
+					Debug.Assert(false);
 					return;
 			}
 
@@ -554,6 +779,11 @@ namespace UI
 		void ExpandClick(object sender, EventArgs e)
 		{
 			_navigation.SelectedNode.ExpandAll();
+		}
+
+		void EncodingDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			SelectEncoding(e.ClickedItem);
 		}
 	}
 }

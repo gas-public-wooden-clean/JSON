@@ -43,6 +43,7 @@ namespace UI
 			System.Windows.Forms.ToolStripMenuItem _view;
 			System.Windows.Forms.ToolStripMenuItem _collapse;
 			System.Windows.Forms.ToolStripMenuItem _expand;
+			System.Windows.Forms.ToolStripMenuItem _encoding;
 			this._typeValue = new System.Windows.Forms.ComboBox();
 			this._navigation = new System.Windows.Forms.TreeView();
 			this._keyValueLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -56,8 +57,17 @@ namespace UI
 			this._insertBefore = new System.Windows.Forms.ToolStripMenuItem();
 			this._insertAfter = new System.Windows.Forms.ToolStripMenuItem();
 			this._delete = new System.Windows.Forms.ToolStripMenuItem();
+			this._autoOption = new System.Windows.Forms.ToolStripMenuItem();
+			this._asciiOption = new System.Windows.Forms.ToolStripMenuItem();
+			this._utf8Option = new System.Windows.Forms.ToolStripMenuItem();
+			this._utf8bomOption = new System.Windows.Forms.ToolStripMenuItem();
+			this._utf16leOption = new System.Windows.Forms.ToolStripMenuItem();
+			this._utf16beOption = new System.Windows.Forms.ToolStripMenuItem();
+			this._utf32leOption = new System.Windows.Forms.ToolStripMenuItem();
+			this._utf32beOption = new System.Windows.Forms.ToolStripMenuItem();
 			this._openDialog = new System.Windows.Forms.OpenFileDialog();
 			this._saveDialog = new System.Windows.Forms.SaveFileDialog();
+			this._cp1252Option = new System.Windows.Forms.ToolStripMenuItem();
 			_split = new System.Windows.Forms.SplitContainer();
 			_typeLabel = new System.Windows.Forms.Label();
 			_valuePanel = new System.Windows.Forms.Panel();
@@ -72,6 +82,7 @@ namespace UI
 			_view = new System.Windows.Forms.ToolStripMenuItem();
 			_collapse = new System.Windows.Forms.ToolStripMenuItem();
 			_expand = new System.Windows.Forms.ToolStripMenuItem();
+			_encoding = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(_split)).BeginInit();
 			_split.Panel1.SuspendLayout();
 			_split.Panel2.SuspendLayout();
@@ -216,7 +227,8 @@ namespace UI
 			_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             _file,
             _edit,
-            _view});
+            _view,
+            _encoding});
 			_menu.Location = new System.Drawing.Point(0, 0);
 			_menu.Name = "_menu";
 			_menu.Size = new System.Drawing.Size(800, 24);
@@ -342,6 +354,73 @@ namespace UI
 			_expand.Text = "Expand All";
 			_expand.Click += new System.EventHandler(this.ExpandClick);
 			// 
+			// _encoding
+			// 
+			_encoding.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._autoOption,
+            this._asciiOption,
+            this._utf8Option,
+            this._utf8bomOption,
+            this._utf16leOption,
+            this._utf16beOption,
+            this._utf32leOption,
+            this._utf32beOption,
+            this._cp1252Option});
+			_encoding.Name = "_encoding";
+			_encoding.Size = new System.Drawing.Size(69, 20);
+			_encoding.Text = "Encoding";
+			_encoding.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.EncodingDropDownItemClicked);
+			// 
+			// _autoOption
+			// 
+			this._autoOption.Checked = true;
+			this._autoOption.CheckState = System.Windows.Forms.CheckState.Checked;
+			this._autoOption.Name = "_autoOption";
+			this._autoOption.Size = new System.Drawing.Size(180, 22);
+			this._autoOption.Text = "Auto (UTF-8)";
+			// 
+			// _asciiOption
+			// 
+			this._asciiOption.Name = "_asciiOption";
+			this._asciiOption.Size = new System.Drawing.Size(180, 22);
+			this._asciiOption.Text = "ASCII";
+			// 
+			// _utf8Option
+			// 
+			this._utf8Option.Name = "_utf8Option";
+			this._utf8Option.Size = new System.Drawing.Size(180, 22);
+			this._utf8Option.Text = "UTF-8";
+			// 
+			// _utf8bomOption
+			// 
+			this._utf8bomOption.Name = "_utf8bomOption";
+			this._utf8bomOption.Size = new System.Drawing.Size(180, 22);
+			this._utf8bomOption.Text = "UTF-8-BOM";
+			// 
+			// _utf16leOption
+			// 
+			this._utf16leOption.Name = "_utf16leOption";
+			this._utf16leOption.Size = new System.Drawing.Size(180, 22);
+			this._utf16leOption.Text = "UTF-16 LE BOM";
+			// 
+			// _utf16beOption
+			// 
+			this._utf16beOption.Name = "_utf16beOption";
+			this._utf16beOption.Size = new System.Drawing.Size(180, 22);
+			this._utf16beOption.Text = "UTF-16 BE BOM";
+			// 
+			// _utf32leOption
+			// 
+			this._utf32leOption.Name = "_utf32leOption";
+			this._utf32leOption.Size = new System.Drawing.Size(180, 22);
+			this._utf32leOption.Text = "UTF-32 LE BOM";
+			// 
+			// _utf32beOption
+			// 
+			this._utf32beOption.Name = "_utf32beOption";
+			this._utf32beOption.Size = new System.Drawing.Size(180, 22);
+			this._utf32beOption.Text = "UTF-32 BE BOM";
+			// 
 			// _openDialog
 			// 
 			this._openDialog.DefaultExt = "json";
@@ -353,6 +432,12 @@ namespace UI
 			this._saveDialog.DefaultExt = "json";
 			this._saveDialog.Filter = "JSON files|*.json|All files|*.*";
 			this._saveDialog.SupportMultiDottedExtensions = true;
+			// 
+			// _cp1252Option
+			// 
+			this._cp1252Option.Name = "_cp1252Option";
+			this._cp1252Option.Size = new System.Drawing.Size(180, 22);
+			this._cp1252Option.Text = "CP-1252";
 			// 
 			// EditJSON
 			// 
@@ -394,6 +479,15 @@ namespace UI
 		private System.Windows.Forms.ToolStripMenuItem _delete;
 		private NumberControl _numberControl;
 		private BooleanControl _booleanControl;
+		private System.Windows.Forms.ToolStripMenuItem _asciiOption;
+		private System.Windows.Forms.ToolStripMenuItem _utf8Option;
+		private System.Windows.Forms.ToolStripMenuItem _utf8bomOption;
+		private System.Windows.Forms.ToolStripMenuItem _utf16leOption;
+		private System.Windows.Forms.ToolStripMenuItem _utf16beOption;
+		private System.Windows.Forms.ToolStripMenuItem _utf32leOption;
+		private System.Windows.Forms.ToolStripMenuItem _utf32beOption;
+		private System.Windows.Forms.ToolStripMenuItem _autoOption;
+		private System.Windows.Forms.ToolStripMenuItem _cp1252Option;
 	}
 }
 
