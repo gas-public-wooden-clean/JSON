@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -9,13 +9,10 @@ namespace UI
 {
 	public partial class StringControl : UserControl
 	{
-		public StringControl()
-		{
-			InitializeComponent();
-		}
+		public StringControl() => InitializeComponent();
 
-		private string _json;
-		private bool _updating;
+		string _json;
+		bool _updating;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -23,9 +20,11 @@ namespace UI
 		{
 			get
 			{
-				String retval = new String(_json, true);
-				retval.Leading = _leading.Value;
-				retval.Trailing = _trailing.Value;
+				String retval = new String(_json, true)
+				{
+					Leading = _leading.Value,
+					Trailing = _trailing.Value
+				};
 				return retval;
 			}
 			set
@@ -38,7 +37,7 @@ namespace UI
 			}
 		}
 
-		private void LiteralTextChanged(object sender, EventArgs e)
+		void LiteralTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{
@@ -54,7 +53,7 @@ namespace UI
 			_jsonValue.BackColor = Color.FromName("Window");
 		}
 
-		private void JSONTextChanged(object sender, EventArgs e)
+		void JSONTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{

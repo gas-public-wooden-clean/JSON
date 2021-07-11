@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -6,15 +6,28 @@ using System.Text;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A string JSON value.
+	/// </summary>
 	[DebuggerDisplay("{_json}")]
 	public class String : Element
 	{
-		public String()
+		/// <summary>
+		/// Create an empty JSON string with no leading or trailing whitespace.
+		/// </summary>
+		public String() : base()
 		{
 			_value = string.Empty;
 			_json = string.Empty;
 		}
 
+		/// <summary>
+		/// Create a JSON string with the given value.
+		/// </summary>
+		/// <param name="representation">A string representation of the JSON string.</param>
+		/// <param name="isJSON">Whether the representation of the JSON string is a JSON string or a native string.</param>
+		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public String(string representation, bool isJSON)
 		{
 			if (isJSON)
@@ -27,12 +40,16 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
-		private string _value;
-		private string _json;
+		string _value;
+		string _json;
 
+		/// <summary>
+		/// The native string value.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
 		public string Value
 		{
-			get { return _value; }
+			get => _value;
 			set
 			{
 				_value = value ?? throw new ArgumentNullException(nameof(value));
@@ -58,8 +75,8 @@ namespace CER.JSON.DocumentObjectModel
 						// The value contains an unpaired surrogate, which can't be written to a
 						// stream unless we escape it.
 						string toInsert = EscapeChar(json[i]);
-						json.Remove(i, 1);
-						json.Insert(i, toInsert);
+						_ = json.Remove(i, 1);
+						_ = json.Insert(i, toInsert);
 						i += toInsert.Length - 1;
 					}
 					else if (char.IsHighSurrogate(json[i]))
@@ -73,9 +90,14 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
+		/// <summary>
+		/// The value as a JSON string.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public string JSON
 		{
-			get { return _json; }
+			get => _json;
 			set
 			{
 				if (value == null)
@@ -170,6 +192,12 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
+		/// <summary>
+		/// Write the string value and whitespace as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
@@ -226,12 +254,12 @@ namespace CER.JSON.DocumentObjectModel
 			writer.Write(Trailing.Value);
 		}
 
-		private static string EscapeChar(char character)
+		static string EscapeChar(char character)
 		{
 			return string.Format(CultureInfo.InvariantCulture, "\\u{0:X4}", (ushort)character);
 		}
 
-		private static bool IsUnpairedSurrogate(string value, int index)
+		static bool IsUnpairedSurrogate(string value, int index)
 		{
 			if (char.IsHighSurrogate(value[index]))
 			{

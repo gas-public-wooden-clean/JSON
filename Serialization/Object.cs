@@ -1,29 +1,42 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A JSON object.
+	/// </summary>
 	public class Object : Element
 	{
+		/// <summary>
+		/// Create an empty object with no leading, trailing, or contained whitespace.
+		/// </summary>
 		public Object() : base()
 		{
 			Values = new List<ObjectPair>();
 			EmptyWhitespace = Whitespace.Empty;
 		}
 
-		private Whitespace _emptyWhitespace;
+		Whitespace _emptyWhitespace;
 
+		/// <summary>
+		/// The elements in the object. Note that multiple values with the same key are allowed.
+		/// </summary>
 		public IList<ObjectPair> Values
 		{
 			get;
 			private set;
 		}
 
+		/// <summary>
+		/// Whitespace that will be written inside the object if there are no elements in it.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The value being set is null.</exception>
 		public Whitespace EmptyWhitespace
 		{
-			get { return _emptyWhitespace; }
-			set { _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value)); }
+			get => _emptyWhitespace;
+			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -59,6 +72,12 @@ namespace CER.JSON.DocumentObjectModel
 			return value != null;
 		}
 
+		/// <summary>
+		/// Write the object, whitespace, and elements within it, as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);

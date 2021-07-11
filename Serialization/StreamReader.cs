@@ -1,4 +1,4 @@
-﻿using CER.JSON.DocumentObjectModel;
+using CER.JSON.DocumentObjectModel;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,11 +6,19 @@ using InvalidOperationException = System.InvalidOperationException;
 
 namespace CER.JSON.Stream
 {
+	/// <summary>
+	/// A parser that reads JSON as a stream, maintaining the minimum of information as it goes. Therefore, it can be used to read very large documents while still only using a small amount of memory.
+	/// </summary>
 	public class StreamReader
 	{
+		/// <summary>
+		/// Create a reader from the given text stream, which should be positioned before the JSON data.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <exception cref="System.ArgumentNullException">The given text reader is null.</exception>
 		public StreamReader(System.IO.TextReader text)
 		{
-			_text = text;
+			_text = text ?? throw new System.ArgumentNullException(nameof(text));
 			_stack = new List<bool>();
 			_state = State.StartValue;
 			_line = 1;
@@ -18,35 +26,33 @@ namespace CER.JSON.Stream
 			Type = Type.Invalid;
 		}
 
-		private System.IO.TextReader _text;
-		private IList<bool> _stack;
-		private State _state;
-		private int? _buffer;
-		private bool _hasError;
-		private ulong _line;
-		private ulong _lineCharacter;
-		private Type _type;
-		private String _stringValue;
-		private Number _numberValue;
-		private bool _booleanValue;
-		private string _whitespaceValue;
+		readonly System.IO.TextReader _text;
+		readonly IList<bool> _stack;
+		State _state;
+		int? _buffer;
+		bool _hasError;
+		ulong _line;
+		ulong _lineCharacter;
+		Type _type;
+		String _stringValue;
+		Number _numberValue;
+		bool _booleanValue;
+		string _whitespaceValue;
 
+		/// <summary>
+		/// The type of data that the reader is currently positioned at.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader previously encountered an error.</exception>
 		public Type Type
 		{
-			get
-			{
-				if (_hasError)
-				{
-					throw new InvalidOperationException();
-				}
-				return _type;
-			}
-			private set
-			{
-				_type = value;
-			}
+			get => !_hasError ? _type : throw new InvalidOperationException();
+			private set => _type = value;
 		}
 
+		/// <summary>
+		/// The string value that the reader is currently positioned at. Only use if Type == Type.String.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a string.</exception>
 		public String StringValue
 		{
 			get
@@ -57,12 +63,13 @@ namespace CER.JSON.Stream
 				}
 				return new String(_stringValue.JSON, true);
 			}
-			private set
-			{
-				_stringValue = value;
-			}
+			private set => _stringValue = value;
 		}
 
+		/// <summary>
+		/// The number value that the reader is currently positioned at. Only use if Type == Type.Number.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a number.</exception>
 		public Number NumberValue
 		{
 			get
@@ -73,12 +80,13 @@ namespace CER.JSON.Stream
 				}
 				return new Number(_numberValue.JSON);
 			}
-			private set
-			{
-				_numberValue = value;
-			}
+			private set => _numberValue = value;
 		}
 
+		/// <summary>
+		/// The boolean value that the reader is currently positioned at. Only use if Type == Type.Boolean.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a boolean.</exception>
 		public bool BooleanValue
 		{
 			get
@@ -91,6 +99,10 @@ namespace CER.JSON.Stream
 			}
 		}
 
+		/// <summary>
+		/// The whitespace value that the reader is currently positioned at. Only use if Type == Type.Whitespace.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
 		public Whitespace WhitespaceValue
 		{
 			get
@@ -100,52 +112,6 @@ namespace CER.JSON.Stream
 					throw new InvalidOperationException();
 				}
 				return new Whitespace(_whitespaceValue);
-			}
-		}
-
-		private static bool IsDecimalDigit(char c)
-		{
-			switch (c)
-			{
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-					return true;
-				default:
-					return false;
-			}
-		}
-
-		private static bool IsHexDigit(char c)
-		{
-			if (IsDecimalDigit(c))
-			{
-				return true;
-			}
-			switch (c)
-			{
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-					return true;
-				default:
-					return false;
 			}
 		}
 
@@ -187,7 +153,7 @@ namespace CER.JSON.Stream
 				switch (character)
 				{
 					case '{':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartValue)
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected object start.", _line, _lineCharacter));
@@ -197,7 +163,7 @@ namespace CER.JSON.Stream
 						_state = State.StartKey;
 						return true;
 					case '}':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartKey &&
 							_state != State.EndValue)
 						{
@@ -212,7 +178,7 @@ namespace CER.JSON.Stream
 						_state = State.EndValue;
 						return true;
 					case '[':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartValue)
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected array start.", _line, _lineCharacter));
@@ -222,7 +188,7 @@ namespace CER.JSON.Stream
 						_state = State.StartValue;
 						return true;
 					case ']':
-						Advance();
+						_ = Advance();
 						if (_state != State.StartValue &&
 							_state != State.EndValue)
 						{
@@ -237,7 +203,7 @@ namespace CER.JSON.Stream
 						_state = State.EndValue;
 						return true;
 					case ',':
-						Advance();
+						_ = Advance();
 						if (_state != State.EndValue || _stack.Count < 1)
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected comma.", _line, _lineCharacter));
@@ -253,7 +219,7 @@ namespace CER.JSON.Stream
 						}
 						return true;
 					case ':':
-						Advance();
+						_ = Advance();
 						if (_state != State.EndKey || _stack.Count < 1 || !_stack[_stack.Count - 1])
 						{
 							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected colon.", _line, _lineCharacter));
@@ -323,7 +289,53 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private bool TryReadWhitespace(out string result)
+		static bool IsDecimalDigit(char c)
+		{
+			switch (c)
+			{
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		static bool IsHexDigit(char c)
+		{
+			if (IsDecimalDigit(c))
+			{
+				return true;
+			}
+			switch (c)
+			{
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		bool TryReadWhitespace(out string result)
 		{
 			result = null;
 			char character;
@@ -334,12 +346,12 @@ namespace CER.JSON.Stream
 					result = string.Empty;
 				}
 				result += character;
-				Advance();
+				_ = Advance();
 			}
 			return result != null;
 		}
 
-		private String ReadString()
+		String ReadString()
 		{
 			_ = Advance();
 			StringBuilder stringRepresentation = new StringBuilder();
@@ -407,7 +419,7 @@ namespace CER.JSON.Stream
 			throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file in string.", _line, _lineCharacter));
 		}
 
-		private Number ReadNumber()
+		Number ReadNumber()
 		{
 			StringBuilder stringRepresentation = new StringBuilder();
 			char c;
@@ -418,8 +430,8 @@ namespace CER.JSON.Stream
 			}
 			if (c == '-')
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 			}
 
 			if (!TryPeek(out c))
@@ -428,15 +440,15 @@ namespace CER.JSON.Stream
 			}
 			if (c == '0')
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 			}
 			else if (IsDecimalDigit(c))
 			{
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 				}
 			}
 			else
@@ -446,14 +458,14 @@ namespace CER.JSON.Stream
 
 			if (TryPeek(out c) && c == '.')
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 
 				bool hasDigitAfterDecimal = false;
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 					hasDigitAfterDecimal = true;
 				}
 				if (!hasDigitAfterDecimal)
@@ -465,21 +477,21 @@ namespace CER.JSON.Stream
 			if (TryPeek(out c) &&
 				(c == 'e' || c == 'E'))
 			{
-				stringRepresentation.Append(c);
-				Advance();
+				_ = stringRepresentation.Append(c);
+				_ = Advance();
 
 				if (TryPeek(out c) &&
 					(c == '+' || c == '-'))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 				}
 
 				bool hasDigitInExponent = false;
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
-					stringRepresentation.Append(c);
-					Advance();
+					_ = stringRepresentation.Append(c);
+					_ = Advance();
 				}
 				if (!hasDigitInExponent)
 				{
@@ -490,7 +502,7 @@ namespace CER.JSON.Stream
 			return new Number(stringRepresentation.ToString());
 		}
 
-		private void ReadConstant(string constant)
+		void ReadConstant(string constant)
 		{
 			foreach (char expected in constant)
 			{
@@ -502,7 +514,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private bool TryPeek(out char character)
+		bool TryPeek(out char character)
 		{
 			if (!_buffer.HasValue)
 			{
@@ -521,7 +533,7 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		private char Advance()
+		char Advance()
 		{
 			int value;
 			if (_buffer.HasValue)
@@ -549,7 +561,7 @@ namespace CER.JSON.Stream
 			return (char)value;
 		}
 
-		private enum State
+		enum State
 		{
 			StartValue,
 			EndValue,

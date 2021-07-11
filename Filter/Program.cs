@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 using InvalidTextException = CER.JSON.Stream.InvalidTextException;
@@ -164,7 +164,7 @@ namespace Filter
 			}
 		}
 
-		private static bool ReadException(StreamReader json, out Exception e)
+		static bool ReadException(StreamReader json, out Exception e)
 		{
 			e = null;
 			try
@@ -183,7 +183,7 @@ namespace Filter
 			}
 		}
 
-		private static void Indent(uint depth)
+		static void Indent(uint depth)
 		{
 			for (uint i = 0; i < depth; i++)
 			{

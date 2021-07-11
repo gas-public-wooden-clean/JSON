@@ -1,27 +1,40 @@
-﻿using System;
+using System;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A string of only whitespace characters (spaces, tabs, carriage returns, and linefeeds).
+	/// </summary>
 	public class Whitespace
 	{
-		public Whitespace(string whitespace)
-		{
-			Value = whitespace;
-		}
+		/// <summary>
+		/// Create whitespace with the given value.
+		/// </summary>
+		/// <param name="whitespace">A string of whitespace characters.</param>
+		/// <exception cref="ArgumentException">The value contains non-whitespace characters.</exception>
+		/// <exception cref="ArgumentNullException">The value is null.</exception>
+		public Whitespace(string whitespace) => Value = whitespace;
 
-		private static Whitespace _empty = new Whitespace(string.Empty);
-		private string _validated;
+		string _validated;
 
-		public static Whitespace Empty
-		{
-			get { return _empty; }
-		}
+		/// <summary>
+		/// An instance containing no whitespace characters.
+		/// </summary>
+		public static Whitespace Empty { get; } = new Whitespace(string.Empty);
 
+		/// <summary>
+		/// A value consisting of only whitespace characters.
+		/// </summary>
 		public string Value
 		{
-			get { return _validated; }
+			get => _validated;
 			private set
 			{
+				if (value is null)
+				{
+					throw new ArgumentNullException(nameof(value));
+				}
+
 				foreach (char c in value)
 				{
 					if (!IsLegal(c))
@@ -34,9 +47,11 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
-		public static bool IsLegal(char c)
-		{
-			return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-		}
+		/// <summary>
+		/// Check whether the character is whitespace.
+		/// </summary>
+		/// <param name="c">The character to check.</param>
+		/// <returns>Whether the character is whitespace.</returns>
+		public static bool IsLegal(char c) => c == ' ' || c == '\t' || c == '\r' || c == '\n';
 	}
 }

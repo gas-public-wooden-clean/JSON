@@ -1,17 +1,21 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A numeric JSON value.
+	/// </summary>
 	[DebuggerDisplay("{_json}")]
 	public class Number : Element
 	{
-		public Number(decimal value)
-		{
-			Value = value;
-		}
+		/// <summary>
+		/// Create a number from a decimal value.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		public Number(decimal value) => Value = value;
 
 		/// <summary>
 		/// Create a number from a JSON number string.
@@ -19,12 +23,9 @@ namespace CER.JSON.DocumentObjectModel
 		/// <param name="json">A JSON number string.</param>
 		/// <exception cref="System.FormatException">json is not in the correct format.</exception>
 		/// <exception cref="System.ArgumentNullException">json is null.</exception>
-		public Number(string json)
-		{
-			JSON = json;
-		}
+		public Number(string json) => JSON = json;
 
-		private string _json;
+		string _json;
 
 		/// <summary>
 		/// The value of the number as a decimal.
@@ -32,8 +33,8 @@ namespace CER.JSON.DocumentObjectModel
 		/// <exception cref="System.OverflowException">The value being retrieved is less than System.Decimal.MinValue or greater than System.Decimal.MaxValue.</exception>
 		public decimal Value
 		{
-			get { return Parse(_json); }
-			set { _json = value.ToString("G", CultureInfo.InvariantCulture); }
+			get => Parse(_json);
+			set => _json = value.ToString("G", CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
@@ -43,12 +44,17 @@ namespace CER.JSON.DocumentObjectModel
 		/// <exception cref="System.ArgumentNullException">value is null.</exception>
 		public string JSON
 		{
-			get { return _json; }
+			get => _json;
 			set
 			{
+				if (value is null)
+				{
+					throw new ArgumentNullException(nameof(value));
+				}
+
 				try
 				{
-					Parse(value);
+					_ = Parse(value);
 				}
 				catch (OverflowException)
 				{
@@ -57,6 +63,12 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
+		/// <summary>
+		/// Write the number and whitespace as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
@@ -64,7 +76,7 @@ namespace CER.JSON.DocumentObjectModel
 			writer.Write(Trailing.Value);
 		}
 
-		private static decimal Parse(string json)
+		static decimal Parse(string json)
 		{
 			if (json.StartsWith(CultureInfo.InvariantCulture.NumberFormat.PositiveSign))
 			{

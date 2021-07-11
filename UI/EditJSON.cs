@@ -1,4 +1,4 @@
-﻿using CER.JSON.DocumentObjectModel;
+using CER.JSON.DocumentObjectModel;
 using System;
 using System.IO;
 using System.Security;
@@ -17,30 +17,32 @@ namespace UI
 		{
 			InitializeComponent();
 
-			_typeValue.Items.Add(_arrayType);
-			_typeValue.Items.Add(_boolType);
-			_typeValue.Items.Add(_nullType);
-			_typeValue.Items.Add(_numberType);
-			_typeValue.Items.Add(_objectType);
-			_typeValue.Items.Add(_stringType);
+			_ = _typeValue.Items.Add(_arrayType);
+			_ = _typeValue.Items.Add(_boolType);
+			_ = _typeValue.Items.Add(_nullType);
+			_ = _typeValue.Items.Add(_numberType);
+			_ = _typeValue.Items.Add(_objectType);
+			_ = _typeValue.Items.Add(_stringType);
 
 			LoadElement(new Null());
 		}
 
-		private string _path;
-		private bool _updating;
-		private const string _arrayType = "Array";
-		private const string _boolType = "Boolean";
-		private const string _nullType = "Null";
-		private const string _numberType = "Number";
-		private const string _objectType = "Object";
-		private const string _stringType = "String";
+		string _path;
+		bool _updating;
+		const string _arrayType = "Array";
+		const string _boolType = "Boolean";
+		const string _nullType = "Null";
+		const string _numberType = "Number";
+		const string _objectType = "Object";
+		const string _stringType = "String";
 
-		private void LoadElement(Element element)
+		void LoadElement(Element element)
 		{
 			_navigation.Nodes.Clear();
-			TreeNode root = new TreeNode();
-			root.Tag = element;
+			TreeNode root = new TreeNode
+			{
+				Tag = element
+			};
 			SetText(root);
 			_ = _navigation.Nodes.Add(root);
 
@@ -49,7 +51,7 @@ namespace UI
 			_navigation.SelectedNode = root;
 		}
 
-		private bool SaveElement(string fileName)
+		bool SaveElement(string fileName)
 		{
 			UpdateDOM();
 
@@ -88,7 +90,7 @@ namespace UI
 			return true;
 		}
 
-		private void SaveAs()
+		void SaveAs()
 		{
 			if (_saveDialog.ShowDialog() != DialogResult.OK)
 			{
@@ -101,7 +103,7 @@ namespace UI
 			}
 		}
 
-		private void UpdateSelectionDisplay(TreeNode node)
+		void UpdateSelectionDisplay(TreeNode node)
 		{
 			_booleanControl.Visible = false;
 			_nullControl.Visible = false;
@@ -186,7 +188,7 @@ namespace UI
 			_updating = false;
 		}
 
-		private void LoadChildren(TreeNode parent, Element parentValue)
+		void LoadChildren(TreeNode parent, Element parentValue)
 		{
 			if (parentValue is Array childArray)
 			{
@@ -198,31 +200,35 @@ namespace UI
 			}
 		}
 
-		private void PopulateArray(TreeNode parent, Array arrayValue)
+		void PopulateArray(TreeNode parent, Array arrayValue)
 		{
 			foreach (Element element in arrayValue.Values)
 			{
-				TreeNode child = new TreeNode();
-				child.Tag = element;
+				TreeNode child = new TreeNode
+				{
+					Tag = element
+				};
 				SetText(child);
 				_ = parent.Nodes.Add(child);
 				LoadChildren(child, element);
 			}
 		}
 
-		private void PopulateObject(TreeNode parent, Object objectValue)
+		void PopulateObject(TreeNode parent, Object objectValue)
 		{
 			foreach (ObjectPair pair in objectValue.Values)
 			{
-				TreeNode child = new TreeNode();
-				child.Tag = pair;
+				TreeNode child = new TreeNode
+				{
+					Tag = pair
+				};
 				SetText(child);
 				_ = parent.Nodes.Add(child);
 				LoadChildren(child, pair.Value);
 			}
 		}
 
-		private void SetText(TreeNode item)
+		void SetText(TreeNode item)
 		{
 			Element element;
 			string name;
@@ -265,7 +271,7 @@ namespace UI
 			item.Text = name;
 		}
 
-		private void Insert(TreeNode parent, int index)
+		void Insert(TreeNode parent, int index)
 		{
 			TreeNode child = new TreeNode();
 
@@ -301,7 +307,7 @@ namespace UI
 			_navigation.SelectedNode = child;
 		}
 
-		private void UpdateDOM()
+		void UpdateDOM()
 		{
 			TreeNode selected = _navigation.SelectedNode;
 			if (selected == null)
@@ -351,22 +357,22 @@ namespace UI
 			}
 		}
 
-		private void BeforeSelect(object sender, TreeViewCancelEventArgs e)
+		void BeforeSelect(object sender, TreeViewCancelEventArgs e)
 		{
 			UpdateDOM();
 		}
 
-		private void AfterSelect(object sender, TreeViewEventArgs e)
+		void AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			UpdateSelectionDisplay(e.Node);
 		}
 
-		private void NewClick(object sender, EventArgs e)
+		void NewClick(object sender, EventArgs e)
 		{
 			LoadElement(new Null());
 		}
 
-		private void OpenClick(object sender, EventArgs e)
+		void OpenClick(object sender, EventArgs e)
 		{
 			if (_openDialog.ShowDialog() != DialogResult.OK)
 			{
@@ -413,7 +419,7 @@ namespace UI
 			}
 		}
 
-		private void SaveClick(object sender, EventArgs e)
+		void SaveClick(object sender, EventArgs e)
 		{
 			if (_path == null)
 			{
@@ -425,17 +431,17 @@ namespace UI
 			}
 		}
 
-		private void SaveAsClick(object sender, EventArgs e)
+		void SaveAsClick(object sender, EventArgs e)
 		{
 			SaveAs();
 		}
 
-		private void ExitClick(object sender, EventArgs e)
+		void ExitClick(object sender, EventArgs e)
 		{
 			Close();
 		}
 
-		private void SelectedTypeChanged(object sender, EventArgs e)
+		void SelectedTypeChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{
@@ -482,12 +488,12 @@ namespace UI
 			UpdateSelectionDisplay(_navigation.SelectedNode);
 		}
 
-		private void AddClick(object sender, EventArgs e)
+		void AddClick(object sender, EventArgs e)
 		{
 			Insert(_navigation.SelectedNode, _navigation.SelectedNode.Nodes.Count);
 		}
 
-		private void InsertBeforeClick(object sender, EventArgs e)
+		void InsertBeforeClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
 			if (parent == null)
@@ -500,7 +506,7 @@ namespace UI
 			Insert(parent, selectedIndex);
 		}
 
-		private void InsertAfterClick(object sender, EventArgs e)
+		void InsertAfterClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
 			if (parent == null)
@@ -513,7 +519,7 @@ namespace UI
 			Insert(parent, selectedIndex + 1);
 		}
 
-		private void DeleteClick(object sender, EventArgs e)
+		void DeleteClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
 			if (parent == null)
@@ -540,12 +546,12 @@ namespace UI
 			_navigation.SelectedNode = parent;
 		}
 
-		private void CollapseClick(object sender, EventArgs e)
+		void CollapseClick(object sender, EventArgs e)
 		{
 			_navigation.SelectedNode.Collapse(false);
 		}
 
-		private void ExpandClick(object sender, EventArgs e)
+		void ExpandClick(object sender, EventArgs e)
 		{
 			_navigation.SelectedNode.ExpandAll();
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -10,13 +10,10 @@ namespace UI
 {
 	public partial class NumberControl : UserControl
 	{
-		public NumberControl()
-		{
-			InitializeComponent();
-		}
+		public NumberControl() => InitializeComponent();
 
-		private string _json;
-		private bool _updating;
+		string _json;
+		bool _updating;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -24,9 +21,11 @@ namespace UI
 		{
 			get
 			{
-				Number retval = new Number(_json);
-				retval.Leading = _leading.Value;
-				retval.Trailing = _trailing.Value;
+				Number retval = new Number(_json)
+				{
+					Leading = _leading.Value,
+					Trailing = _trailing.Value
+				};
 				return retval;
 			}
 			set
@@ -39,7 +38,7 @@ namespace UI
 			}
 		}
 
-		private void ValueTextChanged(object sender, EventArgs e)
+		void ValueTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{
@@ -62,7 +61,7 @@ namespace UI
 			_jsonValue.BackColor = Color.FromName("Window");
 		}
 
-		private void JSONTextChanged(object sender, EventArgs e)
+		void JSONTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{

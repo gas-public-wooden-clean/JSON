@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 
 using StreamReader = CER.JSON.Stream.StreamReader;
 using Type = CER.JSON.Stream.Type;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A JSON element.
+	/// </summary>
 	public abstract class Element
 	{
 		/// <summary>
@@ -21,25 +24,34 @@ namespace CER.JSON.DocumentObjectModel
 		/// </summary>
 		/// <param name="leading">Leading whitespace.</param>
 		/// <param name="trailing">Trailing whitespace.</param>
+		/// <exception cref="System.ArgumentNullException">One of the whitespace values is null.</exception>
 		public Element(Whitespace leading, Whitespace trailing)
 		{
 			Leading = leading;
 			Trailing = trailing;
 		}
 
-		private Whitespace _leading;
-		private Whitespace _trailing;
+		Whitespace _leading;
+		Whitespace _trailing;
 
+		/// <summary>
+		/// Leading whitespace.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
 		public Whitespace Leading
 		{
-			get { return _leading; }
-			set { _leading = value ?? throw new ArgumentNullException(nameof(value)); }
+			get => _leading;
+			set => _leading = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
+		/// <summary>
+		/// Trailing whitespace.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
 		public Whitespace Trailing
 		{
-			get { return _trailing; }
-			set { _trailing = value ?? throw new ArgumentNullException(nameof(value)); }
+			get => _trailing;
+			set => _trailing = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -61,10 +73,11 @@ namespace CER.JSON.DocumentObjectModel
 		/// Write the JSON element to a stream.
 		/// </summary>
 		/// <param name="writer">The stream to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public abstract void Serialize(System.IO.TextWriter writer);
 
-		private static Element ReadElement(StreamReader reader)
+		static Element ReadElement(StreamReader reader)
 		{
 			Element retval;
 
@@ -121,8 +134,10 @@ namespace CER.JSON.DocumentObjectModel
 					}
 					while (reader.Type != Type.EndObject)
 					{
-						ObjectPair pair = new ObjectPair();
-						pair.Key = (String)ReadElement(reader);
+						ObjectPair pair = new ObjectPair
+						{
+							Key = (String)ReadElement(reader)
+						};
 						// Read past the key/value separator.
 						_ = reader.Read();
 						pair.Value = ReadElement(reader);

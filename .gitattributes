@@ -13,6 +13,10 @@
 # Markdown
 *.md text
 
+# Visual Studio code analysis rule set
+*.ruleset text
+
 /LICENSE text
+.editorconfig text
 .gitattributes text
 .gitignore text

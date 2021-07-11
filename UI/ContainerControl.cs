@@ -1,4 +1,4 @@
-﻿using CER.JSON.DocumentObjectModel;
+using CER.JSON.DocumentObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -6,12 +6,9 @@ namespace UI
 {
 	public partial class ContainerControl : UserControl
 	{
-		public ContainerControl()
-		{
-			InitializeComponent();
-		}
+		public ContainerControl() => InitializeComponent();
 
-		private Element _value;
+		Element _value;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
