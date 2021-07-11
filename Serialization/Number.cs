@@ -5,9 +5,16 @@ using System.IO;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A numeric JSON value.
+	/// </summary>
 	[DebuggerDisplay("{_json}")]
 	public class Number : Element
 	{
+		/// <summary>
+		/// Create a number from a decimal value.
+		/// </summary>
+		/// <param name="value">The value.</param>
 		public Number(decimal value) => Value = value;
 
 		/// <summary>
@@ -40,6 +47,11 @@ namespace CER.JSON.DocumentObjectModel
 			get => _json;
 			set
 			{
+				if (value is null)
+				{
+					throw new ArgumentNullException(nameof(value));
+				}
+
 				try
 				{
 					_ = Parse(value);
@@ -51,6 +63,12 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
+		/// <summary>
+		/// Write the number and whitespace as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);

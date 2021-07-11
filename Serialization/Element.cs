@@ -5,6 +5,9 @@ using Type = CER.JSON.Stream.Type;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A JSON element.
+	/// </summary>
 	public abstract class Element
 	{
 		/// <summary>
@@ -21,6 +24,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// </summary>
 		/// <param name="leading">Leading whitespace.</param>
 		/// <param name="trailing">Trailing whitespace.</param>
+		/// <exception cref="System.ArgumentNullException">One of the whitespace values is null.</exception>
 		public Element(Whitespace leading, Whitespace trailing)
 		{
 			Leading = leading;
@@ -30,12 +34,20 @@ namespace CER.JSON.DocumentObjectModel
 		Whitespace _leading;
 		Whitespace _trailing;
 
+		/// <summary>
+		/// Leading whitespace.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
 		public Whitespace Leading
 		{
 			get => _leading;
 			set => _leading = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
+		/// <summary>
+		/// Trailing whitespace.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
 		public Whitespace Trailing
 		{
 			get => _trailing;
@@ -61,6 +73,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// Write the JSON element to a stream.
 		/// </summary>
 		/// <param name="writer">The stream to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public abstract void Serialize(System.IO.TextWriter writer);
 

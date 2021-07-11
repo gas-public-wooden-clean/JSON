@@ -6,11 +6,19 @@ using InvalidOperationException = System.InvalidOperationException;
 
 namespace CER.JSON.Stream
 {
+	/// <summary>
+	/// A parser that reads JSON as a stream, maintaining the minimum of information as it goes. Therefore, it can be used to read very large documents while still only using a small amount of memory.
+	/// </summary>
 	public class StreamReader
 	{
+		/// <summary>
+		/// Create a reader from the given text stream, which should be positioned before the JSON data.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <exception cref="System.ArgumentNullException">The given text reader is null.</exception>
 		public StreamReader(System.IO.TextReader text)
 		{
-			_text = text;
+			_text = text ?? throw new System.ArgumentNullException(nameof(text));
 			_stack = new List<bool>();
 			_state = State.StartValue;
 			_line = 1;
@@ -31,12 +39,20 @@ namespace CER.JSON.Stream
 		bool _booleanValue;
 		string _whitespaceValue;
 
+		/// <summary>
+		/// The type of data that the reader is currently positioned at.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader previously encountered an error.</exception>
 		public Type Type
 		{
 			get => !_hasError ? _type : throw new InvalidOperationException();
 			private set => _type = value;
 		}
 
+		/// <summary>
+		/// The string value that the reader is currently positioned at. Only use if Type == Type.String.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a string.</exception>
 		public String StringValue
 		{
 			get
@@ -50,6 +66,10 @@ namespace CER.JSON.Stream
 			private set => _stringValue = value;
 		}
 
+		/// <summary>
+		/// The number value that the reader is currently positioned at. Only use if Type == Type.Number.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a number.</exception>
 		public Number NumberValue
 		{
 			get
@@ -63,6 +83,10 @@ namespace CER.JSON.Stream
 			private set => _numberValue = value;
 		}
 
+		/// <summary>
+		/// The boolean value that the reader is currently positioned at. Only use if Type == Type.Boolean.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a boolean.</exception>
 		public bool BooleanValue
 		{
 			get
@@ -75,6 +99,10 @@ namespace CER.JSON.Stream
 			}
 		}
 
+		/// <summary>
+		/// The whitespace value that the reader is currently positioned at. Only use if Type == Type.Whitespace.
+		/// </summary>
+		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
 		public Whitespace WhitespaceValue
 		{
 			get
@@ -84,52 +112,6 @@ namespace CER.JSON.Stream
 					throw new InvalidOperationException();
 				}
 				return new Whitespace(_whitespaceValue);
-			}
-		}
-
-		static bool IsDecimalDigit(char c)
-		{
-			switch (c)
-			{
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-					return true;
-				default:
-					return false;
-			}
-		}
-
-		static bool IsHexDigit(char c)
-		{
-			if (IsDecimalDigit(c))
-			{
-				return true;
-			}
-			switch (c)
-			{
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-					return true;
-				default:
-					return false;
 			}
 		}
 
@@ -304,6 +286,52 @@ namespace CER.JSON.Stream
 			{
 				_hasError = true;
 				throw;
+			}
+		}
+
+		static bool IsDecimalDigit(char c)
+		{
+			switch (c)
+			{
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		static bool IsHexDigit(char c)
+		{
+			if (IsDecimalDigit(c))
+			{
+				return true;
+			}
+			switch (c)
+			{
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+					return true;
+				default:
+					return false;
 			}
 		}
 

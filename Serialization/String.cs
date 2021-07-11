@@ -6,15 +6,28 @@ using System.Text;
 
 namespace CER.JSON.DocumentObjectModel
 {
+	/// <summary>
+	/// A string JSON value.
+	/// </summary>
 	[DebuggerDisplay("{_json}")]
 	public class String : Element
 	{
-		public String()
+		/// <summary>
+		/// Create an empty JSON string with no leading or trailing whitespace.
+		/// </summary>
+		public String() : base()
 		{
 			_value = string.Empty;
 			_json = string.Empty;
 		}
 
+		/// <summary>
+		/// Create a JSON string with the given value.
+		/// </summary>
+		/// <param name="representation">A string representation of the JSON string.</param>
+		/// <param name="isJSON">Whether the representation of the JSON string is a JSON string or a native string.</param>
+		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public String(string representation, bool isJSON)
 		{
 			if (isJSON)
@@ -30,6 +43,10 @@ namespace CER.JSON.DocumentObjectModel
 		string _value;
 		string _json;
 
+		/// <summary>
+		/// The native string value.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
 		public string Value
 		{
 			get => _value;
@@ -73,6 +90,11 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
+		/// <summary>
+		/// The value as a JSON string.
+		/// </summary>
+		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public string JSON
 		{
 			get => _json;
@@ -170,6 +192,12 @@ namespace CER.JSON.DocumentObjectModel
 			}
 		}
 
+		/// <summary>
+		/// Write the string value and whitespace as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
