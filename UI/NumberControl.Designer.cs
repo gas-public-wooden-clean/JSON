@@ -1,4 +1,4 @@
-﻿
+
 namespace UI
 {
 	partial class NumberControl
@@ -34,8 +34,8 @@ namespace UI
 			System.Windows.Forms.GroupBox _trailingGroup;
 			System.Windows.Forms.Label _valueLabel;
 			System.Windows.Forms.Label _jsonLabel;
-			this._leading = new UI.WhitespaceControl();
-			this._trailing = new UI.WhitespaceControl();
+			this._leading = new UI.WhiteSpaceControl();
+			this._trailing = new UI.WhiteSpaceControl();
 			this._valueText = new System.Windows.Forms.TextBox();
 			this._jsonValue = new System.Windows.Forms.TextBox();
 			_layout = new System.Windows.Forms.TableLayoutPanel();
@@ -130,7 +130,7 @@ namespace UI
 			_jsonLabel.Name = "_jsonLabel";
 			_jsonLabel.Size = new System.Drawing.Size(35, 13);
 			_jsonLabel.TabIndex = 3;
-			_jsonLabel.Text = "JSON";
+			_jsonLabel.Text = "Json";
 			// 
 			// _valueText
 			// 
@@ -152,7 +152,7 @@ namespace UI
 			this._jsonValue.Name = "_jsonValue";
 			this._jsonValue.Size = new System.Drawing.Size(226, 76);
 			this._jsonValue.TabIndex = 5;
-			this._jsonValue.TextChanged += new System.EventHandler(this.JSONTextChanged);
+			this._jsonValue.TextChanged += new System.EventHandler(this.JsonTextChanged);
 			// 
 			// NumberControl
 			// 
@@ -170,8 +170,8 @@ namespace UI
 		}
 
 		#endregion
-		private WhitespaceControl _leading;
-		private WhitespaceControl _trailing;
+		private WhiteSpaceControl _leading;
+		private WhiteSpaceControl _trailing;
 		private System.Windows.Forms.TextBox _valueText;
 		private System.Windows.Forms.TextBox _jsonValue;
 	}

@@ -1,7 +1,7 @@
-﻿
+
 namespace UI
 {
-	partial class WhitespaceControl
+	partial class WhiteSpaceControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -98,12 +98,12 @@ namespace UI
 			this._escapedValue.TabIndex = 3;
 			this._escapedValue.TextChanged += new System.EventHandler(this.EscapedTextChanged);
 			// 
-			// WhitespaceControl
+			// WhiteSpaceControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(_layout);
-			this.Name = "WhitespaceControl";
+			this.Name = "WhiteSpaceControl";
 			this.Size = new System.Drawing.Size(326, 311);
 			_layout.ResumeLayout(false);
 			_layout.PerformLayout();

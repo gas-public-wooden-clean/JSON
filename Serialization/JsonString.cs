@@ -4,18 +4,18 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A string JSON value.
 	/// </summary>
 	[DebuggerDisplay("{_json}")]
-	public class String : Element
+	public class JsonString : JsonElement
 	{
 		/// <summary>
 		/// Create an empty JSON string with no leading or trailing whitespace.
 		/// </summary>
-		public String() : base()
+		public JsonString() : base()
 		{
 			_value = string.Empty;
 			_json = string.Empty;
@@ -25,14 +25,14 @@ namespace CER.JSON.DocumentObjectModel
 		/// Create a JSON string with the given value.
 		/// </summary>
 		/// <param name="representation">A string representation of the JSON string.</param>
-		/// <param name="isJSON">Whether the representation of the JSON string is a JSON string or a native string.</param>
+		/// <param name="isJson">Whether the representation of the JSON string is a JSON string or a native string.</param>
 		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
 		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
-		public String(string representation, bool isJSON)
+		public JsonString(string representation, bool isJson)
 		{
-			if (isJSON)
+			if (isJson)
 			{
-				JSON = representation;
+				Json = representation;
 			}
 			else
 			{
@@ -95,7 +95,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// </summary>
 		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
 		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
-		public string JSON
+		public string Json
 		{
 			get => _json;
 			set

@@ -1,6 +1,6 @@
+using CER.Json.DocumentObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Boolean = CER.JSON.DocumentObjectModel.Boolean;
 
 namespace UI
 {
@@ -10,9 +10,9 @@ namespace UI
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Boolean Value
+		public JsonBoolean Value
 		{
-			get => new Boolean(_leading.Value, _trailing.Value, _value.Checked);
+			get => new JsonBoolean(_leading.Value, _trailing.Value, _value.Checked);
 			set
 			{
 				_leading.Value = value.Leading;

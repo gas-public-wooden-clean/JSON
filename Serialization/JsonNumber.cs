@@ -3,19 +3,19 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A numeric JSON value.
 	/// </summary>
 	[DebuggerDisplay("{_json}")]
-	public class Number : Element
+	public class JsonNumber : JsonElement
 	{
 		/// <summary>
 		/// Create a number from a decimal value.
 		/// </summary>
 		/// <param name="value">The value.</param>
-		public Number(decimal value) => Value = value;
+		public JsonNumber(decimal value) => Value = value;
 
 		/// <summary>
 		/// Create a number from a JSON number string.
@@ -23,7 +23,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// <param name="json">A JSON number string.</param>
 		/// <exception cref="System.FormatException">json is not in the correct format.</exception>
 		/// <exception cref="System.ArgumentNullException">json is null.</exception>
-		public Number(string json) => JSON = json;
+		public JsonNumber(string json) => Json = json;
 
 		string _json;
 
@@ -42,7 +42,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// </summary>
 		/// <exception cref="System.FormatException">The value being set is not in the correct format.</exception>
 		/// <exception cref="System.ArgumentNullException">value is null.</exception>
-		public string JSON
+		public string Json
 		{
 			get => _json;
 			set
@@ -72,7 +72,7 @@ namespace CER.JSON.DocumentObjectModel
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
-			writer.Write(JSON);
+			writer.Write(Json);
 			writer.Write(Trailing.Value);
 		}
 

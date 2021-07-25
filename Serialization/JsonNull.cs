@@ -1,16 +1,16 @@
 using System.IO;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A null JSON value.
 	/// </summary>
-	public class Null : Element
+	public class JsonNull : JsonElement
 	{
 		/// <summary>
 		/// Create an instance of a null JSON value with no whitespace.
 		/// </summary>
-		public Null() : base()
+		public JsonNull() : base()
 		{ }
 
 		/// <summary>
@@ -18,7 +18,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// </summary>
 		/// <param name="leading">Leading whitespace.</param>
 		/// <param name="trailing">Trailing whitespace.</param>
-		public Null(Whitespace leading, Whitespace trailing) : base(leading, trailing)
+		public JsonNull(WhiteSpace leading, WhiteSpace trailing) : base(leading, trailing)
 		{ }
 
 		/// <summary>

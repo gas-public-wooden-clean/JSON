@@ -32,8 +32,8 @@ namespace UI
 			System.Windows.Forms.TableLayoutPanel _layout;
 			System.Windows.Forms.GroupBox _leadingGroup;
 			System.Windows.Forms.GroupBox _trailingGroup;
-			this._leading = new UI.WhitespaceControl();
-			this._trailing = new UI.WhitespaceControl();
+			this._leading = new UI.WhiteSpaceControl();
+			this._trailing = new UI.WhiteSpaceControl();
 			this._value = new System.Windows.Forms.CheckBox();
 			_layout = new System.Windows.Forms.TableLayoutPanel();
 			_leadingGroup = new System.Windows.Forms.GroupBox();
@@ -127,8 +127,8 @@ namespace UI
 		}
 
 		#endregion
-		private WhitespaceControl _leading;
-		private WhitespaceControl _trailing;
+		private WhiteSpaceControl _leading;
+		private WhiteSpaceControl _trailing;
 		private System.Windows.Forms.CheckBox _value;
 	}
 }

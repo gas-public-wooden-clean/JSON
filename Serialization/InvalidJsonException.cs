@@ -1,16 +1,18 @@
 using System;
+using System.Runtime.Serialization;
 
-namespace CER.JSON.Stream
+namespace CER.Json.Stream
 {
 	/// <summary>
 	/// Errors that occur while parsing JSON due to content that is not well-formed.
 	/// </summary>
-	public class InvalidTextException : Exception
+	[Serializable]
+	public class InvalidJsonException : Exception
 	{
 		/// <summary>
 		/// Create an error with no information.
 		/// </summary>
-		public InvalidTextException()
+		public InvalidJsonException()
 			: base()
 		{ }
 
@@ -18,7 +20,7 @@ namespace CER.JSON.Stream
 		/// Create an error with an arbitrary message.
 		/// </summary>
 		/// <param name="message">An arbitrary message.</param>
-		public InvalidTextException(string message)
+		public InvalidJsonException(string message)
 			: base(message)
 		{ }
 
@@ -27,7 +29,7 @@ namespace CER.JSON.Stream
 		/// </summary>
 		/// <param name="message">An arbitrary message.</param>
 		/// <param name="innerException">The exception that caused this one.</param>
-		public InvalidTextException(string message, Exception innerException)
+		public InvalidJsonException(string message, Exception innerException)
 			: base(message, innerException)
 		{ }
 
@@ -37,9 +39,17 @@ namespace CER.JSON.Stream
 		/// <param name="line">Line number, starting at 1.</param>
 		/// <param name="character">Character number within the line, starting at 1.</param>
 		/// <param name="message">Additional information to include in the message.</param>
-		internal InvalidTextException(ulong line, ulong character, string message)
+		internal InvalidJsonException(ulong line, ulong character, string message)
 			: base(string.Format("Line {0} character {1}: {2}", line, character, message))
-		{
-		}
+		{ }
+
+		/// <summary>
+		/// Create an error from serialized data.
+		/// </summary>
+		/// <param name="info">Serialization information.</param>
+		/// <param name="context">Serialization context.</param>
+		protected InvalidJsonException(SerializationInfo info, StreamingContext context)
+			: base(info, context)
+		{ }
 	}
 }

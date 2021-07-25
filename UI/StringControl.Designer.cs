@@ -1,4 +1,4 @@
-﻿
+
 namespace UI
 {
 	partial class StringControl
@@ -34,8 +34,8 @@ namespace UI
 			System.Windows.Forms.GroupBox _trailingGroup;
 			System.Windows.Forms.Label _literalLabel;
 			System.Windows.Forms.Label _jsonLabel;
-			this._leading = new UI.WhitespaceControl();
-			this._trailing = new UI.WhitespaceControl();
+			this._leading = new UI.WhiteSpaceControl();
+			this._trailing = new UI.WhiteSpaceControl();
 			this._literalValue = new System.Windows.Forms.TextBox();
 			this._jsonValue = new System.Windows.Forms.TextBox();
 			_layout = new System.Windows.Forms.TableLayoutPanel();
@@ -150,7 +150,7 @@ namespace UI
 			this._jsonValue.Name = "_jsonValue";
 			this._jsonValue.Size = new System.Drawing.Size(297, 72);
 			this._jsonValue.TabIndex = 5;
-			this._jsonValue.TextChanged += new System.EventHandler(this.JSONTextChanged);
+			this._jsonValue.TextChanged += new System.EventHandler(this.JsonTextChanged);
 			// 
 			// StringControl
 			// 
@@ -169,8 +169,8 @@ namespace UI
 
 		#endregion
 
-		private WhitespaceControl _leading;
-		private WhitespaceControl _trailing;
+		private WhiteSpaceControl _leading;
+		private WhiteSpaceControl _trailing;
 		private System.Windows.Forms.TextBox _literalValue;
 		private System.Windows.Forms.TextBox _jsonValue;
 	}

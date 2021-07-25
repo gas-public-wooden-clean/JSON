@@ -1,9 +1,7 @@
+using CER.Json;
+using CER.Json.Stream;
 using System;
 using System.IO;
-
-using InvalidTextException = CER.JSON.Stream.InvalidTextException;
-using StreamReader = CER.JSON.Stream.StreamReader;
-using Type = CER.JSON.Stream.Type;
 
 namespace Filter
 {
@@ -11,6 +9,16 @@ namespace Filter
 	{
 		static void Main(string[] args)
 		{
+			Version compiled = new Version(AssemblyInfo.Major, AssemblyInfo.Minor, AssemblyInfo.Build, AssemblyInfo.Revision);
+			Version runtime = typeof(AssemblyInfo).Assembly.GetName().Version;
+			if (compiled.Major != runtime.Major ||
+				compiled.Minor != runtime.Minor)
+			{
+				string application = AppDomain.CurrentDomain.FriendlyName;
+				Console.Error.WriteLine("Warning: {0} is running with {1}, but it was compiled with version {2}.",
+					application, typeof(AssemblyInfo).Assembly.FullName, compiled);
+			}
+
 			bool beautify = false;
 			bool minify = false;
 			foreach (string arg in args)
@@ -35,136 +43,133 @@ namespace Filter
 				return;
 			}
 
-			using (System.IO.TextReader console = new System.IO.StreamReader(Console.OpenStandardInput()))
-			{
-				StreamReader json = new StreamReader(console);
+			JsonReader json = new JsonReader(Console.In);
 
-				uint depth = 0;
-				bool inValue = false;
-				bool hasItem = false;
-				Exception e;
-				while (ReadException(json, out e))
+			uint depth = 0;
+			bool inValue = false;
+			bool hasItem = false;
+			Exception e;
+			while (ReadException(json, out e))
+			{
+				switch (json.CurrentToken)
 				{
-					switch (json.Type)
-					{
-						case Type.BeginArray:
-							if (beautify && !inValue)
+					case TokenType.BeginArray:
+						if (beautify && !inValue)
+						{
+							Indent(depth);
+						}
+						inValue = false;
+						Console.Out.Write("[");
+						if (beautify)
+						{
+							Console.Out.WriteLine();
+						}
+						hasItem = false;
+						depth += 1;
+						break;
+					case TokenType.BeginObject:
+						if (beautify && !inValue)
+						{
+							Indent(depth);
+						}
+						inValue = false;
+						Console.Out.Write("{");
+						if (beautify)
+						{
+							Console.Out.WriteLine();
+						}
+						hasItem = false;
+						depth += 1;
+						break;
+					case TokenType.Boolean:
+						if (beautify && !inValue)
+						{
+							Indent(depth);
+						}
+						Console.Out.Write(json.BooleanValue ? "true" : "false");
+						hasItem = true;
+						break;
+					case TokenType.EndArray:
+						depth -= 1;
+						if (beautify)
+						{
+							if (hasItem)
 							{
-								Indent(depth);
+								Console.Out.WriteLine();
 							}
-							inValue = false;
-							Console.Write("[");
-							if (beautify)
+							Indent(depth);
+						}
+						Console.Out.Write("]");
+						hasItem = true;
+						break;
+					case TokenType.EndObject:
+						depth -= 1;
+						if (beautify)
+						{
+							if (hasItem)
 							{
-								Console.WriteLine();
+								Console.Out.WriteLine();
 							}
-							hasItem = false;
-							depth += 1;
-							break;
-						case Type.BeginObject:
-							if (beautify && !inValue)
-							{
-								Indent(depth);
-							}
-							inValue = false;
-							Console.Write("{");
-							if (beautify)
-							{
-								Console.WriteLine();
-							}
-							hasItem = false;
-							depth += 1;
-							break;
-						case Type.Boolean:
-							if (beautify && !inValue)
-							{
-								Indent(depth);
-							}
-							Console.Write(json.BooleanValue ? "true" : "false");
-							hasItem = true;
-							break;
-						case Type.EndArray:
-							depth -= 1;
-							if (beautify)
-							{
-								if (hasItem)
-								{
-									Console.WriteLine();
-								}
-								Indent(depth);
-							}
-							Console.Write("]");
-							hasItem = true;
-							break;
-						case Type.EndObject:
-							depth -= 1;
-							if (beautify)
-							{
-								if (hasItem)
-								{
-									Console.WriteLine();
-								}
-								Indent(depth);
-							}
-							Console.Write("}");
-							hasItem = true;
-							break;
-						case Type.KeyValueSeparator:
-							Console.Write(":");
-							inValue = true;
-							break;
-						case Type.ListSeparator:
-							Console.Write(",");
-							inValue = false;
-							if (beautify)
-							{
-								Console.WriteLine();
-							}
-							break;
-						case Type.Null:
-							if (beautify && !inValue)
-							{
-								Indent(depth);
-							}
-							Console.Write("null");
-							hasItem = true;
-							break;
-						case Type.Number:
-							if (beautify && !inValue)
-							{
-								Indent(depth);
-							}
-							Console.Write(json.NumberValue.JSON);
-							hasItem = true;
-							break;
-						case Type.String:
-							if (beautify && !inValue)
-							{
-								Indent(depth);
-							}
-							Console.Write("\"");
-							Console.Write(json.StringValue.JSON);
-							Console.Write("\"");
-							hasItem = true;
-							break;
-						case Type.Whitespace:
-							if (!beautify && !minify)
-							{
-								Console.Write(json.WhitespaceValue.Value);
-							}
-							break;
-						default:
-							throw new Exception();
-					}
+							Indent(depth);
+						}
+						Console.Out.Write("}");
+						hasItem = true;
+						break;
+					case TokenType.KeyValueSeparator:
+						Console.Out.Write(":");
+						inValue = true;
+						break;
+					case TokenType.ListSeparator:
+						Console.Out.Write(",");
+						inValue = false;
+						if (beautify)
+						{
+							Console.Out.WriteLine();
+						}
+						break;
+					case TokenType.Null:
+						if (beautify && !inValue)
+						{
+							Indent(depth);
+						}
+						Console.Out.Write("null");
+						hasItem = true;
+						break;
+					case TokenType.Number:
+						if (beautify && !inValue)
+						{
+							Indent(depth);
+						}
+						Console.Out.Write(json.NumberValue.Json);
+						hasItem = true;
+						break;
+					case TokenType.String:
+						if (beautify && !inValue)
+						{
+							Indent(depth);
+						}
+						Console.Out.Write("\"");
+						Console.Out.Write(json.StringValue.Json);
+						Console.Out.Write("\"");
+						hasItem = true;
+						break;
+					case TokenType.WhiteSpace:
+						if (!beautify && !minify)
+						{
+							Console.Out.Write(json.WhiteSpace.Value);
+						}
+						break;
+					default:
+						throw new Exception();
 				}
-				if (e != null)
-				{
-					Console.Error.WriteLine(e.Message);
-				}
+			}
+			if (e != null)
+			{
+				Console.Error.WriteLine(e.Message);
 			}
 		}
 
-		static bool ReadException(StreamReader json, out Exception e)
+		static bool ReadException(JsonReader json, out Exception e)
 		{
 			e = null;
 			try
@@ -176,7 +181,7 @@ namespace Filter
 				e = ex;
 				return false;
 			}
-			catch (InvalidTextException ex)
+			catch (InvalidJsonException ex)
 			{
 				e = ex;
 				return false;
@@ -187,7 +192,7 @@ namespace Filter
 		{
 			for (uint i = 0; i < depth; i++)
 			{
-				Console.Write("\t");
+				Console.Out.Write("\t");
 			}
 		}
 	}

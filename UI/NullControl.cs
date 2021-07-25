@@ -1,4 +1,4 @@
-using CER.JSON.DocumentObjectModel;
+using CER.Json.DocumentObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -10,9 +10,9 @@ namespace UI
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Null Value
+		public JsonNull Value
 		{
-			get => new Null(_leading.Value, _trailing.Value);
+			get => new JsonNull(_leading.Value, _trailing.Value);
 			set
 			{
 				_leading.Value = value.Leading;

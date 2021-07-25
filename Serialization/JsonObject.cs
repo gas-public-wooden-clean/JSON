@@ -2,28 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A JSON object.
 	/// </summary>
-	public class Object : Element
+	public class JsonObject : JsonElement
 	{
 		/// <summary>
 		/// Create an empty object with no leading, trailing, or contained whitespace.
 		/// </summary>
-		public Object() : base()
+		public JsonObject() : base()
 		{
-			Values = new List<ObjectPair>();
-			EmptyWhitespace = Whitespace.Empty;
+			Values = new List<JsonObjectPair>();
+			EmptyWhiteSpace = WhiteSpace.Empty;
 		}
 
-		Whitespace _emptyWhitespace;
+		WhiteSpace _emptyWhiteSpace;
 
 		/// <summary>
 		/// The elements in the object. Note that multiple values with the same key are allowed.
 		/// </summary>
-		public IList<ObjectPair> Values
+		public IList<JsonObjectPair> Values
 		{
 			get;
 			private set;
@@ -33,10 +33,10 @@ namespace CER.JSON.DocumentObjectModel
 		/// Whitespace that will be written inside the object if there are no elements in it.
 		/// </summary>
 		/// <exception cref="System.ArgumentNullException">The value being set is null.</exception>
-		public Whitespace EmptyWhitespace
+		public WhiteSpace EmptyWhiteSpace
 		{
-			get => _emptyWhitespace;
-			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
+			get => _emptyWhiteSpace;
+			set => _emptyWhiteSpace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -45,16 +45,16 @@ namespace CER.JSON.DocumentObjectModel
 		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
 		/// <param name="value">The first value with a matching key.</param>
 		/// <returns>Whether exactly one value was found for the given key.</returns>
-		public bool TryGetValue(string key, out Element value)
+		public bool TryGetValue(string key, out JsonElement value)
 		{
 			value = null;
 
-			if (key == null)
+			if (key is null)
 			{
 				throw new ArgumentNullException(nameof(key));
 			}
 
-			foreach (ObjectPair pair in Values)
+			foreach (JsonObjectPair pair in Values)
 			{
 				if (pair.Key.Value.Equals(key))
 				{
@@ -84,12 +84,12 @@ namespace CER.JSON.DocumentObjectModel
 			writer.Write("{");
 			if (Values.Count == 0)
 			{
-				writer.Write(EmptyWhitespace.Value);
+				writer.Write(EmptyWhiteSpace.Value);
 			}
 			else
 			{
 				bool first = true;
-				foreach (ObjectPair entry in Values)
+				foreach (JsonObjectPair entry in Values)
 				{
 					if (!first)
 					{

@@ -1,49 +1,49 @@
-using CER.JSON.DocumentObjectModel;
+using CER.Json.DocumentObjectModel;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
-using InvalidOperationException = System.InvalidOperationException;
-
-namespace CER.JSON.Stream
+namespace CER.Json.Stream
 {
 	/// <summary>
 	/// A parser that reads JSON as a stream, maintaining the minimum of information as it goes. Therefore, it can be used to read very large documents while still only using a small amount of memory.
 	/// </summary>
-	public class StreamReader
+	public class JsonReader
 	{
 		/// <summary>
 		/// Create a reader from the given text stream, which should be positioned before the JSON data.
 		/// </summary>
 		/// <param name="text"></param>
 		/// <exception cref="System.ArgumentNullException">The given text reader is null.</exception>
-		public StreamReader(System.IO.TextReader text)
+		public JsonReader(TextReader text)
 		{
-			_text = text ?? throw new System.ArgumentNullException(nameof(text));
+			_text = text ?? throw new ArgumentNullException(nameof(text));
 			_stack = new List<bool>();
 			_state = State.StartValue;
 			_line = 1;
 			_lineCharacter = 0;
-			Type = Type.Invalid;
+			CurrentToken = TokenType.Invalid;
 		}
 
-		readonly System.IO.TextReader _text;
+		readonly TextReader _text;
 		readonly IList<bool> _stack;
 		State _state;
 		int? _buffer;
 		bool _hasError;
 		ulong _line;
 		ulong _lineCharacter;
-		Type _type;
-		String _stringValue;
-		Number _numberValue;
+		TokenType _type;
+		JsonString _stringValue;
+		JsonNumber _numberValue;
 		bool _booleanValue;
-		string _whitespaceValue;
+		string _whiteSpace;
 
 		/// <summary>
 		/// The type of data that the reader is currently positioned at.
 		/// </summary>
 		/// <exception cref="System.InvalidOperationException">The reader previously encountered an error.</exception>
-		public Type Type
+		public TokenType CurrentToken
 		{
 			get => !_hasError ? _type : throw new InvalidOperationException();
 			private set => _type = value;
@@ -53,15 +53,15 @@ namespace CER.JSON.Stream
 		/// The string value that the reader is currently positioned at. Only use if Type == Type.String.
 		/// </summary>
 		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a string.</exception>
-		public String StringValue
+		public JsonString StringValue
 		{
 			get
 			{
-				if (Type != Type.String)
+				if (CurrentToken != TokenType.String)
 				{
 					throw new InvalidOperationException();
 				}
-				return new String(_stringValue.JSON, true);
+				return new JsonString(_stringValue.Json, true);
 			}
 			private set => _stringValue = value;
 		}
@@ -70,15 +70,15 @@ namespace CER.JSON.Stream
 		/// The number value that the reader is currently positioned at. Only use if Type == Type.Number.
 		/// </summary>
 		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a number.</exception>
-		public Number NumberValue
+		public JsonNumber NumberValue
 		{
 			get
 			{
-				if (Type != Type.Number)
+				if (CurrentToken != TokenType.Number)
 				{
 					throw new InvalidOperationException();
 				}
-				return new Number(_numberValue.JSON);
+				return new JsonNumber(_numberValue.Json);
 			}
 			private set => _numberValue = value;
 		}
@@ -91,7 +91,7 @@ namespace CER.JSON.Stream
 		{
 			get
 			{
-				if (Type != Type.Boolean)
+				if (CurrentToken != TokenType.Boolean)
 				{
 					throw new InvalidOperationException();
 				}
@@ -103,20 +103,20 @@ namespace CER.JSON.Stream
 		/// The whitespace value that the reader is currently positioned at. Only use if Type == Type.Whitespace.
 		/// </summary>
 		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
-		public Whitespace WhitespaceValue
+		public WhiteSpace WhiteSpace
 		{
 			get
 			{
-				if (Type != Type.Whitespace)
+				if (CurrentToken != TokenType.WhiteSpace)
 				{
 					throw new InvalidOperationException();
 				}
-				return new Whitespace(_whitespaceValue);
+				return new WhiteSpace(_whiteSpace);
 			}
 		}
 
 		/// <exception cref="System.InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
-		/// <exception cref="CER.JSON.Stream.InvalidTextException">The underlying text stream is not valid JSON.</exception>
+		/// <exception cref="CER.Json.Stream.InvalidJsonException">The underlying text stream is not valid JSON.</exception>
 		/// <exception cref="System.ObjectDisposedException">The underlying stream has been closed.</exception>
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public bool Read()
@@ -131,22 +131,22 @@ namespace CER.JSON.Stream
 				StringValue = null;
 				NumberValue = null;
 				_booleanValue = false;
-				_whitespaceValue = null;
+				_whiteSpace = null;
 
 				char character;
 				if (!TryPeek(out character))
 				{
 					if (_state != State.EndValue || _stack.Count > 0)
 					{
-						throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file.", _line, _lineCharacter));
+						throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file.", _line, _lineCharacter));
 					}
-					Type = Type.Invalid;
+					CurrentToken = TokenType.Invalid;
 					return false;
 				}
 
-				if (TryReadWhitespace(out _whitespaceValue))
+				if (TryReadWhiteSpace(out _whiteSpace))
 				{
-					Type = Type.Whitespace;
+					CurrentToken = TokenType.WhiteSpace;
 					return true;
 				}
 
@@ -156,10 +156,10 @@ namespace CER.JSON.Stream
 						_ = Advance();
 						if (_state != State.StartValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected object start.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected object start.", _line, _lineCharacter));
 						}
 						_stack.Add(true);
-						Type = Type.BeginObject;
+						CurrentToken = TokenType.BeginObject;
 						_state = State.StartKey;
 						return true;
 					case '}':
@@ -167,24 +167,24 @@ namespace CER.JSON.Stream
 						if (_state != State.StartKey &&
 							_state != State.EndValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected object end.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected object end.", _line, _lineCharacter));
 						}
 						if (_stack.Count < 1 || !_stack[_stack.Count - 1])
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: No object to end.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: No object to end.", _line, _lineCharacter));
 						}
 						_stack.RemoveAt(_stack.Count - 1);
-						Type = Type.EndObject;
+						CurrentToken = TokenType.EndObject;
 						_state = State.EndValue;
 						return true;
 					case '[':
 						_ = Advance();
 						if (_state != State.StartValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected array start.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected array start.", _line, _lineCharacter));
 						}
 						_stack.Add(false);
-						Type = Type.BeginArray;
+						CurrentToken = TokenType.BeginArray;
 						_state = State.StartValue;
 						return true;
 					case ']':
@@ -192,23 +192,23 @@ namespace CER.JSON.Stream
 						if (_state != State.StartValue &&
 							_state != State.EndValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected array end.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected array end.", _line, _lineCharacter));
 						}
 						if (_stack.Count < 1 || _stack[_stack.Count - 1])
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: No array to end.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: No array to end.", _line, _lineCharacter));
 						}
 						_stack.RemoveAt(_stack.Count - 1);
-						Type = Type.EndArray;
+						CurrentToken = TokenType.EndArray;
 						_state = State.EndValue;
 						return true;
 					case ',':
 						_ = Advance();
 						if (_state != State.EndValue || _stack.Count < 1)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected comma.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected comma.", _line, _lineCharacter));
 						}
-						Type = Type.ListSeparator;
+						CurrentToken = TokenType.ListSeparator;
 						if (_stack[_stack.Count - 1])
 						{
 							_state = State.StartKey;
@@ -222,37 +222,37 @@ namespace CER.JSON.Stream
 						_ = Advance();
 						if (_state != State.EndKey || _stack.Count < 1 || !_stack[_stack.Count - 1])
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected colon.", _line, _lineCharacter));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected colon.", _line, _lineCharacter));
 						}
-						Type = Type.KeyValueSeparator;
+						CurrentToken = TokenType.KeyValueSeparator;
 						_state = State.StartValue;
 						return true;
 					case 'n':
 						if (_state != State.StartValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
 						}
 						ReadConstant("null");
-						Type = Type.Null;
+						CurrentToken = TokenType.Null;
 						_state = State.EndValue;
 						return true;
 					case 't':
 						if (_state != State.StartValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
 						}
 						ReadConstant("true");
-						Type = Type.Boolean;
+						CurrentToken = TokenType.Boolean;
 						_state = State.EndValue;
 						_booleanValue = true;
 						return true;
 					case 'f':
 						if (_state != State.StartValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
 						}
 						ReadConstant("false");
-						Type = Type.Boolean;
+						CurrentToken = TokenType.Boolean;
 						_state = State.EndValue;
 						_booleanValue = false;
 						return true;
@@ -266,23 +266,23 @@ namespace CER.JSON.Stream
 								_state = State.EndKey;
 								break;
 							default:
-								throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+								throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
 						}
-						Type = Type.String;
+						CurrentToken = TokenType.String;
 						StringValue = ReadString();
 						return true;
 					default:
 						if (_state != State.StartValue)
 						{
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
 						}
 						NumberValue = ReadNumber();
-						Type = Type.Number;
+						CurrentToken = TokenType.Number;
 						_state = State.EndValue;
 						return true;
 				}
 			}
-			catch (System.IO.InvalidDataException)
+			catch (InvalidDataException)
 			{
 				_hasError = true;
 				throw;
@@ -335,11 +335,11 @@ namespace CER.JSON.Stream
 			}
 		}
 
-		bool TryReadWhitespace(out string result)
+		bool TryReadWhiteSpace(out string result)
 		{
 			result = null;
 			char character;
-			while (TryPeek(out character) && Whitespace.IsLegal(character))
+			while (TryPeek(out character) && WhiteSpace.IsLegal(character))
 			{
 				if (result == null)
 				{
@@ -351,7 +351,7 @@ namespace CER.JSON.Stream
 			return result != null;
 		}
 
-		String ReadString()
+		JsonString ReadString()
 		{
 			_ = Advance();
 			StringBuilder stringRepresentation = new StringBuilder();
@@ -363,7 +363,7 @@ namespace CER.JSON.Stream
 
 				if ((ushort)c < 32)
 				{
-					throw new InvalidTextException(_line, _lineCharacter, "Control character in string.");
+					throw new InvalidJsonException(_line, _lineCharacter, "Control character in string.");
 				}
 
 				if (escaped)
@@ -409,7 +409,7 @@ namespace CER.JSON.Stream
 							_ = stringRepresentation.Append(c);
 							break;
 						case '"':
-							return new String(stringRepresentation.ToString(), true);
+							return new JsonString(stringRepresentation.ToString(), true);
 						default:
 							_ = stringRepresentation.Append(c);
 							break;
@@ -419,7 +419,7 @@ namespace CER.JSON.Stream
 			throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file in string.", _line, _lineCharacter));
 		}
 
-		Number ReadNumber()
+		JsonNumber ReadNumber()
 		{
 			StringBuilder stringRepresentation = new StringBuilder();
 			char c;
@@ -499,7 +499,7 @@ namespace CER.JSON.Stream
 				}
 			}
 
-			return new Number(stringRepresentation.ToString());
+			return new JsonNumber(stringRepresentation.ToString());
 		}
 
 		void ReadConstant(string constant)
