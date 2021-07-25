@@ -1,4 +1,4 @@
-using CER.JSON.DocumentObjectModel;
+using CER.Json.DocumentObjectModel;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -6,16 +6,16 @@ using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class WhitespaceControl : UserControl
+	public partial class WhiteSpaceControl : UserControl
 	{
-		public WhitespaceControl() => InitializeComponent();
+		public WhiteSpaceControl() => InitializeComponent();
 
-		Whitespace _value;
+		WhiteSpace _value;
 		bool _updating;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Whitespace Value
+		public WhiteSpace Value
 		{
 			get => _value;
 			set
@@ -80,7 +80,7 @@ namespace UI
 		{
 			try
 			{
-				Value = new Whitespace(literal);
+				Value = new WhiteSpace(literal);
 			}
 			catch (ArgumentException)
 			{

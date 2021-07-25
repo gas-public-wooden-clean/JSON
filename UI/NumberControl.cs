@@ -1,10 +1,9 @@
+using CER.Json.DocumentObjectModel;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-
-using Number = CER.JSON.DocumentObjectModel.Number;
 
 namespace UI
 {
@@ -17,11 +16,11 @@ namespace UI
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Number Value
+		public JsonNumber Value
 		{
 			get
 			{
-				Number retval = new Number(_json)
+				JsonNumber retval = new JsonNumber(_json)
 				{
 					Leading = _leading.Value,
 					Trailing = _trailing.Value
@@ -30,9 +29,9 @@ namespace UI
 			}
 			set
 			{
-				_json = value.JSON;
+				_json = value.Json;
 				_valueText.Text = value.Value.ToString("G");
-				_jsonValue.Text = value.JSON;
+				_jsonValue.Text = value.Json;
 				_leading.Value = value.Leading;
 				_trailing.Value = value.Trailing;
 			}
@@ -54,24 +53,24 @@ namespace UI
 
 			_valueText.BackColor = Color.FromName("Window");
 
-			Number validated = new Number(newValue);
+			JsonNumber validated = new JsonNumber(newValue);
 			_updating = true;
-			_jsonValue.Text = validated.JSON;
+			_jsonValue.Text = validated.Json;
 			_updating = false;
 			_jsonValue.BackColor = Color.FromName("Window");
 		}
 
-		void JSONTextChanged(object sender, EventArgs e)
+		void JsonTextChanged(object sender, EventArgs e)
 		{
 			if (_updating)
 			{
 				return;
 			}
 
-			Number newValue;
+			JsonNumber newValue;
 			try
 			{
-				newValue = new Number(_jsonValue.Text);
+				newValue = new JsonNumber(_jsonValue.Text);
 			}
 			catch (FormatException)
 			{

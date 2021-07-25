@@ -1,26 +1,26 @@
 using System;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A string of only whitespace characters (spaces, tabs, carriage returns, and linefeeds).
 	/// </summary>
-	public class Whitespace
+	public class WhiteSpace
 	{
 		/// <summary>
 		/// Create whitespace with the given value.
 		/// </summary>
-		/// <param name="whitespace">A string of whitespace characters.</param>
+		/// <param name="whiteSpace">A string of whitespace characters.</param>
 		/// <exception cref="ArgumentException">The value contains non-whitespace characters.</exception>
 		/// <exception cref="ArgumentNullException">The value is null.</exception>
-		public Whitespace(string whitespace) => Value = whitespace;
+		public WhiteSpace(string whiteSpace) => Value = whiteSpace;
 
 		string _validated;
 
 		/// <summary>
 		/// An instance containing no whitespace characters.
 		/// </summary>
-		public static Whitespace Empty { get; } = new Whitespace(string.Empty);
+		public static WhiteSpace Empty { get; } = new WhiteSpace(string.Empty);
 
 		/// <summary>
 		/// A value consisting of only whitespace characters.

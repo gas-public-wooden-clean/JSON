@@ -1,19 +1,19 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A boolean JSON value: 'true' or 'false'.
 	/// </summary>
 	[DebuggerDisplay("{Value}")]
-	public class Boolean : Element
+	public class JsonBoolean : JsonElement
 	{
 		/// <summary>
 		/// Create a boolean element with the given value and no whitespace.
 		/// </summary>
 		/// <param name="value">The value.</param>
-		public Boolean(bool value) => Value = value;
+		public JsonBoolean(bool value) => Value = value;
 
 		/// <summary>
 		/// Create a boolean element the given value and whitespace.
@@ -22,7 +22,7 @@ namespace CER.JSON.DocumentObjectModel
 		/// <param name="trailing">Trailing whitespace.</param>
 		/// <param name="value">The value.</param>
 		/// <exception cref="System.ArgumentNullException">One of the whitespace values is null.</exception>
-		public Boolean(Whitespace leading, Whitespace trailing, bool value)
+		public JsonBoolean(WhiteSpace leading, WhiteSpace trailing, bool value)
 			: base(leading, trailing) => Value = value;
 
 		/// <summary>

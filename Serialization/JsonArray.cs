@@ -2,28 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CER.JSON.DocumentObjectModel
+namespace CER.Json.DocumentObjectModel
 {
 	/// <summary>
 	/// A JSON array.
 	/// </summary>
-	public class Array : Element
+	public class JsonArray : JsonElement
 	{
 		/// <summary>
 		/// Create an empty array with no leading, trailing, or contained whitespace.
 		/// </summary>
-		public Array() : base()
+		public JsonArray() : base()
 		{
-			Values = new List<Element>();
-			EmptyWhitespace = Whitespace.Empty;
+			Values = new List<JsonElement>();
+			EmptyWhiteSpace = WhiteSpace.Empty;
 		}
 
-		Whitespace _emptyWhitespace;
+		WhiteSpace _emptyWhiteSpace;
 
 		/// <summary>
 		/// The elements in the array.
 		/// </summary>
-		public IList<Element> Values
+		public IList<JsonElement> Values
 		{
 			get;
 			private set;
@@ -33,10 +33,10 @@ namespace CER.JSON.DocumentObjectModel
 		/// Whitespace that will be written inside the array if there are no elements in it.
 		/// </summary>
 		/// <exception cref="System.ArgumentNullException">The value being set is null.</exception>
-		public Whitespace EmptyWhitespace
+		public WhiteSpace EmptyWhiteSpace
 		{
-			get => _emptyWhitespace;
-			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
+			get => _emptyWhiteSpace;
+			set => _emptyWhiteSpace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -45,18 +45,24 @@ namespace CER.JSON.DocumentObjectModel
 		/// <param name="writer">The writer to write to.</param>
 		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="System.ArgumentNullException">The writer is null.</exception>
 		public override void Serialize(TextWriter writer)
 		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
 			writer.Write(Leading.Value);
 			writer.Write("[");
 			if (Values.Count == 0)
 			{
-				writer.Write(EmptyWhitespace.Value);
+				writer.Write(EmptyWhiteSpace.Value);
 			}
 			else
 			{
 				bool first = true;
-				foreach (Element element in Values)
+				foreach (JsonElement element in Values)
 				{
 					if (!first)
 					{

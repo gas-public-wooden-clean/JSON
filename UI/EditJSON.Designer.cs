@@ -1,7 +1,7 @@
-﻿
+
 namespace UI
 {
-	partial class EditJSON
+	partial class EditJson
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -439,7 +439,7 @@ namespace UI
 			this._cp1252Option.Size = new System.Drawing.Size(180, 22);
 			this._cp1252Option.Text = "CP-1252";
 			// 
-			// EditJSON
+			// EditJson
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -447,8 +447,8 @@ namespace UI
 			this.Controls.Add(_split);
 			this.Controls.Add(_menu);
 			this.MainMenuStrip = _menu;
-			this.Name = "EditJSON";
-			this.Text = "EditJSON";
+			this.Name = "EditJson";
+			this.Text = "EditJson";
 			_split.Panel1.ResumeLayout(false);
 			_split.Panel1.PerformLayout();
 			_split.Panel2.ResumeLayout(false);

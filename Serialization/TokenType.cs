@@ -1,9 +1,9 @@
-namespace CER.JSON.Stream
+namespace CER.Json.Stream
 {
 	/// <summary>
 	/// A token type that can be encountered while parsing JSON.
 	/// </summary>
-	public enum Type
+	public enum TokenType
 	{
 		/// <summary>
 		/// The beginning of an array i.e. '['.
@@ -52,6 +52,6 @@ namespace CER.JSON.Stream
 		/// <summary>
 		/// JSON whitespace.
 		/// </summary>
-		Whitespace
+		WhiteSpace
 	}
 }

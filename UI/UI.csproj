@@ -38,11 +38,11 @@
     <Compile Include="BooleanControl.Designer.cs">
       <DependentUpon>BooleanControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditJSON.cs">
+    <Compile Include="EditJson.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditJSON.Designer.cs">
-      <DependentUpon>EditJSON.cs</DependentUpon>
+    <Compile Include="EditJson.Designer.cs">
+      <DependentUpon>EditJson.cs</DependentUpon>
     </Compile>
     <Compile Include="NullControl.cs">
       <SubType>UserControl</SubType>
@@ -69,17 +69,17 @@
     <Compile Include="StringControl.Designer.cs">
       <DependentUpon>StringControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="WhitespaceControl.cs">
+    <Compile Include="WhiteSpaceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WhitespaceControl.Designer.cs">
-      <DependentUpon>WhitespaceControl.cs</DependentUpon>
+    <Compile Include="WhiteSpaceControl.Designer.cs">
+      <DependentUpon>WhiteSpaceControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="BooleanControl.resx">
       <DependentUpon>BooleanControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditJSON.resx">
-      <DependentUpon>EditJSON.cs</DependentUpon>
+    <EmbeddedResource Include="EditJson.resx">
+      <DependentUpon>EditJson.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NullControl.resx">
       <DependentUpon>NullControl.cs</DependentUpon>
@@ -93,8 +93,8 @@
     <EmbeddedResource Include="StringControl.resx">
       <DependentUpon>StringControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WhitespaceControl.resx">
-      <DependentUpon>WhitespaceControl.cs</DependentUpon>
+    <EmbeddedResource Include="WhiteSpaceControl.resx">
+      <DependentUpon>WhiteSpaceControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

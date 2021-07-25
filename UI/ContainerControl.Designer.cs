@@ -33,9 +33,9 @@ namespace UI
 			System.Windows.Forms.GroupBox _leadingGroup;
 			System.Windows.Forms.GroupBox _emptyGroup;
 			System.Windows.Forms.TableLayoutPanel _layout;
-			this._trailing = new UI.WhitespaceControl();
-			this._leading = new UI.WhitespaceControl();
-			this._empty = new UI.WhitespaceControl();
+			this._trailing = new UI.WhiteSpaceControl();
+			this._leading = new UI.WhiteSpaceControl();
+			this._empty = new UI.WhiteSpaceControl();
 			_trailingGroup = new System.Windows.Forms.GroupBox();
 			_leadingGroup = new System.Windows.Forms.GroupBox();
 			_emptyGroup = new System.Windows.Forms.GroupBox();
@@ -136,8 +136,8 @@ namespace UI
 		}
 
 		#endregion
-		private WhitespaceControl _trailing;
-		private WhitespaceControl _leading;
-		private WhitespaceControl _empty;
+		private WhiteSpaceControl _trailing;
+		private WhiteSpaceControl _leading;
+		private WhiteSpaceControl _empty;
 	}
 }

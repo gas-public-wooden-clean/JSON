@@ -1,4 +1,4 @@
-using CER.JSON.DocumentObjectModel;
+using CER.Json.DocumentObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,16 +7,11 @@ using System.Security;
 using System.Text;
 using System.Windows.Forms;
 
-using Array = CER.JSON.DocumentObjectModel.Array;
-using Boolean = CER.JSON.DocumentObjectModel.Boolean;
-using Object = CER.JSON.DocumentObjectModel.Object;
-using String = CER.JSON.DocumentObjectModel.String;
-
 namespace UI
 {
-	public partial class EditJSON : Form
+	public partial class EditJson : Form
 	{
-		public EditJSON()
+		public EditJson()
 		{
 			InitializeComponent();
 
@@ -29,7 +24,7 @@ namespace UI
 
 			_detected = _utf8;
 
-			LoadElement(new Null());
+			LoadElement(new JsonNull());
 		}
 
 		string _path;
@@ -71,7 +66,7 @@ namespace UI
 		/// </summary>
 		readonly Encoding _cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
 
-		void LoadElement(Element element)
+		void LoadElement(JsonElement element)
 		{
 			_navigation.Nodes.Clear();
 			TreeNode root = new TreeNode
@@ -114,7 +109,7 @@ namespace UI
 			{
 				try
 				{
-					((Element)_navigation.Nodes[0].Tag).Serialize(writer);
+					((JsonElement)_navigation.Nodes[0].Tag).Serialize(writer);
 				}
 				catch (IOException)
 				{
@@ -155,8 +150,8 @@ namespace UI
 			_insertAfter.Enabled = inContainer;
 			_delete.Enabled = inContainer;
 
-			Element element;
-			if (node.Tag is ObjectPair pairValue)
+			JsonElement element;
+			if (node.Tag is JsonObjectPair pairValue)
 			{
 				_keyValueLayout.ColumnStyles[0].Width = 50;
 				_keyControl.Value = pairValue.Key;
@@ -167,7 +162,7 @@ namespace UI
 			{
 				_keyValueLayout.ColumnStyles[0].Width = 0;
 				_keyControl.Enabled = false;
-				element = (Element)node.Tag;
+				element = (JsonElement)node.Tag;
 			}
 
 			if (node.Parent != null)
@@ -176,7 +171,7 @@ namespace UI
 			}
 
 			_updating = true;
-			if (element is Array)
+			if (element is JsonArray)
 			{
 				_typeValue.SelectedItem = _arrayType;
 
@@ -185,28 +180,28 @@ namespace UI
 
 				_add.Enabled = true;
 			}
-			else if (element is Boolean booleanValue)
+			else if (element is JsonBoolean booleanValue)
 			{
 				_typeValue.SelectedItem = _boolType;
 
 				_booleanControl.Value = booleanValue;
 				_booleanControl.Visible = true;
 			}
-			else if (element is Null nullValue)
+			else if (element is JsonNull nullValue)
 			{
 				_typeValue.SelectedItem = _nullType;
 
 				_nullControl.Value = nullValue;
 				_nullControl.Visible = true;
 			}
-			else if (element is Number numberValue)
+			else if (element is JsonNumber numberValue)
 			{
 				_typeValue.SelectedItem = _numberType;
 
 				_numberControl.Value = numberValue;
 				_numberControl.Visible = true;
 			}
-			else if (element is Object)
+			else if (element is JsonObject)
 			{
 				_typeValue.SelectedItem = _objectType;
 
@@ -215,7 +210,7 @@ namespace UI
 
 				_add.Enabled = true;
 			}
-			else if (element is String stringValue)
+			else if (element is JsonString stringValue)
 			{
 				_typeValue.SelectedItem = _stringType;
 
@@ -225,21 +220,21 @@ namespace UI
 			_updating = false;
 		}
 
-		void LoadChildren(TreeNode parent, Element parentValue)
+		void LoadChildren(TreeNode parent, JsonElement parentValue)
 		{
-			if (parentValue is Array childArray)
+			if (parentValue is JsonArray childArray)
 			{
 				PopulateArray(parent, childArray);
 			}
-			else if (parentValue is Object childObject)
+			else if (parentValue is JsonObject childObject)
 			{
 				PopulateObject(parent, childObject);
 			}
 		}
 
-		void PopulateArray(TreeNode parent, Array arrayValue)
+		void PopulateArray(TreeNode parent, JsonArray arrayValue)
 		{
-			foreach (Element element in arrayValue.Values)
+			foreach (JsonElement element in arrayValue.Values)
 			{
 				TreeNode child = new TreeNode
 				{
@@ -251,9 +246,9 @@ namespace UI
 			}
 		}
 
-		void PopulateObject(TreeNode parent, Object objectValue)
+		void PopulateObject(TreeNode parent, JsonObject objectValue)
 		{
-			foreach (ObjectPair pair in objectValue.Values)
+			foreach (JsonObjectPair pair in objectValue.Values)
 			{
 				TreeNode child = new TreeNode
 				{
@@ -267,42 +262,42 @@ namespace UI
 
 		void SetText(TreeNode item)
 		{
-			Element element;
+			JsonElement element;
 			string name;
-			if (item.Tag is ObjectPair pair)
+			if (item.Tag is JsonObjectPair pair)
 			{
 				element = pair.Value;
 				name = string.Format("\"{0}\": ", pair.Key.Value);
 			}
 			else
 			{
-				element = (Element)item.Tag;
+				element = (JsonElement)item.Tag;
 				name = string.Empty;
 			}
 
-			if (element is Array)
+			if (element is JsonArray)
 			{
 				name += "Array";
 			}
-			else if (element is Boolean boolValue)
+			else if (element is JsonBoolean boolValue)
 			{
 				name += boolValue.Value.ToString();
 			}
-			else if (element is Null)
+			else if (element is JsonNull)
 			{
 				name += "Null";
 			}
-			else if (element is Number numberValue)
+			else if (element is JsonNumber numberValue)
 			{
-				name += numberValue.JSON;
+				name += numberValue.Json;
 			}
-			else if (element is Object)
+			else if (element is JsonObject)
 			{
 				name += "Object";
 			}
-			else if (element is String stringValue)
+			else if (element is JsonString stringValue)
 			{
-				name += "\"" + stringValue.JSON + "\"";
+				name += "\"" + stringValue.Json + "\"";
 			}
 
 			item.Text = name;
@@ -312,25 +307,25 @@ namespace UI
 		{
 			TreeNode child = new TreeNode();
 
-			Element parentElement;
-			if (parent.Tag is ObjectPair pair)
+			JsonElement parentElement;
+			if (parent.Tag is JsonObjectPair pair)
 			{
 				parentElement = pair.Value;
 			}
 			else
 			{
-				parentElement = (Element)parent.Tag;
+				parentElement = (JsonElement)parent.Tag;
 			}
 
-			if (parentElement is Array arrayValue)
+			if (parentElement is JsonArray arrayValue)
 			{
-				Element toInsert = new Null();
+				JsonElement toInsert = new JsonNull();
 				arrayValue.Values.Insert(index, toInsert);
 				child.Tag = toInsert;
 			}
-			else if (parentElement is Object objectValue)
+			else if (parentElement is JsonObject objectValue)
 			{
-				ObjectPair toInsert = new ObjectPair();
+				JsonObjectPair toInsert = new JsonObjectPair();
 				objectValue.Values.Insert(index, toInsert);
 				child.Tag = toInsert;
 			}
@@ -352,7 +347,7 @@ namespace UI
 				return;
 			}
 
-			Element element;
+			JsonElement element;
 			switch (_typeValue.SelectedItem)
 			{
 				case _arrayType:
@@ -376,7 +371,7 @@ namespace UI
 					return;
 			}
 
-			if (selected.Tag is ObjectPair pair)
+			if (selected.Tag is JsonObjectPair pair)
 			{
 				pair.Key = _keyControl.Value;
 				pair.Value = element;
@@ -387,7 +382,7 @@ namespace UI
 			}
 			SetText(selected);
 
-			if (selected.Parent != null && selected.Parent.Tag is Array arrayContainer)
+			if (selected.Parent != null && selected.Parent.Tag is JsonArray arrayContainer)
 			{
 				int index = selected.Parent.Nodes.IndexOf(selected);
 				arrayContainer.Values[index] = element;
@@ -549,7 +544,7 @@ namespace UI
 
 		void NewClick(object sender, EventArgs e)
 		{
-			LoadElement(new Null());
+			LoadElement(new JsonNull());
 		}
 
 		void OpenClick(object sender, EventArgs e)
@@ -559,7 +554,7 @@ namespace UI
 				return;
 			}
 
-			Element element;
+			JsonElement element;
 
 			using (Stream file = _openDialog.OpenFile())
 			{
@@ -585,15 +580,15 @@ namespace UI
 				}
 				using (reader)
 				{
-					CER.JSON.Stream.StreamReader json = new CER.JSON.Stream.StreamReader(reader);
+					CER.Json.Stream.JsonReader json = new CER.Json.Stream.JsonReader(reader);
 					try
 					{
-						element = Element.Deserialize(json);
+						element = JsonElement.Deserialize(json);
 					}
 					catch (Exception ex)
 					{
 						if (!(ex is InvalidDataException) &&
-							!(ex is CER.JSON.Stream.InvalidTextException))
+							!(ex is CER.Json.Stream.InvalidJsonException))
 						{
 							throw;
 						}
@@ -673,33 +668,33 @@ namespace UI
 				return;
 			}
 
-			Element newValue;
+			JsonElement newValue;
 			switch (_typeValue.SelectedItem)
 			{
 				case _arrayType:
-					newValue = new Array();
+					newValue = new JsonArray();
 					break;
 				case _boolType:
-					newValue = new Boolean(false);
+					newValue = new JsonBoolean(false);
 					break;
 				case _nullType:
-					newValue = new Null();
+					newValue = new JsonNull();
 					break;
 				case _numberType:
-					newValue = new Number(0);
+					newValue = new JsonNumber(0);
 					break;
 				case _objectType:
-					newValue = new Object();
+					newValue = new JsonObject();
 					break;
 				case _stringType:
-					newValue = new String();
+					newValue = new JsonString();
 					break;
 				default:
 					Debug.Assert(false);
 					return;
 			}
 
-			if (_navigation.SelectedNode.Tag is ObjectPair pair)
+			if (_navigation.SelectedNode.Tag is JsonObjectPair pair)
 			{
 				pair.Value = newValue;
 			}
@@ -754,11 +749,11 @@ namespace UI
 
 			int selectedIndex = parent.Nodes.IndexOf(_navigation.SelectedNode);
 
-			if (parent.Tag is Array arrayValue)
+			if (parent.Tag is JsonArray arrayValue)
 			{
 				arrayValue.Values.RemoveAt(selectedIndex);
 			}
-			else if (parent.Tag is Object objectValue)
+			else if (parent.Tag is JsonObject objectValue)
 			{
 				objectValue.Values.RemoveAt(selectedIndex);
 			}
