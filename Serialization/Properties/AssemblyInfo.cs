@@ -1,6 +1,7 @@
 using CER.Json;
 using System;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CER.Json.dll")]
@@ -10,6 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: Guid("defdd47f-c3a2-4f28-aed9-663ec7cb0656")]
 [assembly: CLSCompliant(true)]
+[assembly: NeutralResourcesLanguage("en")]
 [assembly: AssemblyVersion(AssemblyInfo.VersionString)]
 [assembly: AssemblyFileVersion(AssemblyInfo.VersionString)]
 

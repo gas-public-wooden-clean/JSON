@@ -342,7 +342,7 @@ namespace UI
 		void UpdateDOM()
 		{
 			TreeNode selected = _navigation.SelectedNode;
-			if (selected == null)
+			if (selected is null)
 			{
 				return;
 			}
@@ -641,7 +641,7 @@ namespace UI
 
 		void SaveClick(object sender, EventArgs e)
 		{
-			if (_path == null)
+			if (_path is null)
 			{
 				SaveAs();
 			}
@@ -716,7 +716,7 @@ namespace UI
 		void InsertBeforeClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent == null)
+			if (parent is null)
 			{
 				return;
 			}
@@ -729,7 +729,7 @@ namespace UI
 		void InsertAfterClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent == null)
+			if (parent is null)
 			{
 				return;
 			}
@@ -742,7 +742,7 @@ namespace UI
 		void DeleteClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent == null)
+			if (parent is null)
 			{
 				return;
 			}

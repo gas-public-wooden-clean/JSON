@@ -26,8 +26,8 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="representation">A string representation of the JSON string.</param>
 		/// <param name="isJson">Whether the representation of the JSON string is a JSON string or a native string.</param>
-		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
-		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public JsonString(string representation, bool isJson)
 		{
 			if (isJson)
@@ -46,7 +46,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The native string value.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
 		public string Value
 		{
 			get => _value;
@@ -93,14 +93,14 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The value as a JSON string.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
-		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public string Json
 		{
 			get => _json;
 			set
 			{
-				if (value == null)
+				if (value is null)
 				{
 					throw new ArgumentNullException(nameof(value));
 				}
@@ -110,12 +110,12 @@ namespace CER.Json.DocumentObjectModel
 				{
 					if ((ushort)value[i] <= 31)
 					{
-						throw new FormatException("Value contains a control character.");
+						throw new FormatException(Strings.ValueContainsControlCharacter);
 					}
 
 					if (IsUnpairedSurrogate(value, i))
 					{
-						throw new FormatException("Value contains an unpaired surrogate.");
+						throw new FormatException(Strings.ValueContainsAnUnpairedSurrogate);
 					}
 
 					if (isEscaped)
@@ -151,19 +151,19 @@ namespace CER.Json.DocumentObjectModel
 								const int length = 4;
 								if (value.Length <= i + length)
 								{
-									throw new FormatException("Value ends with incomplete unicode sequence.");
+									throw new FormatException(Strings.ValueEndsWithIncompleteUnicode);
 								}
 								string hexadecimal = value.Substring(i + 1, length);
 								ushort unicode;
 								if (!ushort.TryParse(hexadecimal, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out unicode))
 								{
-									throw new FormatException(string.Format("Value contains invalid hexadecimal number {0}.", hexadecimal));
+									throw new FormatException(string.Format(CultureInfo.CurrentCulture, Strings.ValueContainsInvalidHex, hexadecimal));
 								}
 								_ = builder.Append((char)unicode);
 								i += length;
 								break;
 							default:
-								throw new FormatException(string.Format("Value contains invalid escape sequence {0}.", value.Substring(i - 1, 2)));
+								throw new FormatException(string.Format(CultureInfo.CurrentCulture, Strings.ValueContainsInvalidEscape, value.Substring(i - 1, 2)));
 						}
 					}
 					else
@@ -174,7 +174,7 @@ namespace CER.Json.DocumentObjectModel
 								isEscaped = true;
 								break;
 							case '"':
-								throw new FormatException("Value contains unescaped double quote.");
+								throw new FormatException(Strings.ValueContainsUnescapedDoubleQuote);
 							default:
 								_ = builder.Append(value[i]);
 								break;
@@ -184,7 +184,7 @@ namespace CER.Json.DocumentObjectModel
 
 				if (isEscaped)
 				{
-					throw new FormatException("Value ends with incomplete escape sequence.");
+					throw new FormatException(Strings.ValueEndsWithIncompleteEscapeSequence);
 				}
 
 				_value = builder.ToString();
@@ -196,8 +196,8 @@ namespace CER.Json.DocumentObjectModel
 		/// Write the string value and whitespace as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);

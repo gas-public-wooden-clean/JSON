@@ -21,8 +21,8 @@ namespace CER.Json.DocumentObjectModel
 		/// Create a number from a JSON number string.
 		/// </summary>
 		/// <param name="json">A JSON number string.</param>
-		/// <exception cref="System.FormatException">json is not in the correct format.</exception>
-		/// <exception cref="System.ArgumentNullException">json is null.</exception>
+		/// <exception cref="FormatException">json is not in the correct format.</exception>
+		/// <exception cref="ArgumentNullException">json is null.</exception>
 		public JsonNumber(string json) => Json = json;
 
 		string _json;
@@ -30,7 +30,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The value of the number as a decimal.
 		/// </summary>
-		/// <exception cref="System.OverflowException">The value being retrieved is less than System.Decimal.MinValue or greater than System.Decimal.MaxValue.</exception>
+		/// <exception cref="OverflowException">The value being retrieved is less than System.Decimal.MinValue or greater than System.Decimal.MaxValue.</exception>
 		public decimal Value
 		{
 			get => Parse(_json);
@@ -40,8 +40,8 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The value of the number as a JSON string.
 		/// </summary>
-		/// <exception cref="System.FormatException">The value being set is not in the correct format.</exception>
-		/// <exception cref="System.ArgumentNullException">value is null.</exception>
+		/// <exception cref="FormatException">The value being set is not in the correct format.</exception>
+		/// <exception cref="ArgumentNullException">value is null.</exception>
 		public string Json
 		{
 			get => _json;
@@ -67,8 +67,8 @@ namespace CER.Json.DocumentObjectModel
 		/// Write the number and whitespace as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
@@ -78,9 +78,9 @@ namespace CER.Json.DocumentObjectModel
 
 		static decimal Parse(string json)
 		{
-			if (json.StartsWith(CultureInfo.InvariantCulture.NumberFormat.PositiveSign))
+			if (json.StartsWith(CultureInfo.InvariantCulture.NumberFormat.PositiveSign, StringComparison.Ordinal))
 			{
-				throw new FormatException("Value cannot have leading positive sign.");
+				throw new FormatException(Strings.ValueCannotHaveLeadingPositiveSign);
 			}
 			return decimal.Parse(json, NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 		}

@@ -32,7 +32,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Whitespace that will be written inside the object if there are no elements in it.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The value being set is null.</exception>
+		/// <exception cref="ArgumentNullException">The value being set is null.</exception>
 		public WhiteSpace EmptyWhiteSpace
 		{
 			get => _emptyWhiteSpace;
@@ -58,7 +58,7 @@ namespace CER.Json.DocumentObjectModel
 			{
 				if (pair.Key.Value.Equals(key))
 				{
-					if (value == null)
+					if (value is null)
 					{
 						value = pair.Value;
 					}
@@ -76,8 +76,8 @@ namespace CER.Json.DocumentObjectModel
 		/// Write the object, whitespace, and elements within it, as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);

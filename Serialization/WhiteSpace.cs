@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -39,7 +40,7 @@ namespace CER.Json.DocumentObjectModel
 				{
 					if (!IsLegal(c))
 					{
-						string message = string.Format("{0} is not whitespace. It can only contain spaces, linefeeds, carriage returns, and/or horizontal tabs.", value);
+						string message = string.Format(CultureInfo.CurrentCulture, Strings.ValueNotWhitespace, value);
 						throw new ArgumentException(message, nameof(value));
 					}
 				}

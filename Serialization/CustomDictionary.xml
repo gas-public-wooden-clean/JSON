@@ -1,4 +1,9 @@
 <Dictionary>
+	<Words>
+		<Recognized>
+			<Word>unescaped</Word>
+		</Recognized>
+	</Words>
 	<Acronyms>
 		<CasingExceptions>
 			<!-- Namespace root. -->

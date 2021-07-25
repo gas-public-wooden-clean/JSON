@@ -35,7 +35,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The key.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
+		/// <exception cref="ArgumentNullException">The given value is null.</exception>
 		public JsonString Key
 		{
 			get => _key;
@@ -45,7 +45,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The value.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
+		/// <exception cref="ArgumentNullException">The given value is null.</exception>
 		public JsonElement Value
 		{
 			get => _value;

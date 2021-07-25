@@ -22,7 +22,7 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="leading">Leading whitespace.</param>
 		/// <param name="trailing">Trailing whitespace.</param>
-		/// <exception cref="System.ArgumentNullException">One of the whitespace values is null.</exception>
+		/// <exception cref="ArgumentNullException">One of the whitespace values is null.</exception>
 		protected JsonElement(WhiteSpace leading, WhiteSpace trailing)
 		{
 			Leading = leading;
@@ -35,7 +35,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Leading whitespace.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
+		/// <exception cref="ArgumentNullException">The given value is null.</exception>
 		public WhiteSpace Leading
 		{
 			get => _leading;
@@ -45,7 +45,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Trailing whitespace.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given value is null.</exception>
+		/// <exception cref="ArgumentNullException">The given value is null.</exception>
 		public WhiteSpace Trailing
 		{
 			get => _trailing;
@@ -57,9 +57,9 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="reader">The stream to read from, which should be positioned at the start.</param>
 		/// <returns>The JSON element contained within the document.</returns>
-		/// <exception cref="System.InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
-		/// <exception cref="CER.Json.Stream.InvalidJsonException">The underlying text stream is not valid JSON.</exception>
-		/// <exception cref="System.ObjectDisposedException">The underlying stream has been closed.</exception>
+		/// <exception cref="InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
+		/// <exception cref="InvalidJsonException">The underlying text stream is not valid JSON.</exception>
+		/// <exception cref="ObjectDisposedException">The underlying stream has been closed.</exception>
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public static JsonElement Deserialize(JsonReader reader)
 		{
@@ -71,7 +71,7 @@ namespace CER.Json.DocumentObjectModel
 		/// Write the JSON element to a stream.
 		/// </summary>
 		/// <param name="writer">The stream to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
 		public abstract void Serialize(System.IO.TextWriter writer);
 

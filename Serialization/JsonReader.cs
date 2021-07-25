@@ -1,6 +1,7 @@
 using CER.Json.DocumentObjectModel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -14,8 +15,8 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// Create a reader from the given text stream, which should be positioned before the JSON data.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <exception cref="System.ArgumentNullException">The given text reader is null.</exception>
+		/// <param name="text">Text stream to read JSON from, which should be positioned before the JSON data.</param>
+		/// <exception cref="ArgumentNullException">The given text reader is null.</exception>
 		public JsonReader(TextReader text)
 		{
 			_text = text ?? throw new ArgumentNullException(nameof(text));
@@ -42,7 +43,7 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// The type of data that the reader is currently positioned at.
 		/// </summary>
-		/// <exception cref="System.InvalidOperationException">The reader previously encountered an error.</exception>
+		/// <exception cref="InvalidOperationException">The reader previously encountered an error.</exception>
 		public TokenType CurrentToken
 		{
 			get => !_hasError ? _type : throw new InvalidOperationException();
@@ -52,7 +53,7 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// The string value that the reader is currently positioned at. Only use if Type == Type.String.
 		/// </summary>
-		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a string.</exception>
+		/// <exception cref="InvalidOperationException">The reader is not currently positioned at a string.</exception>
 		public JsonString StringValue
 		{
 			get
@@ -69,7 +70,7 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// The number value that the reader is currently positioned at. Only use if Type == Type.Number.
 		/// </summary>
-		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a number.</exception>
+		/// <exception cref="InvalidOperationException">The reader is not currently positioned at a number.</exception>
 		public JsonNumber NumberValue
 		{
 			get
@@ -86,7 +87,7 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// The boolean value that the reader is currently positioned at. Only use if Type == Type.Boolean.
 		/// </summary>
-		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at a boolean.</exception>
+		/// <exception cref="InvalidOperationException">The reader is not currently positioned at a boolean.</exception>
 		public bool BooleanValue
 		{
 			get
@@ -102,7 +103,7 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// The whitespace value that the reader is currently positioned at. Only use if Type == Type.Whitespace.
 		/// </summary>
-		/// <exception cref="System.InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
+		/// <exception cref="InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
 		public WhiteSpace WhiteSpace
 		{
 			get
@@ -115,10 +116,14 @@ namespace CER.Json.Stream
 			}
 		}
 
-		/// <exception cref="System.InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
-		/// <exception cref="CER.Json.Stream.InvalidJsonException">The underlying text stream is not valid JSON.</exception>
-		/// <exception cref="System.ObjectDisposedException">The underlying stream has been closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <summary>
+		/// Advance the stream to the next JSON token.
+		/// </summary>
+		/// <returns>Whether the next token was read. Otherwise, the end of the stream was reached.</returns>
+		/// <exception cref="InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
+		/// <exception cref="InvalidJsonException">The underlying text stream is not valid JSON.</exception>
+		/// <exception cref="ObjectDisposedException">The underlying stream has been closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public bool Read()
 		{
 			if (_hasError)
@@ -138,7 +143,7 @@ namespace CER.Json.Stream
 				{
 					if (_state != State.EndValue || _stack.Count > 0)
 					{
-						throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file.", _line, _lineCharacter));
+						throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFile);
 					}
 					CurrentToken = TokenType.Invalid;
 					return false;
@@ -156,7 +161,7 @@ namespace CER.Json.Stream
 						_ = Advance();
 						if (_state != State.StartValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected object start.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedObjectStart);
 						}
 						_stack.Add(true);
 						CurrentToken = TokenType.BeginObject;
@@ -167,11 +172,11 @@ namespace CER.Json.Stream
 						if (_state != State.StartKey &&
 							_state != State.EndValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected object end.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedObjectEnd);
 						}
 						if (_stack.Count < 1 || !_stack[_stack.Count - 1])
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: No object to end.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.NoObjectToEnd);
 						}
 						_stack.RemoveAt(_stack.Count - 1);
 						CurrentToken = TokenType.EndObject;
@@ -181,7 +186,7 @@ namespace CER.Json.Stream
 						_ = Advance();
 						if (_state != State.StartValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected array start.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedArrayStart);
 						}
 						_stack.Add(false);
 						CurrentToken = TokenType.BeginArray;
@@ -192,11 +197,11 @@ namespace CER.Json.Stream
 						if (_state != State.StartValue &&
 							_state != State.EndValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected array end.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedArrayEnd);
 						}
 						if (_stack.Count < 1 || _stack[_stack.Count - 1])
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: No array to end.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.NoArrayToEnd);
 						}
 						_stack.RemoveAt(_stack.Count - 1);
 						CurrentToken = TokenType.EndArray;
@@ -206,7 +211,7 @@ namespace CER.Json.Stream
 						_ = Advance();
 						if (_state != State.EndValue || _stack.Count < 1)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected comma.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedComma);
 						}
 						CurrentToken = TokenType.ListSeparator;
 						if (_stack[_stack.Count - 1])
@@ -222,7 +227,7 @@ namespace CER.Json.Stream
 						_ = Advance();
 						if (_state != State.EndKey || _stack.Count < 1 || !_stack[_stack.Count - 1])
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected colon.", _line, _lineCharacter));
+							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedColon);
 						}
 						CurrentToken = TokenType.KeyValueSeparator;
 						_state = State.StartValue;
@@ -230,7 +235,7 @@ namespace CER.Json.Stream
 					case 'n':
 						if (_state != State.StartValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
 						ReadConstant("null");
 						CurrentToken = TokenType.Null;
@@ -239,7 +244,7 @@ namespace CER.Json.Stream
 					case 't':
 						if (_state != State.StartValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
 						ReadConstant("true");
 						CurrentToken = TokenType.Boolean;
@@ -249,7 +254,7 @@ namespace CER.Json.Stream
 					case 'f':
 						if (_state != State.StartValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
 						ReadConstant("false");
 						CurrentToken = TokenType.Boolean;
@@ -266,7 +271,7 @@ namespace CER.Json.Stream
 								_state = State.EndKey;
 								break;
 							default:
-								throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+								throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
 						CurrentToken = TokenType.String;
 						StringValue = ReadString();
@@ -274,7 +279,7 @@ namespace CER.Json.Stream
 					default:
 						if (_state != State.StartValue)
 						{
-							throw new InvalidDataException(string.Format("Line {0} character {1}: Unexpected character {2}.", _line, _lineCharacter, character));
+							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
 						NumberValue = ReadNumber();
 						CurrentToken = TokenType.Number;
@@ -282,7 +287,7 @@ namespace CER.Json.Stream
 						return true;
 				}
 			}
-			catch (InvalidDataException)
+			catch (InvalidJsonException)
 			{
 				_hasError = true;
 				throw;
@@ -341,7 +346,7 @@ namespace CER.Json.Stream
 			char character;
 			while (TryPeek(out character) && WhiteSpace.IsLegal(character))
 			{
-				if (result == null)
+				if (result is null)
 				{
 					result = string.Empty;
 				}
@@ -363,7 +368,7 @@ namespace CER.Json.Stream
 
 				if ((ushort)c < 32)
 				{
-					throw new InvalidJsonException(_line, _lineCharacter, "Control character in string.");
+					throw new InvalidJsonException(_line, _lineCharacter, Strings.ControlCharacterInString);
 				}
 
 				if (escaped)
@@ -386,18 +391,18 @@ namespace CER.Json.Stream
 							{
 								if (!TryPeek(out c))
 								{
-									throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file in string.", _line, _lineCharacter));
+									throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFileInString);
 								}
 								if (!IsHexDigit(c))
 								{
-									throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Invalid unicode hexadecimal {2}.", _line, _lineCharacter, c));
+									throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.InvalidUnicodeHexadecimal, c));
 								}
 								_ = stringRepresentation.Append(c);
 								_ = Advance();
 							}
 							break;
 						default:
-							throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Invalid escape sequence {2}.", _line, _lineCharacter, c));
+							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.InvalidEscapeSequence, c));
 					}
 				}
 				else
@@ -416,7 +421,7 @@ namespace CER.Json.Stream
 					}
 				}
 			}
-			throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file in string.", _line, _lineCharacter));
+			throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFileInString);
 		}
 
 		JsonNumber ReadNumber()
@@ -426,7 +431,7 @@ namespace CER.Json.Stream
 
 			if (!TryPeek(out c))
 			{
-				throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file.", _line, _lineCharacter));
+				throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFile);
 			}
 			if (c == '-')
 			{
@@ -436,7 +441,7 @@ namespace CER.Json.Stream
 
 			if (!TryPeek(out c))
 			{
-				throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected end of file.", _line, _lineCharacter));
+				throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFile);
 			}
 			if (c == '0')
 			{
@@ -453,7 +458,7 @@ namespace CER.Json.Stream
 			}
 			else
 			{
-				throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Unexpected {2}.", _line, _lineCharacter, c));
+				throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedNumberCharacter, c));
 			}
 
 			if (TryPeek(out c) && c == '.')
@@ -470,7 +475,7 @@ namespace CER.Json.Stream
 				}
 				if (!hasDigitAfterDecimal)
 				{
-					throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Numbers must have at least one digit after the decimal point.", _line, _lineCharacter));
+					throw new InvalidJsonException(_line, _lineCharacter, Strings.NumbersMustHaveAtLeastOneDigitAfterDecimalPoint);
 				}
 			}
 
@@ -495,7 +500,7 @@ namespace CER.Json.Stream
 				}
 				if (!hasDigitInExponent)
 				{
-					throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Numbers must have at least one digit in an exponent.", _line, _lineCharacter));
+					throw new InvalidJsonException(_line, _lineCharacter, Strings.NumbersMustHaveAtLeastOneDigitInExponent);
 				}
 			}
 
@@ -509,7 +514,7 @@ namespace CER.Json.Stream
 				char actual = Advance();
 				if (expected != actual)
 				{
-					throw new System.IO.InvalidDataException(string.Format("Line {0} character {1}: Invalid character {2} in constant {3}: expected {4}.", _line, _lineCharacter, actual, constant, expected));
+					throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.InvalidCharacterInConstant, actual, constant, expected));
 				}
 			}
 		}
@@ -546,7 +551,7 @@ namespace CER.Json.Stream
 				value = _text.Read();
 				if (value < 0)
 				{
-					throw new System.IO.EndOfStreamException();
+					throw new EndOfStreamException();
 				}
 			}
 			if ((char)value == '\n')

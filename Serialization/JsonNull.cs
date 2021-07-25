@@ -26,7 +26,7 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
 		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
