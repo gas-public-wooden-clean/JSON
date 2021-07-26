@@ -7,6 +7,8 @@ namespace Filter
 {
 	class Program
 	{
+		internal const string VersionString = "1.1.0.0";
+
 		static void Main(string[] args)
 		{
 			Version compiled = new Version(AssemblyInfo.Major, AssemblyInfo.Minor, AssemblyInfo.Build, AssemblyInfo.Revision);
@@ -15,8 +17,8 @@ namespace Filter
 				compiled.Minor != runtime.Minor)
 			{
 				string application = AppDomain.CurrentDomain.FriendlyName;
-				Console.Error.WriteLine("Warning: {0} is running with {1}, but it was compiled with version {2}.",
-					application, typeof(AssemblyInfo).Assembly.FullName, compiled);
+				Console.Error.WriteLine(Strings.CompileRuntimeMismatch, application,
+					typeof(AssemblyInfo).Assembly.FullName, compiled);
 			}
 
 			bool beautify = false;
@@ -33,13 +35,13 @@ namespace Filter
 				}
 				else
 				{
-					Console.Error.WriteLine("Unrecognized option: {0}.", arg);
+					Console.Error.WriteLine(Strings.UnrecognizedOption, arg);
 				}
 			}
 
 			if (beautify && minify)
 			{
-				Console.Error.WriteLine("You cannot specify --pretty and --mini.");
+				Console.Error.WriteLine(Strings.PrettyAndMini);
 				return;
 			}
 
