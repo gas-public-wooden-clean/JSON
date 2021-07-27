@@ -155,10 +155,10 @@ namespace Filter
 						Console.Out.Write("\"");
 						hasItem = true;
 						break;
-					case TokenType.WhiteSpace:
+					case TokenType.Whitespace:
 						if (!beautify && !minify)
 						{
-							Console.Out.Write(json.WhiteSpace.Value);
+							Console.Out.Write(json.Whitespace.Value);
 						}
 						break;
 					default:

@@ -52,6 +52,6 @@ namespace CER.Json.Stream
 		/// <summary>
 		/// JSON whitespace.
 		/// </summary>
-		WhiteSpace
+		Whitespace
 	}
 }

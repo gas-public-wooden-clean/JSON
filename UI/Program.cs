@@ -5,6 +5,8 @@ namespace UI
 {
 	static class Program
 	{
+		internal const string VersionString = "1.1.0.0";
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>

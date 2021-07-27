@@ -1,7 +1,7 @@
 
 namespace UI
 {
-	partial class WhiteSpaceControl
+	partial class WhitespaceControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -29,84 +29,56 @@ namespace UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TableLayoutPanel _layout;
-			this._literalValue = new System.Windows.Forms.TextBox();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WhitespaceControl));
+			this._layout = new System.Windows.Forms.TableLayoutPanel();
 			this._literalLabel = new System.Windows.Forms.Label();
+			this._literalValue = new System.Windows.Forms.TextBox();
 			this._escapedLabel = new System.Windows.Forms.Label();
 			this._escapedValue = new System.Windows.Forms.TextBox();
-			_layout = new System.Windows.Forms.TableLayoutPanel();
-			_layout.SuspendLayout();
+			this._layout.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// _layout
+			// 
+			resources.ApplyResources(this._layout, "_layout");
+			this._layout.Controls.Add(this._literalLabel, 0, 0);
+			this._layout.Controls.Add(this._literalValue, 1, 0);
+			this._layout.Controls.Add(this._escapedLabel, 0, 1);
+			this._layout.Controls.Add(this._escapedValue, 1, 1);
+			this._layout.Name = "_layout";
+			// 
+			// _literalLabel
+			// 
+			resources.ApplyResources(this._literalLabel, "_literalLabel");
+			this._literalLabel.Name = "_literalLabel";
 			// 
 			// _literalValue
 			// 
 			this._literalValue.AcceptsReturn = true;
 			this._literalValue.AcceptsTab = true;
-			this._literalValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._literalValue.Location = new System.Drawing.Point(58, 3);
-			this._literalValue.Multiline = true;
+			resources.ApplyResources(this._literalValue, "_literalValue");
 			this._literalValue.Name = "_literalValue";
-			this._literalValue.Size = new System.Drawing.Size(265, 149);
-			this._literalValue.TabIndex = 1;
 			this._literalValue.TextChanged += new System.EventHandler(this.LiteralTextChanged);
-			// 
-			// _layout
-			// 
-			_layout.ColumnCount = 2;
-			_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-			_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			_layout.Controls.Add(this._literalLabel, 0, 0);
-			_layout.Controls.Add(this._literalValue, 1, 0);
-			_layout.Controls.Add(this._escapedLabel, 0, 1);
-			_layout.Controls.Add(this._escapedValue, 1, 1);
-			_layout.Dock = System.Windows.Forms.DockStyle.Fill;
-			_layout.Location = new System.Drawing.Point(0, 0);
-			_layout.Name = "_layout";
-			_layout.RowCount = 2;
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			_layout.Size = new System.Drawing.Size(326, 311);
-			_layout.TabIndex = 1;
-			// 
-			// _literalLabel
-			// 
-			this._literalLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this._literalLabel.AutoSize = true;
-			this._literalLabel.Location = new System.Drawing.Point(10, 71);
-			this._literalLabel.Name = "_literalLabel";
-			this._literalLabel.Size = new System.Drawing.Size(35, 13);
-			this._literalLabel.TabIndex = 0;
-			this._literalLabel.Text = "Literal";
 			// 
 			// _escapedLabel
 			// 
-			this._escapedLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this._escapedLabel.AutoSize = true;
-			this._escapedLabel.Location = new System.Drawing.Point(3, 226);
+			resources.ApplyResources(this._escapedLabel, "_escapedLabel");
 			this._escapedLabel.Name = "_escapedLabel";
-			this._escapedLabel.Size = new System.Drawing.Size(49, 13);
-			this._escapedLabel.TabIndex = 2;
-			this._escapedLabel.Text = "Escaped";
 			// 
 			// _escapedValue
 			// 
-			this._escapedValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._escapedValue.Location = new System.Drawing.Point(58, 158);
-			this._escapedValue.Multiline = true;
+			resources.ApplyResources(this._escapedValue, "_escapedValue");
 			this._escapedValue.Name = "_escapedValue";
-			this._escapedValue.Size = new System.Drawing.Size(265, 150);
-			this._escapedValue.TabIndex = 3;
 			this._escapedValue.TextChanged += new System.EventHandler(this.EscapedTextChanged);
 			// 
-			// WhiteSpaceControl
+			// WhitespaceControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(_layout);
-			this.Name = "WhiteSpaceControl";
-			this.Size = new System.Drawing.Size(326, 311);
-			_layout.ResumeLayout(false);
-			_layout.PerformLayout();
+			this.Controls.Add(this._layout);
+			this.Name = "WhitespaceControl";
+			this._layout.ResumeLayout(false);
+			this._layout.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -117,5 +89,6 @@ namespace UI
 		private System.Windows.Forms.Label _literalLabel;
 		private System.Windows.Forms.Label _escapedLabel;
 		private System.Windows.Forms.TextBox _escapedValue;
+		private System.Windows.Forms.TableLayoutPanel _layout;
 	}
 }

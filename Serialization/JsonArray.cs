@@ -15,10 +15,10 @@ namespace CER.Json.DocumentObjectModel
 		public JsonArray() : base()
 		{
 			Values = new List<JsonElement>();
-			EmptyWhiteSpace = WhiteSpace.Empty;
+			EmptyWhitespace = Whitespace.Empty;
 		}
 
-		WhiteSpace _emptyWhiteSpace;
+		Whitespace _emptyWhitespace;
 
 		/// <summary>
 		/// The elements in the array.
@@ -33,10 +33,10 @@ namespace CER.Json.DocumentObjectModel
 		/// Whitespace that will be written inside the array if there are no elements in it.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">The value being set is null.</exception>
-		public WhiteSpace EmptyWhiteSpace
+		public Whitespace EmptyWhitespace
 		{
-			get => _emptyWhiteSpace;
-			set => _emptyWhiteSpace = value ?? throw new ArgumentNullException(nameof(value));
+			get => _emptyWhitespace;
+			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace CER.Json.DocumentObjectModel
 			writer.Write("[");
 			if (Values.Count == 0)
 			{
-				writer.Write(EmptyWhiteSpace.Value);
+				writer.Write(EmptyWhitespace.Value);
 			}
 			else
 			{

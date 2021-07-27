@@ -38,7 +38,7 @@ namespace CER.Json.Stream
 		JsonString _stringValue;
 		JsonNumber _numberValue;
 		bool _booleanValue;
-		string _whiteSpace;
+		string _whitespace;
 
 		/// <summary>
 		/// The type of data that the reader is currently positioned at.
@@ -104,15 +104,15 @@ namespace CER.Json.Stream
 		/// The whitespace value that the reader is currently positioned at. Only use if Type == Type.Whitespace.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
-		public WhiteSpace WhiteSpace
+		public Whitespace Whitespace
 		{
 			get
 			{
-				if (CurrentToken != TokenType.WhiteSpace)
+				if (CurrentToken != TokenType.Whitespace)
 				{
 					throw new InvalidOperationException();
 				}
-				return new WhiteSpace(_whiteSpace);
+				return new Whitespace(_whitespace);
 			}
 		}
 
@@ -136,7 +136,7 @@ namespace CER.Json.Stream
 				StringValue = null;
 				NumberValue = null;
 				_booleanValue = false;
-				_whiteSpace = null;
+				_whitespace = null;
 
 				char character;
 				if (!TryPeek(out character))
@@ -149,9 +149,9 @@ namespace CER.Json.Stream
 					return false;
 				}
 
-				if (TryReadWhiteSpace(out _whiteSpace))
+				if (TryReadWhitespace(out _whitespace))
 				{
-					CurrentToken = TokenType.WhiteSpace;
+					CurrentToken = TokenType.Whitespace;
 					return true;
 				}
 
@@ -340,11 +340,11 @@ namespace CER.Json.Stream
 			}
 		}
 
-		bool TryReadWhiteSpace(out string result)
+		bool TryReadWhitespace(out string result)
 		{
 			result = null;
 			char character;
-			while (TryPeek(out character) && WhiteSpace.IsLegal(character))
+			while (TryPeek(out character) && Whitespace.IsLegal(character))
 			{
 				if (result is null)
 				{

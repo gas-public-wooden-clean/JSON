@@ -29,149 +29,106 @@ namespace UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TableLayoutPanel _layout;
-			System.Windows.Forms.GroupBox _leadingGroup;
-			System.Windows.Forms.GroupBox _trailingGroup;
-			System.Windows.Forms.Label _literalLabel;
-			System.Windows.Forms.Label _jsonLabel;
-			this._leading = new UI.WhiteSpaceControl();
-			this._trailing = new UI.WhiteSpaceControl();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StringControl));
+			this._layout = new System.Windows.Forms.TableLayoutPanel();
+			this._leadingGroup = new System.Windows.Forms.GroupBox();
+			this._leading = new UI.WhitespaceControl();
+			this._trailingGroup = new System.Windows.Forms.GroupBox();
+			this._trailing = new UI.WhitespaceControl();
+			this._literalLabel = new System.Windows.Forms.Label();
+			this._jsonLabel = new System.Windows.Forms.Label();
 			this._literalValue = new System.Windows.Forms.TextBox();
 			this._jsonValue = new System.Windows.Forms.TextBox();
-			_layout = new System.Windows.Forms.TableLayoutPanel();
-			_leadingGroup = new System.Windows.Forms.GroupBox();
-			_trailingGroup = new System.Windows.Forms.GroupBox();
-			_literalLabel = new System.Windows.Forms.Label();
-			_jsonLabel = new System.Windows.Forms.Label();
-			_layout.SuspendLayout();
-			_leadingGroup.SuspendLayout();
-			_trailingGroup.SuspendLayout();
+			this._layout.SuspendLayout();
+			this._leadingGroup.SuspendLayout();
+			this._trailingGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _layout
 			// 
-			_layout.ColumnCount = 2;
-			_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
-			_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			_layout.Controls.Add(_leadingGroup, 0, 0);
-			_layout.Controls.Add(_trailingGroup, 0, 3);
-			_layout.Controls.Add(_literalLabel, 0, 1);
-			_layout.Controls.Add(_jsonLabel, 0, 2);
-			_layout.Controls.Add(this._literalValue, 1, 1);
-			_layout.Controls.Add(this._jsonValue, 1, 2);
-			_layout.Dock = System.Windows.Forms.DockStyle.Fill;
-			_layout.Location = new System.Drawing.Point(0, 0);
-			_layout.Name = "_layout";
-			_layout.RowCount = 4;
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			_layout.Size = new System.Drawing.Size(368, 312);
-			_layout.TabIndex = 0;
+			resources.ApplyResources(this._layout, "_layout");
+			this._layout.Controls.Add(this._leadingGroup, 0, 0);
+			this._layout.Controls.Add(this._trailingGroup, 0, 3);
+			this._layout.Controls.Add(this._literalLabel, 0, 1);
+			this._layout.Controls.Add(this._jsonLabel, 0, 2);
+			this._layout.Controls.Add(this._literalValue, 1, 1);
+			this._layout.Controls.Add(this._jsonValue, 1, 2);
+			this._layout.Name = "_layout";
 			// 
 			// _leadingGroup
 			// 
-			_layout.SetColumnSpan(_leadingGroup, 2);
-			_leadingGroup.Controls.Add(this._leading);
-			_leadingGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-			_leadingGroup.Location = new System.Drawing.Point(3, 3);
-			_leadingGroup.Name = "_leadingGroup";
-			_leadingGroup.Size = new System.Drawing.Size(362, 72);
-			_leadingGroup.TabIndex = 0;
-			_leadingGroup.TabStop = false;
-			_leadingGroup.Text = "Leading Whitespace";
+			this._layout.SetColumnSpan(this._leadingGroup, 2);
+			this._leadingGroup.Controls.Add(this._leading);
+			resources.ApplyResources(this._leadingGroup, "_leadingGroup");
+			this._leadingGroup.Name = "_leadingGroup";
+			this._leadingGroup.TabStop = false;
 			// 
 			// _leading
 			// 
-			this._leading.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._leading.Location = new System.Drawing.Point(3, 16);
+			resources.ApplyResources(this._leading, "_leading");
 			this._leading.Name = "_leading";
-			this._leading.Size = new System.Drawing.Size(356, 53);
-			this._leading.TabIndex = 0;
 			// 
 			// _trailingGroup
 			// 
-			_layout.SetColumnSpan(_trailingGroup, 2);
-			_trailingGroup.Controls.Add(this._trailing);
-			_trailingGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-			_trailingGroup.Location = new System.Drawing.Point(3, 237);
-			_trailingGroup.Name = "_trailingGroup";
-			_trailingGroup.Size = new System.Drawing.Size(362, 72);
-			_trailingGroup.TabIndex = 1;
-			_trailingGroup.TabStop = false;
-			_trailingGroup.Text = "Trailing Whitespace";
+			this._layout.SetColumnSpan(this._trailingGroup, 2);
+			this._trailingGroup.Controls.Add(this._trailing);
+			resources.ApplyResources(this._trailingGroup, "_trailingGroup");
+			this._trailingGroup.Name = "_trailingGroup";
+			this._trailingGroup.TabStop = false;
 			// 
 			// _trailing
 			// 
-			this._trailing.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._trailing.Location = new System.Drawing.Point(3, 16);
+			resources.ApplyResources(this._trailing, "_trailing");
 			this._trailing.Name = "_trailing";
-			this._trailing.Size = new System.Drawing.Size(356, 53);
-			this._trailing.TabIndex = 0;
 			// 
 			// _literalLabel
 			// 
-			_literalLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			_literalLabel.AutoSize = true;
-			_literalLabel.Location = new System.Drawing.Point(15, 110);
-			_literalLabel.Name = "_literalLabel";
-			_literalLabel.Size = new System.Drawing.Size(35, 13);
-			_literalLabel.TabIndex = 2;
-			_literalLabel.Text = "Literal";
+			resources.ApplyResources(this._literalLabel, "_literalLabel");
+			this._literalLabel.Name = "_literalLabel";
 			// 
 			// _jsonLabel
 			// 
-			_jsonLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-			_jsonLabel.AutoSize = true;
-			_jsonLabel.Location = new System.Drawing.Point(15, 188);
-			_jsonLabel.Name = "_jsonLabel";
-			_jsonLabel.Size = new System.Drawing.Size(35, 13);
-			_jsonLabel.TabIndex = 3;
-			_jsonLabel.Text = "JSON";
+			resources.ApplyResources(this._jsonLabel, "_jsonLabel");
+			this._jsonLabel.Name = "_jsonLabel";
 			// 
 			// _literalValue
 			// 
 			this._literalValue.AcceptsReturn = true;
 			this._literalValue.AcceptsTab = true;
-			this._literalValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._literalValue.Location = new System.Drawing.Point(68, 81);
-			this._literalValue.Multiline = true;
+			resources.ApplyResources(this._literalValue, "_literalValue");
 			this._literalValue.Name = "_literalValue";
-			this._literalValue.Size = new System.Drawing.Size(297, 72);
-			this._literalValue.TabIndex = 4;
 			this._literalValue.TextChanged += new System.EventHandler(this.LiteralTextChanged);
 			// 
 			// _jsonValue
 			// 
-			this._jsonValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._jsonValue.Location = new System.Drawing.Point(68, 159);
-			this._jsonValue.Multiline = true;
+			resources.ApplyResources(this._jsonValue, "_jsonValue");
 			this._jsonValue.Name = "_jsonValue";
-			this._jsonValue.Size = new System.Drawing.Size(297, 72);
-			this._jsonValue.TabIndex = 5;
 			this._jsonValue.TextChanged += new System.EventHandler(this.JsonTextChanged);
 			// 
 			// StringControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(_layout);
+			this.Controls.Add(this._layout);
 			this.Name = "StringControl";
-			this.Size = new System.Drawing.Size(368, 312);
-			_layout.ResumeLayout(false);
-			_layout.PerformLayout();
-			_leadingGroup.ResumeLayout(false);
-			_trailingGroup.ResumeLayout(false);
+			this._layout.ResumeLayout(false);
+			this._layout.PerformLayout();
+			this._leadingGroup.ResumeLayout(false);
+			this._trailingGroup.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private WhiteSpaceControl _leading;
-		private WhiteSpaceControl _trailing;
+		private WhitespaceControl _leading;
+		private WhitespaceControl _trailing;
 		private System.Windows.Forms.TextBox _literalValue;
 		private System.Windows.Forms.TextBox _jsonValue;
+		private System.Windows.Forms.TableLayoutPanel _layout;
+		private System.Windows.Forms.GroupBox _leadingGroup;
+		private System.Windows.Forms.GroupBox _trailingGroup;
+		private System.Windows.Forms.Label _literalLabel;
+		private System.Windows.Forms.Label _jsonLabel;
 	}
 }

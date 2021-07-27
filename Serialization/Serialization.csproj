@@ -45,7 +45,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="TokenType.cs" />
-    <Compile Include="WhiteSpace.cs" />
+    <Compile Include="Whitespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />

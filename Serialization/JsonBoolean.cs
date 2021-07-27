@@ -22,7 +22,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="trailing">Trailing whitespace.</param>
 		/// <param name="value">The value.</param>
 		/// <exception cref="System.ArgumentNullException">One of the whitespace values is null.</exception>
-		public JsonBoolean(WhiteSpace leading, WhiteSpace trailing, bool value)
+		public JsonBoolean(Whitespace leading, Whitespace trailing, bool value)
 			: base(leading, trailing) => Value = value;
 
 		/// <summary>

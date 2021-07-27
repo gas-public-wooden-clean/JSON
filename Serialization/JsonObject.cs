@@ -15,10 +15,10 @@ namespace CER.Json.DocumentObjectModel
 		public JsonObject() : base()
 		{
 			Values = new List<JsonObjectPair>();
-			EmptyWhiteSpace = WhiteSpace.Empty;
+			EmptyWhitespace = Whitespace.Empty;
 		}
 
-		WhiteSpace _emptyWhiteSpace;
+		Whitespace _emptyWhitespace;
 
 		/// <summary>
 		/// The elements in the object. Note that multiple values with the same key are allowed.
@@ -33,10 +33,10 @@ namespace CER.Json.DocumentObjectModel
 		/// Whitespace that will be written inside the object if there are no elements in it.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">The value being set is null.</exception>
-		public WhiteSpace EmptyWhiteSpace
+		public Whitespace EmptyWhitespace
 		{
-			get => _emptyWhiteSpace;
-			set => _emptyWhiteSpace = value ?? throw new ArgumentNullException(nameof(value));
+			get => _emptyWhitespace;
+			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -84,7 +84,7 @@ namespace CER.Json.DocumentObjectModel
 			writer.Write("{");
 			if (Values.Count == 0)
 			{
-				writer.Write(EmptyWhiteSpace.Value);
+				writer.Write(EmptyWhitespace.Value);
 			}
 			else
 			{

@@ -18,7 +18,7 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="leading">Leading whitespace.</param>
 		/// <param name="trailing">Trailing whitespace.</param>
-		public JsonNull(WhiteSpace leading, WhiteSpace trailing) : base(leading, trailing)
+		public JsonNull(Whitespace leading, Whitespace trailing) : base(leading, trailing)
 		{ }
 
 		/// <summary>

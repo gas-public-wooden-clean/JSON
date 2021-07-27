@@ -6,16 +6,16 @@ using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class WhiteSpaceControl : UserControl
+	public partial class WhitespaceControl : UserControl
 	{
-		public WhiteSpaceControl() => InitializeComponent();
+		public WhitespaceControl() => InitializeComponent();
 
-		WhiteSpace _value;
+		Whitespace _value;
 		bool _updating;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public WhiteSpace Value
+		public Whitespace Value
 		{
 			get => _value;
 			set
@@ -80,7 +80,7 @@ namespace UI
 		{
 			try
 			{
-				Value = new WhiteSpace(literal);
+				Value = new Whitespace(literal);
 			}
 			catch (ArgumentException)
 			{

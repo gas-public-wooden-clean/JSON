@@ -20,11 +20,11 @@ namespace UI
 				_value.Trailing = _trailing.Value;
 				if (_value is JsonArray array)
 				{
-					array.EmptyWhiteSpace = _empty.Value;
+					array.EmptyWhitespace = _empty.Value;
 				}
 				else
 				{
-					((JsonObject)_value).EmptyWhiteSpace = _empty.Value;
+					((JsonObject)_value).EmptyWhitespace = _empty.Value;
 				}
 				return _value;
 			}
@@ -34,11 +34,11 @@ namespace UI
 				_trailing.Value = value.Trailing;
 				if (value is JsonArray array)
 				{
-					_empty.Value = array.EmptyWhiteSpace;
+					_empty.Value = array.EmptyWhitespace;
 				}
 				else
 				{
-					_empty.Value = ((JsonObject)value).EmptyWhiteSpace;
+					_empty.Value = ((JsonObject)value).EmptyWhitespace;
 				}
 				_value = value;
 			}
