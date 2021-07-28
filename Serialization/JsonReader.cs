@@ -1,4 +1,3 @@
-using CER.Json.DocumentObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,8 +34,7 @@ namespace CER.Json.Stream
 		ulong _line;
 		ulong _lineCharacter;
 		TokenType _type;
-		JsonString _stringValue;
-		JsonNumber _numberValue;
+		string _stringValue;
 		bool _booleanValue;
 		string _whitespace;
 
@@ -51,10 +49,11 @@ namespace CER.Json.Stream
 		}
 
 		/// <summary>
-		/// The string value that the reader is currently positioned at. Only use if Type == Type.String.
+		/// The string in JSON representation that the reader is currently positioned at. Only use if CurrentToken == TokenType.String.
+		/// Can be converted to a native string with JsonString.JsonToString(). Note that the conversion is lossy.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">The reader is not currently positioned at a string.</exception>
-		public JsonString StringValue
+		public string StringValue
 		{
 			get
 			{
@@ -62,16 +61,17 @@ namespace CER.Json.Stream
 				{
 					throw new InvalidOperationException();
 				}
-				return new JsonString(_stringValue.Json, true);
+				return _stringValue;
 			}
 			private set => _stringValue = value;
 		}
 
 		/// <summary>
-		/// The number value that the reader is currently positioned at. Only use if Type == Type.Number.
+		/// The number in JSON representation that the reader is currently positioned at. Only use if CurrentToken == TokenType.Number.
+		/// Can be converted to a native decimal with JsonNumber.JsonToDecimal(). Note that the conversion is lossy.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">The reader is not currently positioned at a number.</exception>
-		public JsonNumber NumberValue
+		public string NumberValue
 		{
 			get
 			{
@@ -79,13 +79,13 @@ namespace CER.Json.Stream
 				{
 					throw new InvalidOperationException();
 				}
-				return new JsonNumber(_numberValue.Json);
+				return _stringValue;
 			}
-			private set => _numberValue = value;
+			private set => _stringValue = value;
 		}
 
 		/// <summary>
-		/// The boolean value that the reader is currently positioned at. Only use if Type == Type.Boolean.
+		/// The boolean value that the reader is currently positioned at. Only use if CurrentToken == TokenType.Boolean.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">The reader is not currently positioned at a boolean.</exception>
 		public bool BooleanValue
@@ -101,7 +101,7 @@ namespace CER.Json.Stream
 		}
 
 		/// <summary>
-		/// The whitespace value that the reader is currently positioned at. Only use if Type == Type.Whitespace.
+		/// The whitespace value that the reader is currently positioned at. Only use if CurrentToken == TokenType.Whitespace.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">The reader is not currently positioned at whitespace.</exception>
 		public Whitespace Whitespace
@@ -356,7 +356,7 @@ namespace CER.Json.Stream
 			return result != null;
 		}
 
-		JsonString ReadString()
+		string ReadString()
 		{
 			_ = Advance();
 			StringBuilder stringRepresentation = new StringBuilder();
@@ -414,7 +414,7 @@ namespace CER.Json.Stream
 							_ = stringRepresentation.Append(c);
 							break;
 						case '"':
-							return new JsonString(stringRepresentation.ToString(), true);
+							return stringRepresentation.ToString();
 						default:
 							_ = stringRepresentation.Append(c);
 							break;
@@ -424,7 +424,7 @@ namespace CER.Json.Stream
 			throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFileInString);
 		}
 
-		JsonNumber ReadNumber()
+		string ReadNumber()
 		{
 			StringBuilder stringRepresentation = new StringBuilder();
 			char c;
@@ -504,7 +504,7 @@ namespace CER.Json.Stream
 				}
 			}
 
-			return new JsonNumber(stringRepresentation.ToString());
+			return stringRepresentation.ToString();
 		}
 
 		void ReadConstant(string constant)

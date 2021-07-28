@@ -142,7 +142,7 @@ namespace Filter
 						{
 							Indent(depth);
 						}
-						Console.Out.Write(json.NumberValue.Json);
+						Console.Out.Write(json.NumberValue);
 						hasItem = true;
 						break;
 					case TokenType.String:
@@ -151,7 +151,7 @@ namespace Filter
 							Indent(depth);
 						}
 						Console.Out.Write("\"");
-						Console.Out.Write(json.StringValue.Json);
+						Console.Out.Write(json.StringValue);
 						Console.Out.Write("\"");
 						hasItem = true;
 						break;

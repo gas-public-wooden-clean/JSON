@@ -33,7 +33,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="OverflowException">The value being retrieved is less than System.Decimal.MinValue or greater than System.Decimal.MaxValue.</exception>
 		public decimal Value
 		{
-			get => Parse(_json);
+			get => JsonToDecimal(_json);
 			set => _json = value.ToString("G", CultureInfo.InvariantCulture);
 		}
 
@@ -54,13 +54,36 @@ namespace CER.Json.DocumentObjectModel
 
 				try
 				{
-					_ = Parse(value);
+					_ = JsonToDecimal(value);
 				}
 				catch (OverflowException)
 				{
 				}
 				_json = value;
 			}
+		}
+
+		/// <summary>
+		/// Convert a JSON number to a native Decimal.
+		/// </summary>
+		/// <param name="json">The JSON representation of a number.</param>
+		/// <returns>The value of the JSON number.</returns>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="FormatException">The JSON number is not in the correct format.</exception>
+		/// <exception cref="OverflowException">The value being retrieved is less than System.Decimal.MinValue or greater than System.Decimal.MaxValue.</exception>
+		public static decimal JsonToDecimal(string json)
+		{
+			if (json is null)
+			{
+				throw new ArgumentNullException(nameof(json));
+			}
+
+			if (json.StartsWith(CultureInfo.InvariantCulture.NumberFormat.PositiveSign, StringComparison.Ordinal))
+			{
+				throw new FormatException(Strings.ValueCannotHaveLeadingPositiveSign);
+			}
+
+			return decimal.Parse(json, NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
@@ -74,15 +97,6 @@ namespace CER.Json.DocumentObjectModel
 			writer.Write(Leading.Value);
 			writer.Write(Json);
 			writer.Write(Trailing.Value);
-		}
-
-		static decimal Parse(string json)
-		{
-			if (json.StartsWith(CultureInfo.InvariantCulture.NumberFormat.PositiveSign, StringComparison.Ordinal))
-			{
-				throw new FormatException(Strings.ValueCannotHaveLeadingPositiveSign);
-			}
-			return decimal.Parse(json, NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-using CER.Json.DocumentObjectModel;
+using CER.Json.Stream;
 using System;
 using System.ComponentModel;
 using System.Drawing;

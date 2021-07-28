@@ -1,3 +1,4 @@
+using CER.Json.Stream;
 using System.IO;
 
 namespace CER.Json.DocumentObjectModel

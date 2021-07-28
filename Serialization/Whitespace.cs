@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace CER.Json.DocumentObjectModel
+namespace CER.Json.Stream
 {
 	/// <summary>
 	/// A string of only whitespace characters (spaces, tabs, carriage returns, and linefeeds).

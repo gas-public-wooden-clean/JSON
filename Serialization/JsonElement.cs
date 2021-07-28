@@ -164,10 +164,10 @@ namespace CER.Json.DocumentObjectModel
 					retval = new JsonNull();
 					break;
 				case TokenType.Number:
-					retval = reader.NumberValue;
+					retval = new JsonNumber(reader.NumberValue);
 					break;
 				case TokenType.String:
-					retval = reader.StringValue;
+					retval = new JsonString(reader.StringValue, true);
 					break;
 				default:
 					// This should never happen.
