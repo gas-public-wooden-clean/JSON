@@ -1,4 +1,5 @@
 using CER.Json.DocumentObjectModel;
+using CER.Json.Stream;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -600,15 +601,15 @@ namespace UI
 				}
 				using (reader)
 				{
-					CER.Json.Stream.JsonReader json = new CER.Json.Stream.JsonReader(reader);
+					JsonReader json = new JsonReader(reader);
 					try
 					{
 						element = JsonElement.Deserialize(json);
 					}
 					catch (Exception ex)
 					{
-						if (!(ex is InvalidDataException) &&
-							!(ex is CER.Json.Stream.InvalidJsonException))
+						if (!(ex is DecoderFallbackException) &&
+							!(ex is InvalidJsonException))
 						{
 							throw;
 						}

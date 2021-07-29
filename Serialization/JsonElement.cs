@@ -1,5 +1,6 @@
 using CER.Json.Stream;
 using System;
+using System.IO;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -60,7 +61,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
 		/// <exception cref="InvalidJsonException">The underlying text stream is not valid JSON.</exception>
 		/// <exception cref="ObjectDisposedException">The underlying stream has been closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public static JsonElement Deserialize(JsonReader reader)
 		{
 			_ = reader.Read();
@@ -72,7 +73,7 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="writer">The stream to write to.</param>
 		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public abstract void Serialize(System.IO.TextWriter writer);
 
 		static JsonElement ReadElement(JsonReader reader)
