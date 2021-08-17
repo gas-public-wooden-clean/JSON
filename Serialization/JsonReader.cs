@@ -159,17 +159,18 @@ namespace CER.Json.Stream
 				{
 					case '{':
 						_ = Advance();
-						if (_state != State.StartValue)
+						if (_state != State.StartValue &&
+							(_state != State.EnterContainer || _stack[_stack.Count - 1]))
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedObjectStart);
 						}
 						_stack.Add(true);
 						CurrentToken = TokenType.BeginObject;
-						_state = State.StartKey;
+						_state = State.EnterContainer;
 						return true;
 					case '}':
 						_ = Advance();
-						if (_state != State.StartKey &&
+						if (_state != State.EnterContainer &&
 							_state != State.EndValue)
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedObjectEnd);
@@ -184,17 +185,18 @@ namespace CER.Json.Stream
 						return true;
 					case '[':
 						_ = Advance();
-						if (_state != State.StartValue)
+						if (_state != State.StartValue &&
+							(_state != State.EnterContainer || _stack[_stack.Count - 1]))
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedArrayStart);
 						}
 						_stack.Add(false);
 						CurrentToken = TokenType.BeginArray;
-						_state = State.StartValue;
+						_state = State.EnterContainer;
 						return true;
 					case ']':
 						_ = Advance();
-						if (_state != State.StartValue &&
+						if (_state != State.EnterContainer &&
 							_state != State.EndValue)
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedArrayEnd);
@@ -233,7 +235,8 @@ namespace CER.Json.Stream
 						_state = State.StartValue;
 						return true;
 					case 'n':
-						if (_state != State.StartValue)
+						if (_state != State.StartValue &&
+							(_state != State.EnterContainer || _stack[_stack.Count - 1]))
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
@@ -242,7 +245,8 @@ namespace CER.Json.Stream
 						_state = State.EndValue;
 						return true;
 					case 't':
-						if (_state != State.StartValue)
+						if (_state != State.StartValue &&
+							(_state != State.EnterContainer || _stack[_stack.Count - 1]))
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
@@ -252,7 +256,8 @@ namespace CER.Json.Stream
 						_booleanValue = true;
 						return true;
 					case 'f':
-						if (_state != State.StartValue)
+						if (_state != State.StartValue &&
+							(_state != State.EnterContainer || _stack[_stack.Count - 1]))
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
@@ -269,6 +274,16 @@ namespace CER.Json.Stream
 								break;
 							case State.StartKey:
 								_state = State.EndKey;
+								break;
+							case State.EnterContainer:
+								if (_stack[_stack.Count - 1])
+								{
+									_state = State.EndKey;
+								}
+								else
+								{
+									_state = State.EndValue;
+								}
 								break;
 							default:
 								throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
@@ -572,6 +587,7 @@ namespace CER.Json.Stream
 			EndValue,
 			StartKey,
 			EndKey,
+			EnterContainer,
 		}
 	}
 }
