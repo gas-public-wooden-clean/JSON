@@ -117,7 +117,169 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="_layout.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_layout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_literalLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="_literalLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="_literalLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 71</value>
+  </data>
+  <data name="_literalLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="_literalLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="_literalLabel.Text" xml:space="preserve">
+    <value>Literal</value>
+  </data>
+  <data name="&gt;&gt;_literalLabel.Name" xml:space="preserve">
+    <value>_literalLabel</value>
+  </data>
+  <data name="&gt;&gt;_literalLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_literalLabel.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_literalLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_literalValue.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_literalValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 3</value>
+  </data>
+  <data name="_literalValue.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_literalValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 149</value>
+  </data>
+  <data name="_literalValue.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_literalValue.Name" xml:space="preserve">
+    <value>_literalValue</value>
+  </data>
+  <data name="&gt;&gt;_literalValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_literalValue.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_literalValue.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_escapedLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="_escapedLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_escapedLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 226</value>
+  </data>
+  <data name="_escapedLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
+  <data name="_escapedLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_escapedLabel.Text" xml:space="preserve">
+    <value>Escaped</value>
+  </data>
+  <data name="&gt;&gt;_escapedLabel.Name" xml:space="preserve">
+    <value>_escapedLabel</value>
+  </data>
+  <data name="&gt;&gt;_escapedLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_escapedLabel.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_escapedLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="_escapedValue.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_escapedValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 158</value>
+  </data>
+  <data name="_escapedValue.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_escapedValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 150</value>
+  </data>
+  <data name="_escapedValue.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;_escapedValue.Name" xml:space="preserve">
+    <value>_escapedValue</value>
+  </data>
+  <data name="&gt;&gt;_escapedValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_escapedValue.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_escapedValue.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="_layout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_layout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_layout.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_layout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 311</value>
+  </data>
+  <data name="_layout.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_layout.Name" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_layout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_layout.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_layout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_layout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="_literalLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_literalValue" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="_escapedLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_escapedValue" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,55,Percent,100" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 311</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>WhitespaceControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

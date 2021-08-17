@@ -1,26 +1,27 @@
 using System;
+using System.Globalization;
 
-namespace CER.Json.DocumentObjectModel
+namespace CER.Json.Stream
 {
 	/// <summary>
 	/// A string of only whitespace characters (spaces, tabs, carriage returns, and linefeeds).
 	/// </summary>
-	public class WhiteSpace
+	public class Whitespace
 	{
 		/// <summary>
 		/// Create whitespace with the given value.
 		/// </summary>
-		/// <param name="whiteSpace">A string of whitespace characters.</param>
+		/// <param name="whitespace">A string of whitespace characters.</param>
 		/// <exception cref="ArgumentException">The value contains non-whitespace characters.</exception>
 		/// <exception cref="ArgumentNullException">The value is null.</exception>
-		public WhiteSpace(string whiteSpace) => Value = whiteSpace;
+		public Whitespace(string whitespace) => Value = whitespace;
 
 		string _validated;
 
 		/// <summary>
 		/// An instance containing no whitespace characters.
 		/// </summary>
-		public static WhiteSpace Empty { get; } = new WhiteSpace(string.Empty);
+		public static Whitespace Empty { get; } = new Whitespace(string.Empty);
 
 		/// <summary>
 		/// A value consisting of only whitespace characters.
@@ -39,7 +40,7 @@ namespace CER.Json.DocumentObjectModel
 				{
 					if (!IsLegal(c))
 					{
-						string message = string.Format("{0} is not whitespace. It can only contain spaces, linefeeds, carriage returns, and/or horizontal tabs.", value);
+						string message = string.Format(CultureInfo.CurrentCulture, Strings.ValueNotWhitespace, value);
 						throw new ArgumentException(message, nameof(value));
 					}
 				}

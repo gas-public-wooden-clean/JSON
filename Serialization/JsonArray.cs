@@ -1,3 +1,4 @@
+using CER.Json.Stream;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +16,10 @@ namespace CER.Json.DocumentObjectModel
 		public JsonArray() : base()
 		{
 			Values = new List<JsonElement>();
-			EmptyWhiteSpace = WhiteSpace.Empty;
+			EmptyWhitespace = Whitespace.Empty;
 		}
 
-		WhiteSpace _emptyWhiteSpace;
+		Whitespace _emptyWhitespace;
 
 		/// <summary>
 		/// The elements in the array.
@@ -32,20 +33,20 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Whitespace that will be written inside the array if there are no elements in it.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The value being set is null.</exception>
-		public WhiteSpace EmptyWhiteSpace
+		/// <exception cref="ArgumentNullException">The value being set is null.</exception>
+		public Whitespace EmptyWhitespace
 		{
-			get => _emptyWhiteSpace;
-			set => _emptyWhiteSpace = value ?? throw new ArgumentNullException(nameof(value));
+			get => _emptyWhitespace;
+			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
 		/// Write the array, whitespace, and elements within it, as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
-		/// <exception cref="System.ArgumentNullException">The writer is null.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
+		/// <exception cref="ArgumentNullException">The writer is null.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			if (writer is null)
@@ -57,7 +58,7 @@ namespace CER.Json.DocumentObjectModel
 			writer.Write("[");
 			if (Values.Count == 0)
 			{
-				writer.Write(EmptyWhiteSpace.Value);
+				writer.Write(EmptyWhitespace.Value);
 			}
 			else
 			{

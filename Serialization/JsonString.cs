@@ -26,8 +26,8 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="representation">A string representation of the JSON string.</param>
 		/// <param name="isJson">Whether the representation of the JSON string is a JSON string or a native string.</param>
-		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
-		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public JsonString(string representation, bool isJson)
 		{
 			if (isJson)
@@ -46,7 +46,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The native string value.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
 		public string Value
 		{
 			get => _value;
@@ -93,111 +93,129 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// The value as a JSON string.
 		/// </summary>
-		/// <exception cref="System.ArgumentNullException">The given representation is null.</exception>
-		/// <exception cref="System.FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public string Json
 		{
 			get => _json;
 			set
 			{
-				if (value == null)
+				if (value is null)
 				{
 					throw new ArgumentNullException(nameof(value));
 				}
-				StringBuilder builder = new StringBuilder();
-				bool isEscaped = false;
-				for (int i = 0; i < value.Length; i++)
+
+				_value = JsonToString(value);
+				_json = value;
+			}
+		}
+
+		/// <summary>
+		/// Convert a JSON string to a native string.
+		/// </summary>
+		/// <param name="json">The JSON representation of a string.</param>
+		/// <returns>The value of the JSON string.</returns>
+		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
+		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
+		public static string JsonToString(string json)
+		{
+			if (json is null)
+			{
+				throw new ArgumentNullException(nameof(json));
+			}
+
+			StringBuilder builder = new StringBuilder();
+			bool isEscaped = false;
+			for (int i = 0; i < json.Length; i++)
+			{
+				if ((ushort)json[i] <= 31)
 				{
-					if ((ushort)value[i] <= 31)
-					{
-						throw new FormatException("Value contains a control character.");
-					}
+					throw new FormatException(Strings.ValueContainsControlCharacter);
+				}
 
-					if (IsUnpairedSurrogate(value, i))
-					{
-						throw new FormatException("Value contains an unpaired surrogate.");
-					}
-
-					if (isEscaped)
-					{
-						isEscaped = false;
-						switch (value[i])
-						{
-							case '"':
-								_ = builder.Append('"');
-								break;
-							case '\\':
-								_ = builder.Append('\\');
-								break;
-							case '/':
-								_ = builder.Append('/');
-								break;
-							case 'b':
-								_ = builder.Append('\b');
-								break;
-							case 'f':
-								_ = builder.Append('\f');
-								break;
-							case 'n':
-								_ = builder.Append('\n');
-								break;
-							case 'r':
-								_ = builder.Append('\r');
-								break;
-							case 't':
-								_ = builder.Append('\t');
-								break;
-							case 'u':
-								const int length = 4;
-								if (value.Length <= i + length)
-								{
-									throw new FormatException("Value ends with incomplete unicode sequence.");
-								}
-								string hexadecimal = value.Substring(i + 1, length);
-								ushort unicode;
-								if (!ushort.TryParse(hexadecimal, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out unicode))
-								{
-									throw new FormatException(string.Format("Value contains invalid hexadecimal number {0}.", hexadecimal));
-								}
-								_ = builder.Append((char)unicode);
-								i += length;
-								break;
-							default:
-								throw new FormatException(string.Format("Value contains invalid escape sequence {0}.", value.Substring(i - 1, 2)));
-						}
-					}
-					else
-					{
-						switch (value[i])
-						{
-							case '\\':
-								isEscaped = true;
-								break;
-							case '"':
-								throw new FormatException("Value contains unescaped double quote.");
-							default:
-								_ = builder.Append(value[i]);
-								break;
-						}
-					}
+				if (IsUnpairedSurrogate(json, i))
+				{
+					throw new FormatException(Strings.ValueContainsAnUnpairedSurrogate);
 				}
 
 				if (isEscaped)
 				{
-					throw new FormatException("Value ends with incomplete escape sequence.");
+					isEscaped = false;
+					switch (json[i])
+					{
+						case '"':
+							_ = builder.Append('"');
+							break;
+						case '\\':
+							_ = builder.Append('\\');
+							break;
+						case '/':
+							_ = builder.Append('/');
+							break;
+						case 'b':
+							_ = builder.Append('\b');
+							break;
+						case 'f':
+							_ = builder.Append('\f');
+							break;
+						case 'n':
+							_ = builder.Append('\n');
+							break;
+						case 'r':
+							_ = builder.Append('\r');
+							break;
+						case 't':
+							_ = builder.Append('\t');
+							break;
+						case 'u':
+							const int length = 4;
+							if (json.Length <= i + length)
+							{
+								throw new FormatException(Strings.ValueEndsWithIncompleteUnicode);
+							}
+							string hexadecimal = json.Substring(i + 1, length);
+							ushort unicode;
+							if (!ushort.TryParse(hexadecimal, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out unicode))
+							{
+								throw new FormatException(string.Format(CultureInfo.CurrentCulture, Strings.ValueContainsInvalidHex, hexadecimal));
+							}
+							_ = builder.Append((char)unicode);
+							i += length;
+							break;
+						default:
+							throw new FormatException(string.Format(CultureInfo.CurrentCulture, Strings.ValueContainsInvalidEscape, json.Substring(i - 1, 2)));
+					}
 				}
-
-				_value = builder.ToString();
-				_json = value;
+				else
+				{
+					switch (json[i])
+					{
+						case '\\':
+							isEscaped = true;
+							break;
+						case '"':
+							throw new FormatException(Strings.ValueContainsUnescapedDoubleQuote);
+						default:
+							_ = builder.Append(json[i]);
+							break;
+					}
+				}
 			}
+
+			if (isEscaped)
+			{
+				throw new FormatException(Strings.ValueEndsWithIncompleteEscapeSequence);
+			}
+
+			return builder.ToString();
 		}
 
 		/// <summary>
 		/// Write the string value and whitespace as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);

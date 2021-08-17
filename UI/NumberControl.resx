@@ -117,19 +117,271 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="_layout.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_layout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_leading.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="_leading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 16</value>
+  </data>
+  <data name="_leading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 57</value>
+  </data>
+  <data name="_leading.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_leading.Name" xml:space="preserve">
+    <value>_leading</value>
+  </data>
+  <data name="&gt;&gt;_leading.Type" xml:space="preserve">
+    <value>UI.WhitespaceControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_leading.Parent" xml:space="preserve">
+    <value>_leadingGroup</value>
+  </data>
+  <data name="&gt;&gt;_leading.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_leadingGroup.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_leadingGroup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="_leadingGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>291, 76</value>
+  </data>
+  <data name="_leadingGroup.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="_leadingGroup.Text" xml:space="preserve">
+    <value>Leading Whitespace</value>
+  </data>
+  <data name="&gt;&gt;_leadingGroup.Name" xml:space="preserve">
+    <value>_leadingGroup</value>
+  </data>
+  <data name="&gt;&gt;_leadingGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_leadingGroup.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_leadingGroup.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_trailing.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_trailing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 16</value>
+  </data>
+  <data name="_trailing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>285, 58</value>
+  </data>
+  <data name="_trailing.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_trailing.Name" xml:space="preserve">
+    <value>_trailing</value>
+  </data>
+  <data name="&gt;&gt;_trailing.Type" xml:space="preserve">
+    <value>UI.WhitespaceControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_trailing.Parent" xml:space="preserve">
+    <value>_trailingGroup</value>
+  </data>
+  <data name="&gt;&gt;_trailing.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_trailingGroup.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_trailingGroup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 249</value>
+  </data>
+  <data name="_trailingGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>291, 77</value>
+  </data>
+  <data name="_trailingGroup.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="_trailingGroup.Text" xml:space="preserve">
+    <value>Trailing Whitespace</value>
+  </data>
+  <data name="&gt;&gt;_trailingGroup.Name" xml:space="preserve">
+    <value>_trailingGroup</value>
+  </data>
+  <data name="&gt;&gt;_trailingGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_trailingGroup.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_trailingGroup.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_valueLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="_valueLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_valueLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 116</value>
+  </data>
+  <data name="_valueLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="_valueLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_valueLabel.Text" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="&gt;&gt;_valueLabel.Name" xml:space="preserve">
+    <value>_valueLabel</value>
+  </data>
+  <data name="&gt;&gt;_valueLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_valueLabel.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_valueLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="_jsonLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="_jsonLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_jsonLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 198</value>
+  </data>
+  <data name="_jsonLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 13</value>
+  </data>
+  <data name="_jsonLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="_jsonLabel.Text" xml:space="preserve">
+    <value>Json</value>
+  </data>
+  <data name="&gt;&gt;_jsonLabel.Name" xml:space="preserve">
+    <value>_jsonLabel</value>
+  </data>
+  <data name="&gt;&gt;_jsonLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_jsonLabel.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_jsonLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="_valueText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_valueText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 85</value>
+  </data>
+  <data name="_valueText.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_valueText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 76</value>
+  </data>
+  <data name="_valueText.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;_valueText.Name" xml:space="preserve">
+    <value>_valueText</value>
+  </data>
+  <data name="&gt;&gt;_valueText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_valueText.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_valueText.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="_jsonValue.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_jsonValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 167</value>
+  </data>
+  <data name="_jsonValue.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_jsonValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 76</value>
+  </data>
+  <data name="_jsonValue.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;_jsonValue.Name" xml:space="preserve">
+    <value>_jsonValue</value>
+  </data>
+  <data name="&gt;&gt;_jsonValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_jsonValue.Parent" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_jsonValue.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="_layout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_layout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_layout.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="_layout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 329</value>
+  </data>
+  <data name="_layout.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_layout.Name" xml:space="preserve">
+    <value>_layout</value>
+  </data>
+  <data name="&gt;&gt;_layout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_layout.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_layout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_layout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="_leadingGroup" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="_trailingGroup" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="_valueLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_jsonLabel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_valueText" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="_jsonValue" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,65,Percent,100,Absolute,20" /&gt;&lt;Rows Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
-  <metadata name="_leadingGroup.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_trailingGroup.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_valueLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_jsonLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 329</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>NumberControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

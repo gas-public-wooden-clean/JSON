@@ -30,7 +30,7 @@ namespace UI
 			set
 			{
 				_json = value.Json;
-				_valueText.Text = value.Value.ToString("G");
+				_valueText.Text = value.Value.ToString("G", CultureInfo.InvariantCulture);
 				_jsonValue.Text = value.Json;
 				_leading.Value = value.Leading;
 				_trailing.Value = value.Trailing;
@@ -81,7 +81,7 @@ namespace UI
 			_jsonValue.BackColor = Color.FromName("Window");
 
 			_updating = true;
-			_valueText.Text = newValue.Value.ToString("G");
+			_valueText.Text = newValue.Value.ToString("G", CultureInfo.InvariantCulture);
 			_updating = false;
 			_valueText.BackColor = Color.FromName("Window");
 		}

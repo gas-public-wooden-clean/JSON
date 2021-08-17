@@ -29,88 +29,66 @@ namespace UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TableLayoutPanel _layout;
-			System.Windows.Forms.GroupBox _trailingGroup;
-			System.Windows.Forms.GroupBox _leadingGroup;
-			this._trailing = new UI.WhiteSpaceControl();
-			this._leading = new UI.WhiteSpaceControl();
-			_layout = new System.Windows.Forms.TableLayoutPanel();
-			_trailingGroup = new System.Windows.Forms.GroupBox();
-			_leadingGroup = new System.Windows.Forms.GroupBox();
-			_layout.SuspendLayout();
-			_trailingGroup.SuspendLayout();
-			_leadingGroup.SuspendLayout();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NullControl));
+			this._layout = new System.Windows.Forms.TableLayoutPanel();
+			this._trailingGroup = new System.Windows.Forms.GroupBox();
+			this._trailing = new UI.WhitespaceControl();
+			this._leadingGroup = new System.Windows.Forms.GroupBox();
+			this._leading = new UI.WhitespaceControl();
+			this._layout.SuspendLayout();
+			this._trailingGroup.SuspendLayout();
+			this._leadingGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _layout
 			// 
-			_layout.ColumnCount = 1;
-			_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			_layout.Controls.Add(_trailingGroup, 0, 1);
-			_layout.Controls.Add(_leadingGroup, 0, 0);
-			_layout.Dock = System.Windows.Forms.DockStyle.Fill;
-			_layout.Location = new System.Drawing.Point(0, 0);
-			_layout.Name = "_layout";
-			_layout.RowCount = 2;
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			_layout.Size = new System.Drawing.Size(379, 403);
-			_layout.TabIndex = 0;
+			resources.ApplyResources(this._layout, "_layout");
+			this._layout.Controls.Add(this._trailingGroup, 0, 1);
+			this._layout.Controls.Add(this._leadingGroup, 0, 0);
+			this._layout.Name = "_layout";
 			// 
 			// _trailingGroup
 			// 
-			_trailingGroup.Controls.Add(this._trailing);
-			_trailingGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-			_trailingGroup.Location = new System.Drawing.Point(3, 204);
-			_trailingGroup.Name = "_trailingGroup";
-			_trailingGroup.Size = new System.Drawing.Size(373, 196);
-			_trailingGroup.TabIndex = 1;
-			_trailingGroup.TabStop = false;
-			_trailingGroup.Text = "Trailing Whitespace";
+			this._trailingGroup.Controls.Add(this._trailing);
+			resources.ApplyResources(this._trailingGroup, "_trailingGroup");
+			this._trailingGroup.Name = "_trailingGroup";
+			this._trailingGroup.TabStop = false;
 			// 
 			// _trailing
 			// 
-			this._trailing.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._trailing.Location = new System.Drawing.Point(3, 16);
+			resources.ApplyResources(this._trailing, "_trailing");
 			this._trailing.Name = "_trailing";
-			this._trailing.Size = new System.Drawing.Size(367, 177);
-			this._trailing.TabIndex = 0;
 			// 
 			// _leadingGroup
 			// 
-			_leadingGroup.Controls.Add(this._leading);
-			_leadingGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-			_leadingGroup.Location = new System.Drawing.Point(3, 3);
-			_leadingGroup.Name = "_leadingGroup";
-			_leadingGroup.Size = new System.Drawing.Size(373, 195);
-			_leadingGroup.TabIndex = 0;
-			_leadingGroup.TabStop = false;
-			_leadingGroup.Text = "Leading Whitespace";
+			this._leadingGroup.Controls.Add(this._leading);
+			resources.ApplyResources(this._leadingGroup, "_leadingGroup");
+			this._leadingGroup.Name = "_leadingGroup";
+			this._leadingGroup.TabStop = false;
 			// 
 			// _leading
 			// 
-			this._leading.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._leading.Location = new System.Drawing.Point(3, 16);
+			resources.ApplyResources(this._leading, "_leading");
 			this._leading.Name = "_leading";
-			this._leading.Size = new System.Drawing.Size(367, 176);
-			this._leading.TabIndex = 0;
 			// 
 			// NullControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(_layout);
+			this.Controls.Add(this._layout);
 			this.Name = "NullControl";
-			this.Size = new System.Drawing.Size(379, 403);
-			_layout.ResumeLayout(false);
-			_trailingGroup.ResumeLayout(false);
-			_leadingGroup.ResumeLayout(false);
+			this._layout.ResumeLayout(false);
+			this._trailingGroup.ResumeLayout(false);
+			this._leadingGroup.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
-		private WhiteSpaceControl _trailing;
-		private WhiteSpaceControl _leading;
+		private WhitespaceControl _trailing;
+		private WhitespaceControl _leading;
+		private System.Windows.Forms.TableLayoutPanel _layout;
+		private System.Windows.Forms.GroupBox _trailingGroup;
+		private System.Windows.Forms.GroupBox _leadingGroup;
 	}
 }

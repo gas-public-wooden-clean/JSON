@@ -1,7 +1,9 @@
 using CER.Json.DocumentObjectModel;
+using CER.Json.Stream;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Security;
 using System.Text;
@@ -30,12 +32,12 @@ namespace UI
 		string _path;
 		bool _updating;
 		Encoding _detected;
-		const string _arrayType = "Array";
-		const string _boolType = "Boolean";
-		const string _nullType = "Null";
-		const string _numberType = "Number";
-		const string _objectType = "Object";
-		const string _stringType = "String";
+		readonly string _arrayType = Strings.Array;
+		readonly string _boolType = Strings.Boolean;
+		readonly string _nullType = Strings.Null;
+		readonly string _numberType = Strings.Number;
+		readonly string _objectType = Strings.Object;
+		readonly string _stringType = Strings.String;
 		readonly Encoding _ascii = Encoding.GetEncoding(20127, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
 		/// <summary>
 		/// UTF-8 with no byte order mark.
@@ -65,6 +67,89 @@ namespace UI
 		/// Code page 1252.
 		/// </summary>
 		readonly Encoding _cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
+
+		static bool BytesStartWith(byte[] left, int leftLength, byte[] right)
+		{
+			if (leftLength < right.Length)
+			{
+				return false;
+			}
+
+			for (int i = 0; i < right.Length; i++)
+			{
+				if (left[i] != right[i])
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		static void SetText(TreeNode item)
+		{
+			JsonElement element;
+			string name;
+			if (item.Tag is JsonObjectPair pair)
+			{
+				element = pair.Value;
+				name = string.Format(CultureInfo.CurrentCulture, "\"{0}\": ", pair.Key.Value);
+			}
+			else
+			{
+				element = (JsonElement)item.Tag;
+				name = string.Empty;
+			}
+
+			if (element is JsonArray)
+			{
+				name += Strings.Array;
+			}
+			else if (element is JsonBoolean boolValue)
+			{
+				name += boolValue.Value.ToString();
+			}
+			else if (element is JsonNull)
+			{
+				name += Strings.Null;
+			}
+			else if (element is JsonNumber numberValue)
+			{
+				name += numberValue.Json;
+			}
+			else if (element is JsonObject)
+			{
+				name += Strings.Object;
+			}
+			else if (element is JsonString stringValue)
+			{
+				name += string.Format(CultureInfo.CurrentCulture, "\"{0}\"", stringValue.Json);
+			}
+
+			item.Text = name;
+		}
+
+		static bool TryEncoding(Stream stream, Encoding encoding)
+		{
+			using (TextReader reader = new StreamReader(stream, encoding, false, 4 * 1024, true))
+			{
+				char[] buffer = new char[2 * 1024];
+				try
+				{
+					while (reader.Read(buffer, 0, buffer.Length) > 0) { }
+				}
+				catch (DecoderFallbackException)
+				{
+					return false;
+				}
+				finally
+				{
+					_ = stream.Seek(0, SeekOrigin.Begin);
+				}
+			}
+
+			return true;
+		}
 
 		void LoadElement(JsonElement element)
 		{
@@ -101,8 +186,8 @@ namespace UI
 					throw;
 				}
 
-				string message = string.Format("{1}{0}Check the file name and try again.", Environment.NewLine, fileName);
-				_ = MessageBox.Show(message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				string message = string.Format(CultureInfo.CurrentCulture, Strings.SaveFailed, Environment.NewLine, fileName);
+				ShowWarning(message, Strings.Save);
 				return false;
 			}
 			using (writer)
@@ -114,8 +199,8 @@ namespace UI
 				catch (IOException)
 				{
 
-					string message = string.Format("{1}{0}Writing failed.", Environment.NewLine, fileName);
-					_ = MessageBox.Show(message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					string message = string.Format(CultureInfo.CurrentCulture, Strings.WritingFailed, Environment.NewLine, fileName);
+					ShowWarning(message, Strings.Save);
 				}
 			}
 
@@ -260,49 +345,6 @@ namespace UI
 			}
 		}
 
-		void SetText(TreeNode item)
-		{
-			JsonElement element;
-			string name;
-			if (item.Tag is JsonObjectPair pair)
-			{
-				element = pair.Value;
-				name = string.Format("\"{0}\": ", pair.Key.Value);
-			}
-			else
-			{
-				element = (JsonElement)item.Tag;
-				name = string.Empty;
-			}
-
-			if (element is JsonArray)
-			{
-				name += "Array";
-			}
-			else if (element is JsonBoolean boolValue)
-			{
-				name += boolValue.Value.ToString();
-			}
-			else if (element is JsonNull)
-			{
-				name += "Null";
-			}
-			else if (element is JsonNumber numberValue)
-			{
-				name += numberValue.Json;
-			}
-			else if (element is JsonObject)
-			{
-				name += "Object";
-			}
-			else if (element is JsonString stringValue)
-			{
-				name += "\"" + stringValue.Json + "\"";
-			}
-
-			item.Text = name;
-		}
-
 		void Insert(TreeNode parent, int index)
 		{
 			TreeNode child = new TreeNode();
@@ -342,33 +384,37 @@ namespace UI
 		void UpdateDOM()
 		{
 			TreeNode selected = _navigation.SelectedNode;
-			if (selected == null)
+			if (selected is null)
 			{
 				return;
 			}
 
 			JsonElement element;
-			switch (_typeValue.SelectedItem)
+			if (_arrayType.Equals(_typeValue.SelectedItem) ||
+				_objectType.Equals(_typeValue.SelectedItem))
 			{
-				case _arrayType:
-				case _objectType:
-					element = _containerControl.Value;
-					break;
-				case _boolType:
-					element = _booleanControl.Value;
-					break;
-				case _nullType:
-					element = _nullControl.Value;
-					break;
-				case _numberType:
-					element = _numberControl.Value;
-					break;
-				case _stringType:
-					element = _stringControl.Value;
-					break;
-				default:
-					Debug.Assert(false);
-					return;
+				element = _containerControl.Value;
+			}
+			else if (_boolType.Equals(_typeValue.SelectedItem))
+			{
+				element = _booleanControl.Value;
+			}
+			else if (_nullType.Equals(_typeValue.SelectedItem))
+			{
+				element = _nullControl.Value;
+			}
+			else if (_numberType.Equals(_typeValue.SelectedItem))
+			{
+				element = _numberControl.Value;
+			}
+			else if (_stringType.Equals(_typeValue.SelectedItem))
+			{
+				element = _stringControl.Value;
+			}
+			else
+			{
+				Debug.Assert(false);
+				return;
 			}
 
 			if (selected.Tag is JsonObjectPair pair)
@@ -406,24 +452,6 @@ namespace UI
 			{
 				encodingOption.Checked = encodingOption == selected;
 			}
-		}
-
-		bool BytesStartWith(byte[] left, int leftLength, byte[] right)
-		{
-			if (leftLength < right.Length)
-			{
-				return false;
-			}
-
-			for (int i = 0; i < right.Length; i++)
-			{
-				if (left[i] != right[i])
-				{
-					return false;
-				}
-			}
-
-			return true;
 		}
 
 		Encoding GetSelectedEncoding()
@@ -510,26 +538,19 @@ namespace UI
 			}
 		}
 
-		bool TryEncoding(Stream stream, Encoding encoding)
+		void ShowWarning(string message, string caption)
 		{
-			using (TextReader reader = new StreamReader(stream, encoding, false, 4 * 1024, true))
+			MessageBoxOptions globalized;
+			if (RightToLeft == RightToLeft.Yes)
 			{
-				char[] buffer = new char[2 * 1024];
-				try
-				{
-					while (reader.Read(buffer, 0, buffer.Length) > 0) { }
-				}
-				catch (DecoderFallbackException)
-				{
-					return false;
-				}
-				finally
-				{
-					_ = stream.Seek(0, SeekOrigin.Begin);
-				}
+				globalized = MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading;
+			}
+			else
+			{
+				globalized = default;
 			}
 
-			return true;
+			_ = MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, globalized);
 		}
 
 		void BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -574,57 +595,61 @@ namespace UI
 				}
 				catch (IOException)
 				{
-					string message = string.Format("{1}{0}Check the file name and try again.", Environment.NewLine, _openDialog.FileName);
-					_ = MessageBox.Show(message, "Open", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					string message = string.Format(CultureInfo.CurrentCulture, Strings.OpenFailed, Environment.NewLine, _openDialog.FileName);
+					ShowWarning(message, Strings.Open);
 					return;
 				}
 				using (reader)
 				{
-					CER.Json.Stream.JsonReader json = new CER.Json.Stream.JsonReader(reader);
+					JsonReader json = new JsonReader(reader);
 					try
 					{
 						element = JsonElement.Deserialize(json);
 					}
 					catch (Exception ex)
 					{
-						if (!(ex is InvalidDataException) &&
-							!(ex is CER.Json.Stream.InvalidJsonException))
+						if (!(ex is DecoderFallbackException) &&
+							!(ex is InvalidJsonException))
 						{
 							throw;
 						}
-						string message = string.Format("{1}{0}{2}", Environment.NewLine, _openDialog.FileName, ex.Message);
-						_ = MessageBox.Show(message, "Open", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						string message = string.Format(CultureInfo.CurrentCulture, "{1}{0}{2}", Environment.NewLine, _openDialog.FileName, ex.Message);
+						ShowWarning(message, Strings.Open);
 						return;
 					}
 				}
 
 				if (_detected == _ascii)
 				{
-					_autoOption.Text = "Auto (ASCII)";
+					_autoOption.Text = Strings.AutoAscii;
 				}
 				else if (_detected ==_utf8)
 				{
-					_autoOption.Text = "Auto (UTF-8)";
+					_autoOption.Text = Strings.AutoUtf8;
+				}
+				else if (_detected == _cp1252)
+				{
+					_autoOption.Text = Strings.AutoCP1252;
 				}
 				else if (_detected == _utf8bom)
 				{
-					_autoOption.Text = "Auto (UTF-8-BOM)";
+					_autoOption.Text = Strings.AutoUtf8Bom;
 				}
 				else if (_detected == _utf16le)
 				{
-					_autoOption.Text = "Auto (UTF-16 LE BOM)";
+					_autoOption.Text = Strings.AutoUtf16LEBom;
 				}
-				else if (_detected ==_utf32be)
+				else if (_detected ==_utf16be)
 				{
-					_autoOption.Text = "Auto (UTF-16 BE BOM)";
+					_autoOption.Text = Strings.AutoUtf16BEBom;
 				}
 				else if (_detected == _utf32le)
 				{
-					_autoOption.Text = "Auto (UTF-32 LE BOM)";
+					_autoOption.Text = Strings.AutoUtf32LEBom;
 				}
 				else if (_detected == _utf32be)
 				{
-					_autoOption.Text = "Auto (UTF-32 BE BOM)";
+					_autoOption.Text = Strings.AutoUtf32BEBom;
 				}
 				else
 				{
@@ -641,7 +666,7 @@ namespace UI
 
 		void SaveClick(object sender, EventArgs e)
 		{
-			if (_path == null)
+			if (_path is null)
 			{
 				SaveAs();
 			}
@@ -669,29 +694,34 @@ namespace UI
 			}
 
 			JsonElement newValue;
-			switch (_typeValue.SelectedItem)
+			if (_arrayType.Equals(_typeValue.SelectedItem))
 			{
-				case _arrayType:
-					newValue = new JsonArray();
-					break;
-				case _boolType:
-					newValue = new JsonBoolean(false);
-					break;
-				case _nullType:
-					newValue = new JsonNull();
-					break;
-				case _numberType:
-					newValue = new JsonNumber(0);
-					break;
-				case _objectType:
-					newValue = new JsonObject();
-					break;
-				case _stringType:
-					newValue = new JsonString();
-					break;
-				default:
-					Debug.Assert(false);
-					return;
+				newValue = new JsonArray();
+			}
+			else if (_boolType.Equals(_typeValue.SelectedItem))
+			{
+				newValue = new JsonBoolean(false);
+			}
+			else if (_nullType.Equals(_typeValue.SelectedItem))
+			{
+				newValue = new JsonNull();
+			}
+			else if (_numberType.Equals(_typeValue.SelectedItem))
+			{
+				newValue = new JsonNumber(0);
+			}
+			else if (_objectType.Equals(_typeValue.SelectedItem))
+			{
+				newValue = new JsonObject();
+			}
+			else if (_stringType.Equals(_typeValue.SelectedItem))
+			{
+				newValue = new JsonString();
+			}
+			else
+			{
+				Debug.Assert(false);
+				return;
 			}
 
 			if (_navigation.SelectedNode.Tag is JsonObjectPair pair)
@@ -716,7 +746,7 @@ namespace UI
 		void InsertBeforeClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent == null)
+			if (parent is null)
 			{
 				return;
 			}
@@ -729,7 +759,7 @@ namespace UI
 		void InsertAfterClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent == null)
+			if (parent is null)
 			{
 				return;
 			}
@@ -742,7 +772,7 @@ namespace UI
 		void DeleteClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent == null)
+			if (parent is null)
 			{
 				return;
 			}

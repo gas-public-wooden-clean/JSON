@@ -117,58 +117,724 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="_split.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="_expand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="_expand.Text" xml:space="preserve">
+    <value>Expand All</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_split.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_split.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <data name="_typeLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_typeLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="_typeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 405</value>
+  </data>
+  <data name="_typeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="_typeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_typeLabel.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.Name" xml:space="preserve">
+    <value>_typeLabel</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.Parent" xml:space="preserve">
+    <value>_split.Panel1</value>
+  </data>
+  <data name="&gt;&gt;_typeLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_typeValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="_typeValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 402</value>
+  </data>
+  <data name="_typeValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 21</value>
+  </data>
+  <data name="_typeValue.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_typeValue.Name" xml:space="preserve">
+    <value>_typeValue</value>
+  </data>
+  <data name="&gt;&gt;_typeValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_typeValue.Parent" xml:space="preserve">
+    <value>_split.Panel1</value>
+  </data>
+  <data name="&gt;&gt;_typeValue.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_navigation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="_navigation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="_navigation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 393</value>
+  </data>
+  <data name="_navigation.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_navigation.Name" xml:space="preserve">
+    <value>_navigation</value>
+  </data>
+  <data name="&gt;&gt;_navigation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_navigation.Parent" xml:space="preserve">
+    <value>_split.Panel1</value>
+  </data>
+  <data name="&gt;&gt;_navigation.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel1.Name" xml:space="preserve">
+    <value>_split.Panel1</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel1.Parent" xml:space="preserve">
+    <value>_split</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_keyValueLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="_keyControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_keyControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="_keyControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 420</value>
+  </data>
+  <data name="_keyControl.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_keyControl.Name" xml:space="preserve">
+    <value>_keyControl</value>
+  </data>
+  <data name="&gt;&gt;_keyControl.Type" xml:space="preserve">
+    <value>UI.StringControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_keyControl.Parent" xml:space="preserve">
+    <value>_keyValueLayout</value>
+  </data>
+  <data name="&gt;&gt;_keyControl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_booleanControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_booleanControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_booleanControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 420</value>
+  </data>
+  <data name="_booleanControl.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;_booleanControl.Name" xml:space="preserve">
+    <value>_booleanControl</value>
+  </data>
+  <data name="&gt;&gt;_booleanControl.Type" xml:space="preserve">
+    <value>UI.BooleanControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_booleanControl.Parent" xml:space="preserve">
+    <value>_valuePanel</value>
+  </data>
+  <data name="&gt;&gt;_booleanControl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_numberControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_numberControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_numberControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 420</value>
+  </data>
+  <data name="_numberControl.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;_numberControl.Name" xml:space="preserve">
+    <value>_numberControl</value>
+  </data>
+  <data name="&gt;&gt;_numberControl.Type" xml:space="preserve">
+    <value>UI.NumberControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_numberControl.Parent" xml:space="preserve">
+    <value>_valuePanel</value>
+  </data>
+  <data name="&gt;&gt;_numberControl.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_containerControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_containerControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_containerControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 420</value>
+  </data>
+  <data name="_containerControl.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;_containerControl.Name" xml:space="preserve">
+    <value>_containerControl</value>
+  </data>
+  <data name="&gt;&gt;_containerControl.Type" xml:space="preserve">
+    <value>UI.ContainerControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_containerControl.Parent" xml:space="preserve">
+    <value>_valuePanel</value>
+  </data>
+  <data name="&gt;&gt;_containerControl.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="_stringControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_stringControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_stringControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 420</value>
+  </data>
+  <data name="_stringControl.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_stringControl.Name" xml:space="preserve">
+    <value>_stringControl</value>
+  </data>
+  <data name="&gt;&gt;_stringControl.Type" xml:space="preserve">
+    <value>UI.StringControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_stringControl.Parent" xml:space="preserve">
+    <value>_valuePanel</value>
+  </data>
+  <data name="&gt;&gt;_stringControl.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="_nullControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_nullControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_nullControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 420</value>
+  </data>
+  <data name="_nullControl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="_nullControl.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
-  <metadata name="_typeLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_valuePanel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_menu.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
+  </data>
+  <data name="&gt;&gt;_nullControl.Name" xml:space="preserve">
+    <value>_nullControl</value>
+  </data>
+  <data name="&gt;&gt;_nullControl.Type" xml:space="preserve">
+    <value>UI.NullControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;_nullControl.Parent" xml:space="preserve">
+    <value>_valuePanel</value>
+  </data>
+  <data name="&gt;&gt;_nullControl.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="_valuePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_valuePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 3</value>
+  </data>
+  <data name="_valuePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 420</value>
+  </data>
+  <data name="_valuePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;_valuePanel.Name" xml:space="preserve">
+    <value>_valuePanel</value>
+  </data>
+  <data name="&gt;&gt;_valuePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_valuePanel.Parent" xml:space="preserve">
+    <value>_keyValueLayout</value>
+  </data>
+  <data name="&gt;&gt;_valuePanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_keyValueLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_keyValueLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_keyValueLayout.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="_keyValueLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>531, 426</value>
+  </data>
+  <data name="_keyValueLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;_keyValueLayout.Name" xml:space="preserve">
+    <value>_keyValueLayout</value>
+  </data>
+  <data name="&gt;&gt;_keyValueLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_keyValueLayout.Parent" xml:space="preserve">
+    <value>_split.Panel2</value>
+  </data>
+  <data name="&gt;&gt;_keyValueLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="_keyValueLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="_keyControl" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_valuePanel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel2.Name" xml:space="preserve">
+    <value>_split.Panel2</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel2.Parent" xml:space="preserve">
+    <value>_split</value>
+  </data>
+  <data name="&gt;&gt;_split.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="_split.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 426</value>
+  </data>
+  <data name="_split.SplitterDistance" type="System.Int32, mscorlib">
+    <value>265</value>
+  </data>
+  <data name="_split.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;_split.Name" xml:space="preserve">
+    <value>_split</value>
+  </data>
+  <data name="&gt;&gt;_split.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_split.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_split.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="_menu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="_file.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="_new.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="_new.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 22</value>
+  </data>
+  <data name="_new.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="_open.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+O</value>
+  </data>
+  <data name="_open.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 22</value>
+  </data>
+  <data name="_open.Text" xml:space="preserve">
+    <value>Open...</value>
+  </data>
+  <data name="_save.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+S</value>
+  </data>
+  <data name="_save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 22</value>
+  </data>
+  <data name="_save.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="_saveAs.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+S</value>
+  </data>
+  <data name="_saveAs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 22</value>
+  </data>
+  <data name="_saveAs.Text" xml:space="preserve">
+    <value>Save As...</value>
+  </data>
+  <data name="_exit.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+F4</value>
+  </data>
+  <data name="_exit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 22</value>
+  </data>
+  <data name="_exit.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="_file.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="_file.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="_add.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
-  <metadata name="_new.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="_add.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 22</value>
+  </data>
+  <data name="_add.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="_insertBefore.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
-  <metadata name="_open.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="_insertBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 22</value>
+  </data>
+  <data name="_insertBefore.Text" xml:space="preserve">
+    <value>Insert Before</value>
+  </data>
+  <data name="_insertAfter.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
-  <metadata name="_save.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="_insertAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 22</value>
+  </data>
+  <data name="_insertAfter.Text" xml:space="preserve">
+    <value>Insert After</value>
+  </data>
+  <data name="_delete.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
-  <metadata name="_saveAs.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_exit.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_edit.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_view.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_collapse.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_expand.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="_encoding.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
+  </data>
+  <data name="_delete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 22</value>
+  </data>
+  <data name="_delete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="_edit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
+  </data>
+  <data name="_edit.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="_collapse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="_collapse.Text" xml:space="preserve">
+    <value>Collapse All</value>
+  </data>
+  <data name="_view.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="_view.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="_autoOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_autoOption.Text" xml:space="preserve">
+    <value>Auto (UTF-8)</value>
+  </data>
+  <data name="_asciiOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_asciiOption.Text" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="_utf8Option.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_utf8Option.Text" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="_utf8bomOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_utf8bomOption.Text" xml:space="preserve">
+    <value>UTF-8-BOM</value>
+  </data>
+  <data name="_utf16leOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_utf16leOption.Text" xml:space="preserve">
+    <value>UTF-16 LE BOM</value>
+  </data>
+  <data name="_utf16beOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_utf16beOption.Text" xml:space="preserve">
+    <value>UTF-16 BE BOM</value>
+  </data>
+  <data name="_utf32leOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_utf32leOption.Text" xml:space="preserve">
+    <value>UTF-32 LE BOM</value>
+  </data>
+  <data name="_utf32beOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_utf32beOption.Text" xml:space="preserve">
+    <value>UTF-32 BE BOM</value>
+  </data>
+  <data name="_cp1252Option.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="_cp1252Option.Text" xml:space="preserve">
+    <value>CP-1252</value>
+  </data>
+  <data name="_encoding.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 20</value>
+  </data>
+  <data name="_encoding.Text" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="_menu.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_menu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>800, 24</value>
+  </data>
+  <data name="_menu.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="_menu.Text" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="&gt;&gt;_menu.Name" xml:space="preserve">
+    <value>_menu</value>
+  </data>
+  <data name="&gt;&gt;_menu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_menu.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;_menu.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <metadata name="_openDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>105, 17</value>
   </metadata>
+  <data name="_openDialog.Filter" xml:space="preserve">
+    <value>JSON files|*.json|All files|*.*</value>
+  </data>
   <metadata name="_saveDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>190, 17</value>
   </metadata>
+  <data name="_saveDialog.Filter" xml:space="preserve">
+    <value>JSON files|*.json|All files|*.*</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>800, 450</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>EditJson</value>
+  </data>
+  <data name="&gt;&gt;_expand.Name" xml:space="preserve">
+    <value>_expand</value>
+  </data>
+  <data name="&gt;&gt;_expand.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_file.Name" xml:space="preserve">
+    <value>_file</value>
+  </data>
+  <data name="&gt;&gt;_file.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_new.Name" xml:space="preserve">
+    <value>_new</value>
+  </data>
+  <data name="&gt;&gt;_new.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_open.Name" xml:space="preserve">
+    <value>_open</value>
+  </data>
+  <data name="&gt;&gt;_open.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_save.Name" xml:space="preserve">
+    <value>_save</value>
+  </data>
+  <data name="&gt;&gt;_save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_saveAs.Name" xml:space="preserve">
+    <value>_saveAs</value>
+  </data>
+  <data name="&gt;&gt;_saveAs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_exit.Name" xml:space="preserve">
+    <value>_exit</value>
+  </data>
+  <data name="&gt;&gt;_exit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_edit.Name" xml:space="preserve">
+    <value>_edit</value>
+  </data>
+  <data name="&gt;&gt;_edit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_add.Name" xml:space="preserve">
+    <value>_add</value>
+  </data>
+  <data name="&gt;&gt;_add.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_insertBefore.Name" xml:space="preserve">
+    <value>_insertBefore</value>
+  </data>
+  <data name="&gt;&gt;_insertBefore.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_insertAfter.Name" xml:space="preserve">
+    <value>_insertAfter</value>
+  </data>
+  <data name="&gt;&gt;_insertAfter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_delete.Name" xml:space="preserve">
+    <value>_delete</value>
+  </data>
+  <data name="&gt;&gt;_delete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_view.Name" xml:space="preserve">
+    <value>_view</value>
+  </data>
+  <data name="&gt;&gt;_view.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_collapse.Name" xml:space="preserve">
+    <value>_collapse</value>
+  </data>
+  <data name="&gt;&gt;_collapse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_encoding.Name" xml:space="preserve">
+    <value>_encoding</value>
+  </data>
+  <data name="&gt;&gt;_encoding.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_autoOption.Name" xml:space="preserve">
+    <value>_autoOption</value>
+  </data>
+  <data name="&gt;&gt;_autoOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_asciiOption.Name" xml:space="preserve">
+    <value>_asciiOption</value>
+  </data>
+  <data name="&gt;&gt;_asciiOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_utf8Option.Name" xml:space="preserve">
+    <value>_utf8Option</value>
+  </data>
+  <data name="&gt;&gt;_utf8Option.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_utf8bomOption.Name" xml:space="preserve">
+    <value>_utf8bomOption</value>
+  </data>
+  <data name="&gt;&gt;_utf8bomOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_utf16leOption.Name" xml:space="preserve">
+    <value>_utf16leOption</value>
+  </data>
+  <data name="&gt;&gt;_utf16leOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_utf16beOption.Name" xml:space="preserve">
+    <value>_utf16beOption</value>
+  </data>
+  <data name="&gt;&gt;_utf16beOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_utf32leOption.Name" xml:space="preserve">
+    <value>_utf32leOption</value>
+  </data>
+  <data name="&gt;&gt;_utf32leOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_utf32beOption.Name" xml:space="preserve">
+    <value>_utf32beOption</value>
+  </data>
+  <data name="&gt;&gt;_utf32beOption.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_cp1252Option.Name" xml:space="preserve">
+    <value>_cp1252Option</value>
+  </data>
+  <data name="&gt;&gt;_cp1252Option.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_openDialog.Name" xml:space="preserve">
+    <value>_openDialog</value>
+  </data>
+  <data name="&gt;&gt;_openDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_saveDialog.Name" xml:space="preserve">
+    <value>_saveDialog</value>
+  </data>
+  <data name="&gt;&gt;_saveDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>EditJson</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

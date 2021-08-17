@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace CER.Json.Stream
@@ -40,7 +41,7 @@ namespace CER.Json.Stream
 		/// <param name="character">Character number within the line, starting at 1.</param>
 		/// <param name="message">Additional information to include in the message.</param>
 		internal InvalidJsonException(ulong line, ulong character, string message)
-			: base(string.Format("Line {0} character {1}: {2}", line, character, message))
+			: base(string.Format(CultureInfo.CurrentCulture, Strings.TextLocationMessage, line, character, message))
 		{ }
 
 		/// <summary>

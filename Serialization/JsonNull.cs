@@ -1,3 +1,5 @@
+using CER.Json.Stream;
+using System;
 using System.IO;
 
 namespace CER.Json.DocumentObjectModel
@@ -18,15 +20,15 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="leading">Leading whitespace.</param>
 		/// <param name="trailing">Trailing whitespace.</param>
-		public JsonNull(WhiteSpace leading, WhiteSpace trailing) : base(leading, trailing)
+		public JsonNull(Whitespace leading, Whitespace trailing) : base(leading, trailing)
 		{ }
 
 		/// <summary>
 		/// Write the null value and whitespace as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
-		/// <exception cref="System.ObjectDisposedException">The writer is closed.</exception>
-		/// <exception cref="System.IO.IOException">An I/O error occurs.</exception>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
 			writer.Write(Leading.Value);
