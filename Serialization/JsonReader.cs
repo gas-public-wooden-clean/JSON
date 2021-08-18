@@ -292,7 +292,8 @@ namespace CER.Json.Stream
 						StringValue = ReadString();
 						return true;
 					default:
-						if (_state != State.StartValue)
+						if (_state != State.StartValue &&
+							(_state != State.EnterContainer || _stack[_stack.Count - 1]))
 						{
 							throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.UnexpectedCharacter, character));
 						}
