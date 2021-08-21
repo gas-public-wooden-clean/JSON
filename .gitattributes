@@ -16,6 +16,9 @@
 # Visual Studio code analysis rule set
 *.ruleset text
 
+# NuGet package configuration
+packages.config text
+
 /LICENSE text
 .editorconfig text
 .gitattributes text

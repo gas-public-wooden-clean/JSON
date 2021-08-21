@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		StaticAnalysis.ruleset = StaticAnalysis.ruleset
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationTest", "SerializationTest\SerializationTest.csproj", "{06C2BAFE-B101-4C19-A77B-D1E4EF69C731}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,8 @@ Global
 		{1755F5FE-4001-48C8-8512-204C5C1F5E35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE69B33-5AF0-4CAA-9C36-F2EF9BCBF566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2FE69B33-5AF0-4CAA-9C36-F2EF9BCBF566}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06C2BAFE-B101-4C19-A77B-D1E4EF69C731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06C2BAFE-B101-4C19-A77B-D1E4EF69C731}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
