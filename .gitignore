@@ -9,3 +9,6 @@ bin/
 
 # Build intermediate
 obj/
+
+# NuGet package cache
+/packages/
