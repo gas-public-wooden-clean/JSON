@@ -32,7 +32,7 @@ namespace CER.Json
 		/// Minor version number. Will be incremented for significant changes that are intended to be
 		/// backwards compatible.
 		/// </summary>
-		public const int Minor = 1;
+		public const int Minor = 2;
 
 		/// <summary>
 		/// Build number. A difference in build number represents a recompilation of the same source.
@@ -49,6 +49,6 @@ namespace CER.Json
 		/// <summary>
 		/// Version number, formatted as "Major.Minor.Build.Revision".
 		/// </summary>
-		public const string VersionString = "1.1.0.0";
+		public const string VersionString = "1.2.0.0";
 	}
 }
