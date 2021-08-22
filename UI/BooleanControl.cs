@@ -12,7 +12,14 @@ namespace UI
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public JsonBoolean Value
 		{
-			get => new JsonBoolean(_leading.Value, _trailing.Value, _value.Checked);
+			get
+			{
+				return new JsonBoolean(_value.Checked)
+				{
+					Leading = _leading.Value,
+					Trailing = _trailing.Value
+				};
+			}
 			set
 			{
 				_leading.Value = value.Leading;

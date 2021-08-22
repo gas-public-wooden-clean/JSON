@@ -16,14 +16,6 @@ namespace CER.Json.DocumentObjectModel
 		{ }
 
 		/// <summary>
-		/// Create an instance of a null JSON value with the given whitespace.
-		/// </summary>
-		/// <param name="leading">Leading whitespace.</param>
-		/// <param name="trailing">Trailing whitespace.</param>
-		public JsonNull(Whitespace leading, Whitespace trailing) : base(leading, trailing)
-		{ }
-
-		/// <summary>
 		/// Write the null value and whitespace as JSON to the stream.
 		/// </summary>
 		/// <param name="writer">The writer to write to.</param>
@@ -31,6 +23,11 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
 			writer.Write(Leading.Value);
 			writer.Write("null");
 			writer.Write(Trailing.Value);

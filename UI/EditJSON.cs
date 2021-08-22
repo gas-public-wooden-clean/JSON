@@ -319,7 +319,7 @@ namespace UI
 
 		void PopulateArray(TreeNode parent, JsonArray arrayValue)
 		{
-			foreach (JsonElement element in arrayValue.Values)
+			foreach (JsonElement element in arrayValue)
 			{
 				TreeNode child = new TreeNode
 				{
@@ -333,7 +333,7 @@ namespace UI
 
 		void PopulateObject(TreeNode parent, JsonObject objectValue)
 		{
-			foreach (JsonObjectPair pair in objectValue.Values)
+			foreach (JsonObjectPair pair in objectValue)
 			{
 				TreeNode child = new TreeNode
 				{
@@ -362,13 +362,13 @@ namespace UI
 			if (parentElement is JsonArray arrayValue)
 			{
 				JsonElement toInsert = new JsonNull();
-				arrayValue.Values.Insert(index, toInsert);
+				arrayValue.Insert(index, toInsert);
 				child.Tag = toInsert;
 			}
 			else if (parentElement is JsonObject objectValue)
 			{
-				JsonObjectPair toInsert = new JsonObjectPair();
-				objectValue.Values.Insert(index, toInsert);
+				JsonObjectPair toInsert = new JsonObjectPair(new JsonString(), new JsonNull());
+				objectValue.Insert(index, toInsert);
 				child.Tag = toInsert;
 			}
 			else
@@ -417,10 +417,11 @@ namespace UI
 				return;
 			}
 
-			if (selected.Tag is JsonObjectPair pair)
+			if (selected.Tag is JsonObjectPair)
 			{
-				pair.Key = _keyControl.Value;
-				pair.Value = element;
+				int index = selected.Parent.Nodes.IndexOf(selected);
+				JsonObject objectContainer = (JsonObject)selected.Parent.Tag;
+				objectContainer[index] = new JsonObjectPair(_keyControl.Value, element);
 			}
 			else
 			{
@@ -431,7 +432,7 @@ namespace UI
 			if (selected.Parent != null && selected.Parent.Tag is JsonArray arrayContainer)
 			{
 				int index = selected.Parent.Nodes.IndexOf(selected);
-				arrayContainer.Values[index] = element;
+				arrayContainer[index] = element;
 			}
 		}
 
@@ -724,9 +725,11 @@ namespace UI
 				return;
 			}
 
-			if (_navigation.SelectedNode.Tag is JsonObjectPair pair)
+			if (_navigation.SelectedNode.Tag is JsonObjectPair)
 			{
-				pair.Value = newValue;
+				int index = _navigation.SelectedNode.Parent.Nodes.IndexOf(_navigation.SelectedNode);
+				JsonObject objectContainer = (JsonObject)_navigation.SelectedNode.Parent.Tag;
+				objectContainer[index] = new JsonObjectPair(objectContainer[index].Key, newValue);
 			}
 			else
 			{
@@ -781,11 +784,11 @@ namespace UI
 
 			if (parent.Tag is JsonArray arrayValue)
 			{
-				arrayValue.Values.RemoveAt(selectedIndex);
+				arrayValue.RemoveAt(selectedIndex);
 			}
 			else if (parent.Tag is JsonObject objectValue)
 			{
-				objectValue.Values.RemoveAt(selectedIndex);
+				objectValue.RemoveAt(selectedIndex);
 			}
 			else
 			{

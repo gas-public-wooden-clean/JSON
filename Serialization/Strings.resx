@@ -129,6 +129,9 @@
   <data name="InvalidUnicodeHexadecimal" xml:space="preserve">
     <value>Invalid unicode hexadecimal {0}.</value>
   </data>
+  <data name="KeyNotUnique" xml:space="preserve">
+    <value>The key '{0}' has more than one entry in the object.</value>
+  </data>
   <data name="NoArrayToEnd" xml:space="preserve">
     <value>No array to end.</value>
   </data>
@@ -199,6 +202,9 @@
   </data>
   <data name="ValueEndsWithIncompleteUnicode" xml:space="preserve">
     <value>Value ends with incomplete unicode sequence.</value>
+  </data>
+  <data name="ValueIsNull" xml:space="preserve">
+    <value>{0} is null.</value>
   </data>
   <data name="ValueNotWhitespace" xml:space="preserve">
     <value>{0} is not whitespace. It can only contain spaces, linefeeds, carriage returns, and/or horizontal tabs.</value>

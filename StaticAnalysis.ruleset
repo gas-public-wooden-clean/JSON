@@ -20,11 +20,9 @@
     <Rule Id="CA1017" Action="Warning" />
     <Rule Id="CA1018" Action="Warning" />
     <Rule Id="CA1019" Action="Warning" />
-    <Rule Id="CA1021" Action="Warning" />
     <Rule Id="CA1023" Action="Warning" />
     <Rule Id="CA1024" Action="Warning" />
     <Rule Id="CA1025" Action="Warning" />
-    <Rule Id="CA1026" Action="Warning" />
     <Rule Id="CA1027" Action="Warning" />
     <Rule Id="CA1028" Action="Warning" />
     <Rule Id="CA1030" Action="Warning" />

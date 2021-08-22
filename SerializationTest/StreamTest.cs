@@ -11,7 +11,7 @@ namespace SerializationTest
 	{
 		public StreamTest() => _strictUTF8 = new UTF8Encoding(false, true);
 
-		private readonly Encoding _strictUTF8;
+		readonly Encoding _strictUTF8;
 
 		[TestMethod]
 		public void TestEmpty()
