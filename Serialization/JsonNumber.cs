@@ -94,6 +94,11 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
 			writer.Write(Leading.Value);
 			writer.Write(Json);
 			writer.Write(Trailing.Value);

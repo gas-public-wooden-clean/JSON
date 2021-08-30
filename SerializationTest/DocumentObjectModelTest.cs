@@ -175,7 +175,7 @@ namespace SerializationTest
 			JsonArray elem = new JsonArray();
 			_ = Assert.ThrowsException<ArgumentNullException>(delegate ()
 			{
-				elem.Values.Add(null);
+				elem.Add(null);
 			});
 		}
 

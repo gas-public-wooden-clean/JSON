@@ -97,6 +97,15 @@ namespace CER.Json {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The key &apos;{0}&apos; has more than one entry in the object..
+        /// </summary>
+        internal static string KeyNotUnique {
+            get {
+                return ResourceManager.GetString("KeyNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No array to end..
         /// </summary>
         internal static string NoArrayToEnd {
@@ -300,6 +309,15 @@ namespace CER.Json {
         internal static string ValueEndsWithIncompleteUnicode {
             get {
                 return ResourceManager.GetString("ValueEndsWithIncompleteUnicode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is null..
+        /// </summary>
+        internal static string ValueIsNull {
+            get {
+                return ResourceManager.GetString("ValueIsNull", resourceCulture);
             }
         }
         

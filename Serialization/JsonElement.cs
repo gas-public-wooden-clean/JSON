@@ -18,18 +18,6 @@ namespace CER.Json.DocumentObjectModel
 			Trailing = Whitespace.Empty;
 		}
 
-		/// <summary>
-		/// Create an element with the given leading or trailing whitespace.
-		/// </summary>
-		/// <param name="leading">Leading whitespace.</param>
-		/// <param name="trailing">Trailing whitespace.</param>
-		/// <exception cref="ArgumentNullException">One of the whitespace values is null.</exception>
-		protected JsonElement(Whitespace leading, Whitespace trailing)
-		{
-			Leading = leading;
-			Trailing = trailing;
-		}
-
 		Whitespace _leading;
 		Whitespace _trailing;
 
@@ -58,12 +46,18 @@ namespace CER.Json.DocumentObjectModel
 		/// </summary>
 		/// <param name="reader">The stream to read from, which should be positioned at the start.</param>
 		/// <returns>The JSON element contained within the document.</returns>
-		/// <exception cref="InvalidOperationException">reader is in an invalid state from a previous exception.</exception>
+		/// <exception cref="ArgumentNullException">The reader is null.</exception>
+		/// <exception cref="InvalidOperationException">The reader is in an invalid state from a previous exception.</exception>
 		/// <exception cref="InvalidJsonException">The underlying text stream is not valid JSON.</exception>
 		/// <exception cref="ObjectDisposedException">The underlying stream has been closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public static JsonElement Deserialize(JsonReader reader)
 		{
+			if (reader is null)
+			{
+				throw new ArgumentNullException(nameof(reader));
+			}
+
 			_ = reader.Read();
 			return ReadElement(reader);
 		}
@@ -103,13 +97,13 @@ namespace CER.Json.DocumentObjectModel
 					}
 					while (reader.CurrentToken != TokenType.EndArray)
 					{
-						array.Values.Add(ReadElement(reader));
+						array.Add(ReadElement(reader));
 						if (reader.CurrentToken == TokenType.ListSeparator)
 						{
 							_ = reader.Read();
 						}
 					}
-					if (array.Values.Count == 0)
+					if (array.Count == 0)
 					{
 						// The first whitespace was inside an empty array.
 						array.EmptyWhitespace = first;
@@ -117,7 +111,7 @@ namespace CER.Json.DocumentObjectModel
 					else
 					{
 						// The first whitespace belonged to the first element.
-						array.Values[0].Leading = first;
+						array[0].Leading = first;
 					}
 					retval = array;
 					break;
@@ -133,20 +127,17 @@ namespace CER.Json.DocumentObjectModel
 					}
 					while (reader.CurrentToken != TokenType.EndObject)
 					{
-						JsonObjectPair pair = new JsonObjectPair
-						{
-							Key = (JsonString)ReadElement(reader)
-						};
+						JsonString key = (JsonString)ReadElement(reader);
 						// Read past the key/value separator.
 						_ = reader.Read();
-						pair.Value = ReadElement(reader);
-						obj.Values.Add(pair);
+						JsonObjectPair pair = new JsonObjectPair(key, ReadElement(reader));
+						obj.Add(pair);
 						if (reader.CurrentToken == TokenType.ListSeparator)
 						{
 							_ = reader.Read();
 						}
 					}
-					if (obj.Values.Count == 0)
+					if (obj.Count == 0)
 					{
 						// The first whitespace was inside an empty object.
 						obj.EmptyWhitespace = first;
@@ -154,7 +145,7 @@ namespace CER.Json.DocumentObjectModel
 					else
 					{
 						// The first whitespace belonged to the first key.
-						obj.Values[0].Key.Leading = first;
+						obj[0].Key.Leading = first;
 					}
 					retval = obj;
 					break;

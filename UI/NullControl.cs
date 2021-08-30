@@ -12,7 +12,14 @@ namespace UI
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public JsonNull Value
 		{
-			get => new JsonNull(_leading.Value, _trailing.Value);
+			get
+			{
+				return new JsonNull()
+				{
+					Leading = _leading.Value,
+					Trailing = _trailing.Value
+				};
+			}
 			set
 			{
 				_leading.Value = value.Leading;
