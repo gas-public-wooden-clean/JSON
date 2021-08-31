@@ -26,6 +26,9 @@ namespace UI
 
 			_detected = _utf8;
 
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+			_cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
+
 			LoadElement(new JsonNull());
 		}
 
@@ -66,7 +69,7 @@ namespace UI
 		/// <summary>
 		/// Code page 1252.
 		/// </summary>
-		readonly Encoding _cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
+		readonly Encoding _cp1252;
 
 		static bool BytesStartWith(byte[] left, int leftLength, byte[] right)
 		{

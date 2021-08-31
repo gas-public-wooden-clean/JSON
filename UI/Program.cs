@@ -1,5 +1,14 @@
 using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using UI;
+
+[assembly: ComVisible(false)]
+[assembly: Guid("f083c118-06cd-4f57-87e7-f7fec2b52348")]
+[assembly: CLSCompliant(true)]
+[assembly: AssemblyVersion(Program.VersionString)]
+[assembly: AssemblyFileVersion(Program.VersionString)]
 
 namespace UI
 {
@@ -13,6 +22,7 @@ namespace UI
 		[STAThread]
 		static void Main()
 		{
+			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new EditJson());
