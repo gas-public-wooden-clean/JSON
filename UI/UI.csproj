@@ -13,6 +13,7 @@
     <NeutralLanguage>en</NeutralLanguage>
     <Description>JSON Editor</Description>
     <Copyright>Copyright © 2021</Copyright>
+    <AssemblyName>EditJSON</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>
