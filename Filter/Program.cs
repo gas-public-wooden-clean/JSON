@@ -1,7 +1,16 @@
 using CER.Json;
 using CER.Json.Stream;
+using Filter;
 using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.IO;
+
+[assembly: ComVisible(false)]
+[assembly: Guid("184d891c-a747-4561-ad60-00a25ee5906c")]
+[assembly: CLSCompliant(true)]
+[assembly: AssemblyVersion(Program.VersionString)]
+[assembly: AssemblyFileVersion(Program.VersionString)]
 
 namespace Filter
 {

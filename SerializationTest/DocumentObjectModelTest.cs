@@ -13,6 +13,7 @@ namespace SerializationTest
 		public DocumentObjectModelTest()
 		{
 			_utf8 = new UTF8Encoding(false, true);
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 			_cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
 		}
 
