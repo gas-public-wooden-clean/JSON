@@ -167,6 +167,9 @@
   <data name="UnexpectedEndOfFile" xml:space="preserve">
     <value>Unexpected end of file.</value>
   </data>
+  <data name="UnexpectedEndOfFileInConstant" xml:space="preserve">
+    <value>Unexpected end of file in constant.</value>
+  </data>
   <data name="UnexpectedEndOfFileInString" xml:space="preserve">
     <value>Unexpected end of file in string.</value>
   </data>
