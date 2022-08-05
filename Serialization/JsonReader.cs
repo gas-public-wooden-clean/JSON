@@ -511,6 +511,7 @@ namespace CER.Json.Stream
 				bool hasDigitInExponent = false;
 				while (TryPeek(out c) && IsDecimalDigit(c))
 				{
+					hasDigitInExponent = true;
 					_ = stringRepresentation.Append(c);
 					_ = Advance();
 				}
@@ -527,7 +528,15 @@ namespace CER.Json.Stream
 		{
 			foreach (char expected in constant)
 			{
-				char actual = Advance();
+				char actual;
+				try
+				{
+					actual = Advance();
+				}
+				catch (EndOfStreamException)
+				{
+					throw new InvalidJsonException(_line, _lineCharacter, Strings.UnexpectedEndOfFileInConstant);
+				}
 				if (expected != actual)
 				{
 					throw new InvalidJsonException(_line, _lineCharacter, string.Format(CultureInfo.CurrentCulture, Strings.InvalidCharacterInConstant, actual, constant, expected));

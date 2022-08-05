@@ -205,6 +205,15 @@ namespace CER.Json {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unexpected end of file in constant..
+        /// </summary>
+        internal static string UnexpectedEndOfFileInConstant {
+            get {
+                return ResourceManager.GetString("UnexpectedEndOfFileInConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unexpected end of file in string..
         /// </summary>
         internal static string UnexpectedEndOfFileInString {
