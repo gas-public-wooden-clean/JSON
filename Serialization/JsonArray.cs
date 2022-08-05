@@ -199,5 +199,19 @@ namespace CER.Json.DocumentObjectModel
 			writer.Write("]");
 			writer.Write(Trailing.Value);
 		}
+
+		/// <summary>
+		/// Get an enumerable view of the elements as a specific type.
+		/// </summary>
+		/// <typeparam name="T">The type of element to cast to.</typeparam>
+		/// <returns>An enumerable view of the elements as a specific type. It will throw InvalidCastExceptions if it encounters elements of another type.</returns>
+		public IEnumerable<T> GetTypedElements<T>()
+			where T : JsonElement
+		{
+			foreach (JsonElement element in _values)
+			{
+				yield return (T)element;
+			}
+		}
 	}
 }

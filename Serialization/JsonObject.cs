@@ -151,17 +151,91 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentException">The key has more than one value.</exception>
 		public JsonElement GetValue(string key, StringComparison comparisonType = StringComparison.Ordinal)
 		{
-			JsonElement retval;
-			bool unique = TryGetValue(key, out retval, comparisonType);
-			if (retval is null)
-			{
-				throw new KeyNotFoundException();
-			}
-			if (!unique)
-			{
-				throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.KeyNotUnique, key), nameof(key));
-			}
-			return retval;
+			return GetTypedValue<JsonElement>(key, comparisonType);
+		}
+
+		/// <summary>
+		/// Get an array that is the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The array that is the only value with an equivalent key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not an array.</exception>
+		public JsonArray GetArray(string key, StringComparison comparisonType = StringComparison.Ordinal)
+		{
+			return GetTypedValue<JsonArray>(key, comparisonType);
+		}
+
+		/// <summary>
+		/// Get a boolean that is the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The boolean that is the only value with an equivalent key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not a boolean.</exception>
+		public JsonBoolean GetBoolean(string key, StringComparison comparisonType = StringComparison.Ordinal)
+		{
+			return GetTypedValue<JsonBoolean>(key, comparisonType);
+		}
+
+		/// <summary>
+		/// Get a null element that is the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The null element that is the only value with an equivalent key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not a null element.</exception>
+		public JsonNull GetNull(string key, StringComparison comparisonType = StringComparison.Ordinal)
+		{
+			return GetTypedValue<JsonNull>(key, comparisonType);
+		}
+
+		/// <summary>
+		/// Get a number that is the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The number that is the only value with an equivalent key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not a number.</exception>
+		public JsonNumber GetNumber(string key, StringComparison comparisonType = StringComparison.Ordinal)
+		{
+			return GetTypedValue<JsonNumber>(key, comparisonType);
+		}
+
+		/// <summary>
+		/// Get an object that is the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The object that is the only value with an equivalent key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not an object.</exception>
+		public JsonObject GetObject(string key, StringComparison comparisonType = StringComparison.Ordinal)
+		{
+			return GetTypedValue<JsonObject>(key, comparisonType);
+		}
+
+		/// <summary>
+		/// Get a string that is the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The string that is the only value with an equivalent key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not a string.</exception>
+		public JsonString GetString(string key, StringComparison comparisonType = StringComparison.Ordinal)
+		{
+			return GetTypedValue<JsonString>(key, comparisonType);
 		}
 
 		/// <summary>
@@ -325,12 +399,15 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Get the first value, if any, with an equivalent key.
 		/// </summary>
+		/// <typeparam name="T"></typeparam>
 		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
 		/// <param name="value">The first value with a matching key.</param>
 		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
 		/// <returns>Whether exactly one pair was found with the given key.</returns>
 		/// <exception cref="ArgumentNullException">key is null.</exception>
-		public bool TryGetValue(string key, out JsonElement value, StringComparison comparisonType = StringComparison.Ordinal)
+		/// <exception cref="InvalidCastException">The value is not the right type.</exception>
+		public bool TryGetValue<T>(string key, out T value, StringComparison comparisonType = StringComparison.Ordinal)
+			where T : JsonElement
 		{
 			if (key is null)
 			{
@@ -345,7 +422,7 @@ namespace CER.Json.DocumentObjectModel
 				{
 					if (value is null)
 					{
-						value = pair.Value;
+						value = (T)pair.Value;
 					}
 					else
 					{
@@ -399,6 +476,30 @@ namespace CER.Json.DocumentObjectModel
 			}
 
 			return index >= 0;
+		}
+
+		/// <summary>
+		/// Get the only value with an equivalent key.
+		/// </summary>
+		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
+		/// <returns>The value for the given key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">The key has more than one value.</exception>
+		/// <exception cref="InvalidCastException">The value was not of the requested type.</exception>
+		T GetTypedValue<T>(string key, StringComparison comparisonType = StringComparison.Ordinal) where T : JsonElement
+		{
+			JsonElement retval;
+			bool unique = TryGetValue(key, out retval, comparisonType);
+			if (retval is null)
+			{
+				throw new KeyNotFoundException();
+			}
+			if (!unique)
+			{
+				throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.KeyNotUnique, key), nameof(key));
+			}
+			return (T)retval;
 		}
 	}
 }
