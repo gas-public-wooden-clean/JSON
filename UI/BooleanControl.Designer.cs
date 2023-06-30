@@ -60,6 +60,7 @@ namespace UI
 			// 
 			resources.ApplyResources(this._leading, "_leading");
 			this._leading.Name = "_leading";
+			this._leading.ValueChanged += new System.EventHandler(this.WhitespaceChanged);
 			// 
 			// _trailingGroup
 			// 
@@ -72,12 +73,14 @@ namespace UI
 			// 
 			resources.ApplyResources(this._trailing, "_trailing");
 			this._trailing.Name = "_trailing";
+			this._trailing.ValueChanged += new System.EventHandler(this.WhitespaceChanged);
 			// 
 			// _value
 			// 
 			resources.ApplyResources(this._value, "_value");
 			this._value.Name = "_value";
 			this._value.UseVisualStyleBackColor = true;
+			this._value.CheckedChanged += new System.EventHandler(this.CheckedChanged);
 			// 
 			// BooleanControl
 			// 

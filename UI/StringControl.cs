@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class StringControl : UserControl
+	partial class StringControl : UserControl
 	{
 		public StringControl() => InitializeComponent();
 
@@ -29,8 +29,10 @@ namespace UI
 			set
 			{
 				_json = value.Json;
+				_updating = true;
 				_literalValue.Text = value.Value;
 				_jsonValue.Text = value.Json;
+				_updating = false;
 				_leading.Value = value.Leading;
 				_trailing.Value = value.Trailing;
 			}
@@ -50,6 +52,8 @@ namespace UI
 			_jsonValue.Text = newValue.Json;
 			_updating = false;
 			_jsonValue.BackColor = Color.FromName("Window");
+
+			ValueChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		void JsonTextChanged(object sender, EventArgs e)
@@ -77,6 +81,15 @@ namespace UI
 			_updating = true;
 			_literalValue.Text = newValue.Value;
 			_updating = false;
+
+			ValueChanged?.Invoke(this, EventArgs.Empty);
 		}
+
+		void ComponentChanged(object sender, EventArgs e)
+		{
+			ValueChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		public event EventHandler ValueChanged;
 	}
 }

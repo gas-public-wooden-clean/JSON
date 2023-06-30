@@ -67,6 +67,7 @@ namespace UI
 			// 
 			resources.ApplyResources(this._leading, "_leading");
 			this._leading.Name = "_leading";
+			this._leading.ValueChanged += new System.EventHandler(this.ComponentChanged);
 			// 
 			// _trailingGroup
 			// 
@@ -80,6 +81,7 @@ namespace UI
 			// 
 			resources.ApplyResources(this._trailing, "_trailing");
 			this._trailing.Name = "_trailing";
+			this._trailing.ValueChanged += new System.EventHandler(this.ComponentChanged);
 			// 
 			// _literalLabel
 			// 

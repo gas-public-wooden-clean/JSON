@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class WhitespaceControl : UserControl
+	partial class WhitespaceControl : UserControl
 	{
 		public WhitespaceControl() => InitializeComponent();
 
@@ -36,7 +36,7 @@ namespace UI
 
 		static string Escape(string literal)
 		{
-			return literal.Replace("\t", "\\t").Replace("\r", "\\r").Replace("\n", "\\n");
+			return literal.Replace("\t", "\\t", StringComparison.Ordinal).Replace("\r", "\\r", StringComparison.Ordinal).Replace("\n", "\\n", StringComparison.Ordinal);
 		}
 
 		void LiteralTextChanged(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace UI
 				return;
 			}
 
-			string literal = _escapedValue.Text.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n");
+			string literal = _escapedValue.Text.Replace("\\t", "\t", StringComparison.Ordinal).Replace("\\r", "\r", StringComparison.Ordinal).Replace("\\n", "\n", StringComparison.Ordinal);
 			if (!Update(literal))
 			{
 				_escapedValue.BackColor = Color.Red;
@@ -87,7 +87,11 @@ namespace UI
 				return false;
 			}
 
+			ValueChanged?.Invoke(this, EventArgs.Empty);
+
 			return true;
 		}
+
+		public event EventHandler ValueChanged;
 	}
 }

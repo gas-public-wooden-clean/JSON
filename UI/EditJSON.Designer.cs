@@ -130,6 +130,7 @@ namespace UI
 			// 
 			resources.ApplyResources(this._keyControl, "_keyControl");
 			this._keyControl.Name = "_keyControl";
+			this._keyControl.ValueChanged += new System.EventHandler(this.KeyChanged);
 			// 
 			// _valuePanel
 			// 
@@ -145,11 +146,13 @@ namespace UI
 			// 
 			resources.ApplyResources(this._booleanControl, "_booleanControl");
 			this._booleanControl.Name = "_booleanControl";
+			this._booleanControl.ValueChanged += new System.EventHandler(this.BooleanChanged);
 			// 
 			// _numberControl
 			// 
 			resources.ApplyResources(this._numberControl, "_numberControl");
 			this._numberControl.Name = "_numberControl";
+			this._numberControl.ValueChanged += new System.EventHandler(this.NumberChanged);
 			// 
 			// _containerControl
 			// 
@@ -160,6 +163,7 @@ namespace UI
 			// 
 			resources.ApplyResources(this._stringControl, "_stringControl");
 			this._stringControl.Name = "_stringControl";
+			this._stringControl.ValueChanged += new System.EventHandler(this.StringChanged);
 			// 
 			// _nullControl
 			// 

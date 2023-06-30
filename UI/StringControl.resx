@@ -1,64 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
+﻿<root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -121,16 +61,20 @@
   <data name="_layout.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="_leading.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="_leading.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 16</value>
+    <value>4, 19</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_leading.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 3, 5, 3</value>
   </data>
   <data name="_leading.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 53</value>
+    <value>413, 62</value>
   </data>
   <data name="_leading.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -139,7 +83,7 @@
     <value>_leading</value>
   </data>
   <data name="&gt;&gt;_leading.Type" xml:space="preserve">
-    <value>UI.WhitespaceControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>UI.WhitespaceControl, EditJSON, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;_leading.Parent" xml:space="preserve">
     <value>_leadingGroup</value>
@@ -151,10 +95,16 @@
     <value>Fill</value>
   </data>
   <data name="_leadingGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 3</value>
+  </data>
+  <data name="_leadingGroup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="_leadingGroup.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="_leadingGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 72</value>
+    <value>421, 84</value>
   </data>
   <data name="_leadingGroup.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -166,7 +116,7 @@
     <value>_leadingGroup</value>
   </data>
   <data name="&gt;&gt;_leadingGroup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_leadingGroup.Parent" xml:space="preserve">
     <value>_layout</value>
@@ -178,10 +128,13 @@
     <value>Fill</value>
   </data>
   <data name="_trailing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 16</value>
+    <value>4, 19</value>
+  </data>
+  <data name="_trailing.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 3, 5, 3</value>
   </data>
   <data name="_trailing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 53</value>
+    <value>413, 62</value>
   </data>
   <data name="_trailing.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -190,7 +143,7 @@
     <value>_trailing</value>
   </data>
   <data name="&gt;&gt;_trailing.Type" xml:space="preserve">
-    <value>UI.WhitespaceControl, EditJSON, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>UI.WhitespaceControl, EditJSON, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;_trailing.Parent" xml:space="preserve">
     <value>_trailingGroup</value>
@@ -202,10 +155,16 @@
     <value>Fill</value>
   </data>
   <data name="_trailingGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 237</value>
+    <value>4, 273</value>
+  </data>
+  <data name="_trailingGroup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="_trailingGroup.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="_trailingGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 72</value>
+    <value>421, 84</value>
   </data>
   <data name="_trailingGroup.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -217,7 +176,7 @@
     <value>_trailingGroup</value>
   </data>
   <data name="&gt;&gt;_trailingGroup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_trailingGroup.Parent" xml:space="preserve">
     <value>_layout</value>
@@ -232,10 +191,13 @@
     <value>True</value>
   </data>
   <data name="_literalLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 110</value>
+    <value>18, 127</value>
+  </data>
+  <data name="_literalLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="_literalLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 13</value>
+    <value>39, 15</value>
   </data>
   <data name="_literalLabel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -247,7 +209,7 @@
     <value>_literalLabel</value>
   </data>
   <data name="&gt;&gt;_literalLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_literalLabel.Parent" xml:space="preserve">
     <value>_layout</value>
@@ -262,10 +224,13 @@
     <value>True</value>
   </data>
   <data name="_jsonLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 188</value>
+    <value>20, 217</value>
+  </data>
+  <data name="_jsonLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="_jsonLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 13</value>
+    <value>35, 15</value>
   </data>
   <data name="_jsonLabel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -277,7 +242,7 @@
     <value>_jsonLabel</value>
   </data>
   <data name="&gt;&gt;_jsonLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_jsonLabel.Parent" xml:space="preserve">
     <value>_layout</value>
@@ -289,13 +254,16 @@
     <value>Fill</value>
   </data>
   <data name="_literalValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 81</value>
+    <value>80, 93</value>
+  </data>
+  <data name="_literalValue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="_literalValue.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="_literalValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 72</value>
+    <value>345, 84</value>
   </data>
   <data name="_literalValue.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -304,7 +272,7 @@
     <value>_literalValue</value>
   </data>
   <data name="&gt;&gt;_literalValue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_literalValue.Parent" xml:space="preserve">
     <value>_layout</value>
@@ -316,13 +284,16 @@
     <value>Fill</value>
   </data>
   <data name="_jsonValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 159</value>
+    <value>80, 183</value>
+  </data>
+  <data name="_jsonValue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="_jsonValue.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="_jsonValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 72</value>
+    <value>345, 84</value>
   </data>
   <data name="_jsonValue.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -331,7 +302,7 @@
     <value>_jsonValue</value>
   </data>
   <data name="&gt;&gt;_jsonValue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_jsonValue.Parent" xml:space="preserve">
     <value>_layout</value>
@@ -345,11 +316,14 @@
   <data name="_layout.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="_layout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
   <data name="_layout.RowCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="_layout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>368, 312</value>
+    <value>429, 360</value>
   </data>
   <data name="_layout.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -358,7 +332,7 @@
     <value>_layout</value>
   </data>
   <data name="&gt;&gt;_layout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_layout.Parent" xml:space="preserve">
     <value>$this</value>
@@ -367,21 +341,24 @@
     <value>0</value>
   </data>
   <data name="_layout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="_leadingGroup" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="_trailingGroup" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="_literalLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_jsonLabel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_literalValue" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="_jsonValue" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,65,Percent,100" /&gt;&lt;Rows Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="_leadingGroup" Row="0" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="_trailingGroup" Row="3" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="_literalLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_jsonLabel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="_literalValue" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="_jsonValue" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,76,Percent,100" /&gt;&lt;Rows Styles="Percent,25,Percent,25,Percent,25,Percent,25" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>7, 15</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>368, 312</value>
+    <value>429, 360</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>StringControl</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

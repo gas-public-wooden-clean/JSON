@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class NumberControl : UserControl
+	partial class NumberControl : UserControl
 	{
 		public NumberControl() => InitializeComponent();
 
@@ -30,8 +30,10 @@ namespace UI
 			set
 			{
 				_json = value.Json;
+				_updating = true;
 				_valueText.Text = value.Value.ToString("G", CultureInfo.InvariantCulture);
 				_jsonValue.Text = value.Json;
+				_updating = false;
 				_leading.Value = value.Leading;
 				_trailing.Value = value.Trailing;
 			}
@@ -57,7 +59,10 @@ namespace UI
 			_updating = true;
 			_jsonValue.Text = validated.Json;
 			_updating = false;
+			_json = _jsonValue.Text;
 			_jsonValue.BackColor = Color.FromName("Window");
+
+			ValueChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		void JsonTextChanged(object sender, EventArgs e)
@@ -83,7 +88,18 @@ namespace UI
 			_updating = true;
 			_valueText.Text = newValue.Value.ToString("G", CultureInfo.InvariantCulture);
 			_updating = false;
+			_json = _jsonValue.Text;
 			_valueText.BackColor = Color.FromName("Window");
+
+
+			ValueChanged?.Invoke(this, EventArgs.Empty);
 		}
+
+		void WhitespaceChanged(object sender, EventArgs e)
+		{
+			ValueChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		public event EventHandler ValueChanged;
 	}
 }

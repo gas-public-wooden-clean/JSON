@@ -2,6 +2,7 @@ using CER.Json;
 using CER.Json.Stream;
 using Filter;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.IO;
@@ -171,7 +172,8 @@ namespace Filter
 						}
 						break;
 					default:
-						throw new Exception();
+						Debug.Fail($"Invalid JSON token type {json.CurrentToken}.");
+						break;
 				}
 			}
 			if (e != null)

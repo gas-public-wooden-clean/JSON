@@ -96,7 +96,7 @@ namespace UI
 			if (item.Tag is JsonObjectPair pair)
 			{
 				element = pair.Value;
-				name = string.Format(CultureInfo.CurrentCulture, "\"{0}\": ", pair.Key.Value);
+				name = $"\"{pair.Key.Value}\": ";
 			}
 			else
 			{
@@ -126,7 +126,7 @@ namespace UI
 			}
 			else if (element is JsonString stringValue)
 			{
-				name += string.Format(CultureInfo.CurrentCulture, "\"{0}\"", stringValue.Json);
+				name += $"\"{stringValue.Json}\"";
 			}
 
 			item.Text = name;
@@ -182,9 +182,9 @@ namespace UI
 			}
 			catch (SystemException ex)
 			{
-				if (!(ex is UnauthorizedAccessException) &&
-					!(ex is IOException) &&
-					!(ex is SecurityException))
+				if (ex is not UnauthorizedAccessException and
+					not IOException and
+					not SecurityException)
 				{
 					throw;
 				}
@@ -352,15 +352,7 @@ namespace UI
 		{
 			TreeNode child = new TreeNode();
 
-			JsonElement parentElement;
-			if (parent.Tag is JsonObjectPair pair)
-			{
-				parentElement = pair.Value;
-			}
-			else
-			{
-				parentElement = (JsonElement)parent.Tag;
-			}
+			JsonElement parentElement = GetValue(parent);
 
 			if (parentElement is JsonArray arrayValue)
 			{
@@ -376,12 +368,50 @@ namespace UI
 			}
 			else
 			{
-				return;
+				Debug.Fail("Parents must either be arrays or objects.");
 			}
 
 			SetText(child);
 			parent.Nodes.Insert(index, child);
 			_navigation.SelectedNode = child;
+		}
+
+		static JsonElement GetValue(TreeNode node)
+		{
+			if (node.Tag is JsonObjectPair pair)
+			{
+				return pair.Value;
+			}
+			else if (node.Tag is JsonElement elem)
+			{
+				return elem;
+			}
+			else
+			{
+				Debug.Fail("Tags must be either pairs or elements.");
+				return new JsonNull();
+			}
+		}
+
+		static void SetValue(TreeNode node, JsonElement value)
+		{
+			if (node.Tag is JsonObjectPair pair)
+			{
+				int index = node.Parent.Nodes.IndexOf(node);
+				JsonObject container = (JsonObject)GetValue(node.Parent);
+				container[index] = new JsonObjectPair(pair.Key, value);
+				node.Tag = container[index];
+			}
+			else
+			{
+				if (node.Parent is not null)
+				{
+					int index = node.Parent.Nodes.IndexOf(node);
+					JsonArray container = (JsonArray)GetValue(node.Parent);
+					container[index] = value;
+				}
+				node.Tag = value;
+			}
 		}
 
 		void UpdateDOM()
@@ -416,27 +446,12 @@ namespace UI
 			}
 			else
 			{
-				Debug.Assert(false);
+				Debug.Fail($"Unrecognized type {_typeValue.SelectedItem}.");
 				return;
 			}
 
-			if (selected.Tag is JsonObjectPair)
-			{
-				int index = selected.Parent.Nodes.IndexOf(selected);
-				JsonObject objectContainer = (JsonObject)selected.Parent.Tag;
-				objectContainer[index] = new JsonObjectPair(_keyControl.Value, element);
-			}
-			else
-			{
-				selected.Tag = element;
-			}
+			SetValue(selected, element);
 			SetText(selected);
-
-			if (selected.Parent != null && selected.Parent.Tag is JsonArray arrayContainer)
-			{
-				int index = selected.Parent.Nodes.IndexOf(selected);
-				arrayContainer[index] = element;
-			}
 		}
 
 		void SelectEncoding(ToolStripItem selected)
@@ -612,12 +627,12 @@ namespace UI
 					}
 					catch (Exception ex)
 					{
-						if (!(ex is DecoderFallbackException) &&
-							!(ex is InvalidJsonException))
+						if (ex is not DecoderFallbackException and
+							not InvalidJsonException)
 						{
 							throw;
 						}
-						string message = string.Format(CultureInfo.CurrentCulture, "{1}{0}{2}", Environment.NewLine, _openDialog.FileName, ex.Message);
+						string message = $"{_openDialog.FileName}{Environment.NewLine}{ex.Message}";
 						ShowWarning(message, Strings.Open);
 						return;
 					}
@@ -627,7 +642,7 @@ namespace UI
 				{
 					_autoOption.Text = Strings.AutoAscii;
 				}
-				else if (_detected ==_utf8)
+				else if (_detected == _utf8)
 				{
 					_autoOption.Text = Strings.AutoUtf8;
 				}
@@ -657,7 +672,7 @@ namespace UI
 				}
 				else
 				{
-					Debug.Assert(false);
+					Debug.Fail("Unsupported encoding detected.");
 				}
 			}
 			LoadElement(element);
@@ -724,20 +739,11 @@ namespace UI
 			}
 			else
 			{
-				Debug.Assert(false);
+				Debug.Fail($"Unrecognized type {_typeValue.SelectedItem}.");
 				return;
 			}
 
-			if (_navigation.SelectedNode.Tag is JsonObjectPair)
-			{
-				int index = _navigation.SelectedNode.Parent.Nodes.IndexOf(_navigation.SelectedNode);
-				JsonObject objectContainer = (JsonObject)_navigation.SelectedNode.Parent.Tag;
-				objectContainer[index] = new JsonObjectPair(objectContainer[index].Key, newValue);
-			}
-			else
-			{
-				_navigation.SelectedNode.Tag = newValue;
-			}
+			SetValue(_navigation.SelectedNode, newValue);
 			SetText(_navigation.SelectedNode);
 			_navigation.SelectedNode.Nodes.Clear();
 
@@ -795,7 +801,7 @@ namespace UI
 			}
 			else
 			{
-				return;
+				Debug.Fail("Parent nodes must be either arrays or objects.");
 			}
 
 			parent.Nodes.Remove(_navigation.SelectedNode);
@@ -815,6 +821,38 @@ namespace UI
 		void EncodingDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
 			SelectEncoding(e.ClickedItem);
+		}
+
+		void UpdateValue(JsonElement newValue)
+		{
+			SetValue(_navigation.SelectedNode, newValue);
+			SetText(_navigation.SelectedNode);
+		}
+
+		void BooleanChanged(object sender, EventArgs e)
+		{
+			UpdateValue(_booleanControl.Value);
+		}
+
+		void StringChanged(object sender, EventArgs e)
+		{
+			UpdateValue(_stringControl.Value);
+		}
+
+		void NumberChanged(object sender, EventArgs e)
+		{
+			UpdateValue(_numberControl.Value);
+		}
+
+		void KeyChanged(object sender, EventArgs e)
+		{
+			TreeNode selected = _navigation.SelectedNode;
+			int index = selected.Parent.Nodes.IndexOf(selected);
+			JsonObjectPair pair = (JsonObjectPair)selected.Tag;
+			JsonObject objectContainer = (JsonObject)selected.Parent.Tag;
+			objectContainer[index] = new JsonObjectPair(_keyControl.Value, pair.Value);
+			selected.Tag = objectContainer[index];
+			SetText(selected);
 		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class ContainerControl : UserControl
+	partial class ContainerControl : UserControl
 	{
 		public ContainerControl() => InitializeComponent();
 

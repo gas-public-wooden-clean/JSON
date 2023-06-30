@@ -1,10 +1,11 @@
 using CER.Json.DocumentObjectModel;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace UI
 {
-	public partial class NullControl : UserControl
+	partial class NullControl : UserControl
 	{
 		public NullControl() => InitializeComponent();
 
@@ -26,5 +27,12 @@ namespace UI
 				_trailing.Value = value.Trailing;
 			}
 		}
+
+		void WhitespaceChanged(object sender, EventArgs e)
+		{
+			ValueChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		public event EventHandler ValueChanged;
 	}
 }
