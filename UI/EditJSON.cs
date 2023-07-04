@@ -784,24 +784,22 @@ namespace UI
 		void DeleteClick(object sender, EventArgs e)
 		{
 			TreeNode parent = _navigation.SelectedNode.Parent;
-			if (parent is null)
-			{
-				return;
-			}
+
+			JsonElement parentElement = GetValue(parent);
 
 			int selectedIndex = parent.Nodes.IndexOf(_navigation.SelectedNode);
 
-			if (parent.Tag is JsonArray arrayValue)
+			if (parentElement is JsonArray arrayValue)
 			{
 				arrayValue.RemoveAt(selectedIndex);
 			}
-			else if (parent.Tag is JsonObject objectValue)
+			else if (parentElement is JsonObject objectValue)
 			{
 				objectValue.RemoveAt(selectedIndex);
 			}
 			else
 			{
-				Debug.Fail("Parent nodes must be either arrays or objects.");
+				Debug.Fail("Parents must either be arrays or objects.");
 			}
 
 			parent.Nodes.Remove(_navigation.SelectedNode);
