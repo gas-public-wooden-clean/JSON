@@ -847,7 +847,7 @@ namespace UI
 			TreeNode selected = _navigation.SelectedNode;
 			int index = selected.Parent.Nodes.IndexOf(selected);
 			JsonObjectPair pair = (JsonObjectPair)selected.Tag;
-			JsonObject objectContainer = (JsonObject)selected.Parent.Tag;
+			JsonObject objectContainer = (JsonObject)GetValue(selected.Parent);
 			objectContainer[index] = new JsonObjectPair(_keyControl.Value, pair.Value);
 			selected.Tag = objectContainer[index];
 			SetText(selected);
