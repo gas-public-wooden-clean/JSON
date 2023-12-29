@@ -183,7 +183,7 @@ namespace SerializationTest
 		[TestMethod]
 		public void TestRiceCrackerUTF8()
 		{
-			JsonString elem = new JsonString("\ud83c\udf58", false);
+			JsonString elem = new JsonString("\ud83c\udf58");
 			string json = GetString(_utf8, elem);
 			Assert.AreEqual("\"\ud83c\udf58\"", json);
 		}
@@ -191,7 +191,7 @@ namespace SerializationTest
 		[TestMethod]
 		public void TestRiceCrackerCP1252()
 		{
-			JsonString elem = new JsonString("\ud83c\udf58", false);
+			JsonString elem = new JsonString("\ud83c\udf58");
 			string json = GetString(_cp1252, elem);
 			Assert.AreEqual("\"\\uD83C\\uDF58\"", json);
 		}

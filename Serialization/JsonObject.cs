@@ -74,6 +74,19 @@ namespace CER.Json.DocumentObjectModel
 		}
 
 		/// <summary>
+		/// Gets or sets the value with the unique key.
+		/// </summary>
+		/// <param name="key">The native representation of the key using ordinal comparison.</param>
+		/// <returns>The value for the given key.</returns>
+		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
+		/// <exception cref="ArgumentException">More than one instance of the key exists.</exception>
+		public JsonElement this[string key]
+		{
+			get => GetValue(key);
+			set => SetValue(key, value);
+		}
+
+		/// <summary>
 		/// Adds a pair to the object.
 		/// </summary>
 		/// <param name="item">The pair to add to the object.</param>
@@ -87,6 +100,34 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="value">The value to add to the object.</param>
 		/// <exception cref="ArgumentNullException">The key or value is null.</exception>
 		public void Add(JsonString key, JsonElement value) => Add(new JsonObjectPair(key, value));
+
+		/// <summary>
+		/// Adds a pair to the object.
+		/// </summary>
+		/// <param name="key">The native representation of the key to add.</param>
+		/// <param name="value">The value to add to the object.</param>
+		public void Add(string key, JsonElement value) => Add(new JsonObjectPair(new JsonString(key), value));
+
+		/// <summary>
+		/// Adds a string value to the object.
+		/// </summary>
+		/// <param name="key">The native representation of the key to add.</param>
+		/// <param name="value">The native representation of the string value to add.</param>
+		public void Add(string key, string value) => Add(new JsonObjectPair(new JsonString(key), new JsonString(value)));
+
+		/// <summary>
+		/// Adds a boolean value to the object.
+		/// </summary>
+		/// <param name="key">The native representation of the key to add.</param>
+		/// <param name="value">The native representation of the boolean value to add.</param>
+		public void Add(string key, bool value) => Add(new JsonObjectPair(new JsonString(key), new JsonBoolean(value)));
+
+		/// <summary>
+		/// Adds a number value to the object.
+		/// </summary>
+		/// <param name="key">The native representation of the key to add.</param>
+		/// <param name="value">The number value to add as a decimal.</param>
+		public void Add(string key, decimal value) => Add(new JsonObjectPair(new JsonString(key), new JsonNumber(value)));
 
 		/// <summary>
 		/// Removes all elements from the object.

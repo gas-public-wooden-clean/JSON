@@ -30,340 +30,321 @@ namespace UI
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditJson));
-			this._expand = new System.Windows.Forms.ToolStripMenuItem();
-			this._split = new System.Windows.Forms.SplitContainer();
-			this._typeLabel = new System.Windows.Forms.Label();
-			this._typeValue = new System.Windows.Forms.ComboBox();
-			this._navigation = new System.Windows.Forms.TreeView();
-			this._keyValueLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._keyControl = new UI.StringControl();
-			this._valuePanel = new System.Windows.Forms.Panel();
-			this._booleanControl = new UI.BooleanControl();
-			this._numberControl = new UI.NumberControl();
-			this._containerControl = new UI.ContainerControl();
-			this._stringControl = new UI.StringControl();
-			this._nullControl = new UI.NullControl();
-			this._menu = new System.Windows.Forms.MenuStrip();
-			this._file = new System.Windows.Forms.ToolStripMenuItem();
-			this._new = new System.Windows.Forms.ToolStripMenuItem();
-			this._open = new System.Windows.Forms.ToolStripMenuItem();
-			this._save = new System.Windows.Forms.ToolStripMenuItem();
-			this._saveAs = new System.Windows.Forms.ToolStripMenuItem();
-			this._exit = new System.Windows.Forms.ToolStripMenuItem();
-			this._edit = new System.Windows.Forms.ToolStripMenuItem();
-			this._add = new System.Windows.Forms.ToolStripMenuItem();
-			this._insertBefore = new System.Windows.Forms.ToolStripMenuItem();
-			this._insertAfter = new System.Windows.Forms.ToolStripMenuItem();
-			this._delete = new System.Windows.Forms.ToolStripMenuItem();
-			this._view = new System.Windows.Forms.ToolStripMenuItem();
-			this._collapse = new System.Windows.Forms.ToolStripMenuItem();
-			this._encoding = new System.Windows.Forms.ToolStripMenuItem();
-			this._autoOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._asciiOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._utf8Option = new System.Windows.Forms.ToolStripMenuItem();
-			this._utf8bomOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._utf16leOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._utf16beOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._utf32leOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._utf32beOption = new System.Windows.Forms.ToolStripMenuItem();
-			this._cp1252Option = new System.Windows.Forms.ToolStripMenuItem();
-			this._openDialog = new System.Windows.Forms.OpenFileDialog();
-			this._saveDialog = new System.Windows.Forms.SaveFileDialog();
-			((System.ComponentModel.ISupportInitialize)(this._split)).BeginInit();
-			this._split.Panel1.SuspendLayout();
-			this._split.Panel2.SuspendLayout();
-			this._split.SuspendLayout();
-			this._keyValueLayout.SuspendLayout();
-			this._valuePanel.SuspendLayout();
-			this._menu.SuspendLayout();
-			this.SuspendLayout();
+			_expand = new System.Windows.Forms.ToolStripMenuItem();
+			_split = new System.Windows.Forms.SplitContainer();
+			_typeLabel = new System.Windows.Forms.Label();
+			_typeValue = new System.Windows.Forms.ComboBox();
+			_navigation = new System.Windows.Forms.TreeView();
+			_keyValueLayout = new System.Windows.Forms.TableLayoutPanel();
+			_keyControl = new StringControl();
+			_valuePanel = new System.Windows.Forms.Panel();
+			_booleanControl = new BooleanControl();
+			_numberControl = new NumberControl();
+			_containerControl = new ContainerControl();
+			_stringControl = new StringControl();
+			_nullControl = new NullControl();
+			_menu = new System.Windows.Forms.MenuStrip();
+			_file = new System.Windows.Forms.ToolStripMenuItem();
+			_new = new System.Windows.Forms.ToolStripMenuItem();
+			_open = new System.Windows.Forms.ToolStripMenuItem();
+			_save = new System.Windows.Forms.ToolStripMenuItem();
+			_saveAs = new System.Windows.Forms.ToolStripMenuItem();
+			_exit = new System.Windows.Forms.ToolStripMenuItem();
+			_edit = new System.Windows.Forms.ToolStripMenuItem();
+			_add = new System.Windows.Forms.ToolStripMenuItem();
+			_insertBefore = new System.Windows.Forms.ToolStripMenuItem();
+			_insertAfter = new System.Windows.Forms.ToolStripMenuItem();
+			_delete = new System.Windows.Forms.ToolStripMenuItem();
+			_view = new System.Windows.Forms.ToolStripMenuItem();
+			_collapse = new System.Windows.Forms.ToolStripMenuItem();
+			_encoding = new System.Windows.Forms.ToolStripMenuItem();
+			_autoOption = new System.Windows.Forms.ToolStripMenuItem();
+			_asciiOption = new System.Windows.Forms.ToolStripMenuItem();
+			_utf8Option = new System.Windows.Forms.ToolStripMenuItem();
+			_utf8bomOption = new System.Windows.Forms.ToolStripMenuItem();
+			_utf16leOption = new System.Windows.Forms.ToolStripMenuItem();
+			_utf16beOption = new System.Windows.Forms.ToolStripMenuItem();
+			_utf32leOption = new System.Windows.Forms.ToolStripMenuItem();
+			_utf32beOption = new System.Windows.Forms.ToolStripMenuItem();
+			_cp1252Option = new System.Windows.Forms.ToolStripMenuItem();
+			_openDialog = new System.Windows.Forms.OpenFileDialog();
+			_saveDialog = new System.Windows.Forms.SaveFileDialog();
+			_cp437Option = new System.Windows.Forms.ToolStripMenuItem();
+			((System.ComponentModel.ISupportInitialize)_split).BeginInit();
+			_split.Panel1.SuspendLayout();
+			_split.Panel2.SuspendLayout();
+			_split.SuspendLayout();
+			_keyValueLayout.SuspendLayout();
+			_valuePanel.SuspendLayout();
+			_menu.SuspendLayout();
+			SuspendLayout();
 			// 
 			// _expand
 			// 
-			this._expand.Name = "_expand";
-			resources.ApplyResources(this._expand, "_expand");
-			this._expand.Click += new System.EventHandler(this.ExpandClick);
+			_expand.Name = "_expand";
+			resources.ApplyResources(_expand, "_expand");
+			_expand.Click += ExpandClick;
 			// 
 			// _split
 			// 
-			resources.ApplyResources(this._split, "_split");
-			this._split.Name = "_split";
+			resources.ApplyResources(_split, "_split");
+			_split.Name = "_split";
 			// 
 			// _split.Panel1
 			// 
-			this._split.Panel1.Controls.Add(this._typeLabel);
-			this._split.Panel1.Controls.Add(this._typeValue);
-			this._split.Panel1.Controls.Add(this._navigation);
+			_split.Panel1.Controls.Add(_typeLabel);
+			_split.Panel1.Controls.Add(_typeValue);
+			_split.Panel1.Controls.Add(_navigation);
 			// 
 			// _split.Panel2
 			// 
-			this._split.Panel2.Controls.Add(this._keyValueLayout);
+			_split.Panel2.Controls.Add(_keyValueLayout);
 			// 
 			// _typeLabel
 			// 
-			resources.ApplyResources(this._typeLabel, "_typeLabel");
-			this._typeLabel.Name = "_typeLabel";
+			resources.ApplyResources(_typeLabel, "_typeLabel");
+			_typeLabel.Name = "_typeLabel";
 			// 
 			// _typeValue
 			// 
-			resources.ApplyResources(this._typeValue, "_typeValue");
-			this._typeValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this._typeValue.FormattingEnabled = true;
-			this._typeValue.Name = "_typeValue";
-			this._typeValue.SelectedIndexChanged += new System.EventHandler(this.SelectedTypeChanged);
+			resources.ApplyResources(_typeValue, "_typeValue");
+			_typeValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			_typeValue.FormattingEnabled = true;
+			_typeValue.Name = "_typeValue";
+			_typeValue.SelectedIndexChanged += SelectedTypeChanged;
 			// 
 			// _navigation
 			// 
-			resources.ApplyResources(this._navigation, "_navigation");
-			this._navigation.Name = "_navigation";
-			this._navigation.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.BeforeSelect);
-			this._navigation.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelect);
+			resources.ApplyResources(_navigation, "_navigation");
+			_navigation.Name = "_navigation";
+			_navigation.BeforeSelect += BeforeSelect;
+			_navigation.AfterSelect += AfterSelect;
 			// 
 			// _keyValueLayout
 			// 
-			resources.ApplyResources(this._keyValueLayout, "_keyValueLayout");
-			this._keyValueLayout.Controls.Add(this._keyControl, 0, 0);
-			this._keyValueLayout.Controls.Add(this._valuePanel, 1, 0);
-			this._keyValueLayout.Name = "_keyValueLayout";
+			resources.ApplyResources(_keyValueLayout, "_keyValueLayout");
+			_keyValueLayout.Controls.Add(_keyControl, 0, 0);
+			_keyValueLayout.Controls.Add(_valuePanel, 1, 0);
+			_keyValueLayout.Name = "_keyValueLayout";
 			// 
 			// _keyControl
 			// 
-			resources.ApplyResources(this._keyControl, "_keyControl");
-			this._keyControl.Name = "_keyControl";
-			this._keyControl.ValueChanged += new System.EventHandler(this.KeyChanged);
+			resources.ApplyResources(_keyControl, "_keyControl");
+			_keyControl.Name = "_keyControl";
+			_keyControl.ValueChanged += KeyChanged;
 			// 
 			// _valuePanel
 			// 
-			this._valuePanel.Controls.Add(this._booleanControl);
-			this._valuePanel.Controls.Add(this._numberControl);
-			this._valuePanel.Controls.Add(this._containerControl);
-			this._valuePanel.Controls.Add(this._stringControl);
-			this._valuePanel.Controls.Add(this._nullControl);
-			resources.ApplyResources(this._valuePanel, "_valuePanel");
-			this._valuePanel.Name = "_valuePanel";
+			_valuePanel.Controls.Add(_booleanControl);
+			_valuePanel.Controls.Add(_numberControl);
+			_valuePanel.Controls.Add(_containerControl);
+			_valuePanel.Controls.Add(_stringControl);
+			_valuePanel.Controls.Add(_nullControl);
+			resources.ApplyResources(_valuePanel, "_valuePanel");
+			_valuePanel.Name = "_valuePanel";
 			// 
 			// _booleanControl
 			// 
-			resources.ApplyResources(this._booleanControl, "_booleanControl");
-			this._booleanControl.Name = "_booleanControl";
-			this._booleanControl.ValueChanged += new System.EventHandler(this.BooleanChanged);
+			resources.ApplyResources(_booleanControl, "_booleanControl");
+			_booleanControl.Name = "_booleanControl";
+			_booleanControl.ValueChanged += BooleanChanged;
 			// 
 			// _numberControl
 			// 
-			resources.ApplyResources(this._numberControl, "_numberControl");
-			this._numberControl.Name = "_numberControl";
-			this._numberControl.ValueChanged += new System.EventHandler(this.NumberChanged);
+			resources.ApplyResources(_numberControl, "_numberControl");
+			_numberControl.Name = "_numberControl";
+			_numberControl.ValueChanged += NumberChanged;
 			// 
 			// _containerControl
 			// 
-			resources.ApplyResources(this._containerControl, "_containerControl");
-			this._containerControl.Name = "_containerControl";
+			resources.ApplyResources(_containerControl, "_containerControl");
+			_containerControl.Name = "_containerControl";
 			// 
 			// _stringControl
 			// 
-			resources.ApplyResources(this._stringControl, "_stringControl");
-			this._stringControl.Name = "_stringControl";
-			this._stringControl.ValueChanged += new System.EventHandler(this.StringChanged);
+			resources.ApplyResources(_stringControl, "_stringControl");
+			_stringControl.Name = "_stringControl";
+			_stringControl.ValueChanged += StringChanged;
 			// 
 			// _nullControl
 			// 
-			resources.ApplyResources(this._nullControl, "_nullControl");
-			this._nullControl.Name = "_nullControl";
+			resources.ApplyResources(_nullControl, "_nullControl");
+			_nullControl.Name = "_nullControl";
 			// 
 			// _menu
 			// 
-			this._menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._file,
-            this._edit,
-            this._view,
-            this._encoding});
-			resources.ApplyResources(this._menu, "_menu");
-			this._menu.Name = "_menu";
+			_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { _file, _edit, _view, _encoding });
+			resources.ApplyResources(_menu, "_menu");
+			_menu.Name = "_menu";
 			// 
 			// _file
 			// 
-			this._file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._new,
-            this._open,
-            this._save,
-            this._saveAs,
-            this._exit});
-			this._file.Name = "_file";
-			resources.ApplyResources(this._file, "_file");
+			_file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { _new, _open, _save, _saveAs, _exit });
+			_file.Name = "_file";
+			resources.ApplyResources(_file, "_file");
 			// 
 			// _new
 			// 
-			this._new.Name = "_new";
-			resources.ApplyResources(this._new, "_new");
-			this._new.Click += new System.EventHandler(this.NewClick);
+			_new.Name = "_new";
+			resources.ApplyResources(_new, "_new");
+			_new.Click += NewClick;
 			// 
 			// _open
 			// 
-			this._open.Name = "_open";
-			resources.ApplyResources(this._open, "_open");
-			this._open.Click += new System.EventHandler(this.OpenClick);
+			_open.Name = "_open";
+			resources.ApplyResources(_open, "_open");
+			_open.Click += OpenClick;
 			// 
 			// _save
 			// 
-			this._save.Name = "_save";
-			resources.ApplyResources(this._save, "_save");
-			this._save.Click += new System.EventHandler(this.SaveClick);
+			_save.Name = "_save";
+			resources.ApplyResources(_save, "_save");
+			_save.Click += SaveClick;
 			// 
 			// _saveAs
 			// 
-			this._saveAs.Name = "_saveAs";
-			resources.ApplyResources(this._saveAs, "_saveAs");
-			this._saveAs.Click += new System.EventHandler(this.SaveAsClick);
+			_saveAs.Name = "_saveAs";
+			resources.ApplyResources(_saveAs, "_saveAs");
+			_saveAs.Click += SaveAsClick;
 			// 
 			// _exit
 			// 
-			this._exit.Name = "_exit";
-			resources.ApplyResources(this._exit, "_exit");
-			this._exit.Click += new System.EventHandler(this.ExitClick);
+			_exit.Name = "_exit";
+			resources.ApplyResources(_exit, "_exit");
+			_exit.Click += ExitClick;
 			// 
 			// _edit
 			// 
-			this._edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._add,
-            this._insertBefore,
-            this._insertAfter,
-            this._delete});
-			this._edit.Name = "_edit";
-			resources.ApplyResources(this._edit, "_edit");
+			_edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { _add, _insertBefore, _insertAfter, _delete });
+			_edit.Name = "_edit";
+			resources.ApplyResources(_edit, "_edit");
 			// 
 			// _add
 			// 
-			resources.ApplyResources(this._add, "_add");
-			this._add.Name = "_add";
-			this._add.Click += new System.EventHandler(this.AddClick);
+			resources.ApplyResources(_add, "_add");
+			_add.Name = "_add";
+			_add.Click += AddClick;
 			// 
 			// _insertBefore
 			// 
-			resources.ApplyResources(this._insertBefore, "_insertBefore");
-			this._insertBefore.Name = "_insertBefore";
-			this._insertBefore.Click += new System.EventHandler(this.InsertBeforeClick);
+			resources.ApplyResources(_insertBefore, "_insertBefore");
+			_insertBefore.Name = "_insertBefore";
+			_insertBefore.Click += InsertBeforeClick;
 			// 
 			// _insertAfter
 			// 
-			resources.ApplyResources(this._insertAfter, "_insertAfter");
-			this._insertAfter.Name = "_insertAfter";
-			this._insertAfter.Click += new System.EventHandler(this.InsertAfterClick);
+			resources.ApplyResources(_insertAfter, "_insertAfter");
+			_insertAfter.Name = "_insertAfter";
+			_insertAfter.Click += InsertAfterClick;
 			// 
 			// _delete
 			// 
-			resources.ApplyResources(this._delete, "_delete");
-			this._delete.Name = "_delete";
-			this._delete.Click += new System.EventHandler(this.DeleteClick);
+			resources.ApplyResources(_delete, "_delete");
+			_delete.Name = "_delete";
+			_delete.Click += DeleteClick;
 			// 
 			// _view
 			// 
-			this._view.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._collapse,
-            this._expand});
-			this._view.Name = "_view";
-			resources.ApplyResources(this._view, "_view");
+			_view.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { _collapse, _expand });
+			_view.Name = "_view";
+			resources.ApplyResources(_view, "_view");
 			// 
 			// _collapse
 			// 
-			this._collapse.Name = "_collapse";
-			resources.ApplyResources(this._collapse, "_collapse");
-			this._collapse.Click += new System.EventHandler(this.CollapseClick);
+			_collapse.Name = "_collapse";
+			resources.ApplyResources(_collapse, "_collapse");
+			_collapse.Click += CollapseClick;
 			// 
 			// _encoding
 			// 
-			this._encoding.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._autoOption,
-            this._asciiOption,
-            this._utf8Option,
-            this._utf8bomOption,
-            this._utf16leOption,
-            this._utf16beOption,
-            this._utf32leOption,
-            this._utf32beOption,
-            this._cp1252Option});
-			this._encoding.Name = "_encoding";
-			resources.ApplyResources(this._encoding, "_encoding");
-			this._encoding.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.EncodingDropDownItemClicked);
+			_encoding.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { _autoOption, _asciiOption, _utf8Option, _utf8bomOption, _utf16leOption, _utf16beOption, _utf32leOption, _utf32beOption, _cp1252Option, _cp437Option });
+			_encoding.Name = "_encoding";
+			resources.ApplyResources(_encoding, "_encoding");
+			_encoding.DropDownItemClicked += EncodingDropDownItemClicked;
 			// 
 			// _autoOption
 			// 
-			this._autoOption.Checked = true;
-			this._autoOption.CheckState = System.Windows.Forms.CheckState.Checked;
-			this._autoOption.Name = "_autoOption";
-			resources.ApplyResources(this._autoOption, "_autoOption");
+			_autoOption.Checked = true;
+			_autoOption.CheckState = System.Windows.Forms.CheckState.Checked;
+			_autoOption.Name = "_autoOption";
+			resources.ApplyResources(_autoOption, "_autoOption");
 			// 
 			// _asciiOption
 			// 
-			this._asciiOption.Name = "_asciiOption";
-			resources.ApplyResources(this._asciiOption, "_asciiOption");
+			_asciiOption.Name = "_asciiOption";
+			resources.ApplyResources(_asciiOption, "_asciiOption");
 			// 
 			// _utf8Option
 			// 
-			this._utf8Option.Name = "_utf8Option";
-			resources.ApplyResources(this._utf8Option, "_utf8Option");
+			_utf8Option.Name = "_utf8Option";
+			resources.ApplyResources(_utf8Option, "_utf8Option");
 			// 
 			// _utf8bomOption
 			// 
-			this._utf8bomOption.Name = "_utf8bomOption";
-			resources.ApplyResources(this._utf8bomOption, "_utf8bomOption");
+			_utf8bomOption.Name = "_utf8bomOption";
+			resources.ApplyResources(_utf8bomOption, "_utf8bomOption");
 			// 
 			// _utf16leOption
 			// 
-			this._utf16leOption.Name = "_utf16leOption";
-			resources.ApplyResources(this._utf16leOption, "_utf16leOption");
+			_utf16leOption.Name = "_utf16leOption";
+			resources.ApplyResources(_utf16leOption, "_utf16leOption");
 			// 
 			// _utf16beOption
 			// 
-			this._utf16beOption.Name = "_utf16beOption";
-			resources.ApplyResources(this._utf16beOption, "_utf16beOption");
+			_utf16beOption.Name = "_utf16beOption";
+			resources.ApplyResources(_utf16beOption, "_utf16beOption");
 			// 
 			// _utf32leOption
 			// 
-			this._utf32leOption.Name = "_utf32leOption";
-			resources.ApplyResources(this._utf32leOption, "_utf32leOption");
+			_utf32leOption.Name = "_utf32leOption";
+			resources.ApplyResources(_utf32leOption, "_utf32leOption");
 			// 
 			// _utf32beOption
 			// 
-			this._utf32beOption.Name = "_utf32beOption";
-			resources.ApplyResources(this._utf32beOption, "_utf32beOption");
+			_utf32beOption.Name = "_utf32beOption";
+			resources.ApplyResources(_utf32beOption, "_utf32beOption");
 			// 
 			// _cp1252Option
 			// 
-			this._cp1252Option.Name = "_cp1252Option";
-			resources.ApplyResources(this._cp1252Option, "_cp1252Option");
+			_cp1252Option.Name = "_cp1252Option";
+			resources.ApplyResources(_cp1252Option, "_cp1252Option");
 			// 
 			// _openDialog
 			// 
-			this._openDialog.DefaultExt = "json";
-			resources.ApplyResources(this._openDialog, "_openDialog");
-			this._openDialog.SupportMultiDottedExtensions = true;
+			_openDialog.DefaultExt = "json";
+			resources.ApplyResources(_openDialog, "_openDialog");
+			_openDialog.SupportMultiDottedExtensions = true;
 			// 
 			// _saveDialog
 			// 
-			this._saveDialog.DefaultExt = "json";
-			resources.ApplyResources(this._saveDialog, "_saveDialog");
-			this._saveDialog.SupportMultiDottedExtensions = true;
+			_saveDialog.DefaultExt = "json";
+			resources.ApplyResources(_saveDialog, "_saveDialog");
+			_saveDialog.SupportMultiDottedExtensions = true;
+			// 
+			// _cp437Option
+			// 
+			_cp437Option.Name = "_cp437Option";
+			resources.ApplyResources(_cp437Option, "_cp437Option");
 			// 
 			// EditJson
 			// 
 			resources.ApplyResources(this, "$this");
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this._split);
-			this.Controls.Add(this._menu);
-			this.MainMenuStrip = this._menu;
-			this.Name = "EditJson";
-			this._split.Panel1.ResumeLayout(false);
-			this._split.Panel1.PerformLayout();
-			this._split.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this._split)).EndInit();
-			this._split.ResumeLayout(false);
-			this._keyValueLayout.ResumeLayout(false);
-			this._valuePanel.ResumeLayout(false);
-			this._menu.ResumeLayout(false);
-			this._menu.PerformLayout();
-			this.ResumeLayout(false);
-			this.PerformLayout();
-
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			Controls.Add(_split);
+			Controls.Add(_menu);
+			MainMenuStrip = _menu;
+			Name = "EditJson";
+			_split.Panel1.ResumeLayout(false);
+			_split.Panel1.PerformLayout();
+			_split.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)_split).EndInit();
+			_split.ResumeLayout(false);
+			_keyValueLayout.ResumeLayout(false);
+			_valuePanel.ResumeLayout(false);
+			_menu.ResumeLayout(false);
+			_menu.PerformLayout();
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
@@ -406,6 +387,7 @@ namespace UI
 		private System.Windows.Forms.ToolStripMenuItem _collapse;
 		private System.Windows.Forms.ToolStripMenuItem _encoding;
 		private System.Windows.Forms.ToolStripMenuItem _expand;
+		private System.Windows.Forms.ToolStripMenuItem _cp437Option;
 	}
 }
 

@@ -28,7 +28,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="isJson">Whether the representation of the JSON string is a JSON string or a native string.</param>
 		/// <exception cref="ArgumentNullException">The given representation is null.</exception>
 		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
-		public JsonString(string representation, bool isJson)
+		public JsonString(string representation, bool isJson = false)
 		{
 			if (isJson)
 			{

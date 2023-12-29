@@ -45,7 +45,7 @@ namespace UI
 				return;
 			}
 
-			JsonString newValue = new JsonString(_literalValue.Text, false);
+			JsonString newValue = new JsonString(_literalValue.Text);
 			_json = newValue.Json;
 
 			_updating = true;

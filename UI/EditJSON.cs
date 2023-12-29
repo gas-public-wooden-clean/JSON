@@ -28,6 +28,7 @@ namespace UI
 
 			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 			_cp1252 = Encoding.GetEncoding(1252, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
+			_cp437 = Encoding.GetEncoding(437, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
 
 			LoadElement(new JsonNull());
 		}
@@ -70,6 +71,10 @@ namespace UI
 		/// Code page 1252.
 		/// </summary>
 		readonly Encoding _cp1252;
+		/// <summary>
+		/// Code page 437.
+		/// </summary>
+		readonly Encoding _cp437;
 
 		static bool BytesStartWith(byte[] left, int leftLength, byte[] right)
 		{
@@ -466,6 +471,8 @@ namespace UI
 				_utf16beOption,
 				_utf32leOption,
 				_utf32beOption,
+				_cp1252Option,
+				_cp437Option,
 			};
 			foreach (ToolStripMenuItem encodingOption in options)
 			{
@@ -506,6 +513,10 @@ namespace UI
 			else if (_cp1252Option.Checked)
 			{
 				return _cp1252;
+			}
+			else if (_cp437Option.Checked)
+			{
+				return _cp437;
 			}
 			else
 			{

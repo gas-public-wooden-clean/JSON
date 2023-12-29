@@ -7,7 +7,7 @@ namespace CER.Json.DocumentObjectModel
 	/// An object pair, consisting of a string key and a corresponding value.
 	/// </summary>
 	[DebuggerDisplay("{Key}:{Value}")]
-	public struct JsonObjectPair
+	public readonly struct JsonObjectPair
 	{
 		/// <summary>
 		/// Create an object pair with the given key and value.
