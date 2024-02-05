@@ -56,7 +56,6 @@ namespace CER.Json.DocumentObjectModel
 				StringBuilder json = new StringBuilder(value);
 				_ = json.Replace("\\", "\\\\");
 				_ = json.Replace("\"", "\\\"");
-				_ = json.Replace("/", "\\/");
 				_ = json.Replace("\b", "\\b");
 				_ = json.Replace("\f", "\\f");
 				_ = json.Replace("\r", "\\r");
