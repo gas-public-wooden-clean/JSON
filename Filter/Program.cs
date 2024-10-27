@@ -17,7 +17,7 @@ namespace Filter
 {
 	class Program
 	{
-		internal const string VersionString = "1.1.0.0";
+		internal const string VersionString = "1.2.0.0";
 
 		static void Main(string[] args)
 		{

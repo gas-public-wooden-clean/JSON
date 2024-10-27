@@ -1,5 +1,6 @@
 using CER.Json.Stream;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -84,10 +85,90 @@ namespace CER.Json.DocumentObjectModel
 					Serialize(writer);
 				}
 				mem.Position = 0;
-				using (TextReader reader = new StreamReader(mem, Encoding.Unicode))
+				using (StreamReader reader = new StreamReader(mem, Encoding.Unicode))
 				{
 					return reader.ReadToEnd();
 				}
+			}
+		}
+
+		/// <summary>
+		/// Set the whitespace of the element and all its children to the default "pretty" format.
+		///
+		/// Elements other than keys and values are on their own line and indented based on how
+		/// deeply nexted they are. Values are led by a single space. Empty arrays and containers
+		/// have no internal whitespace.
+		/// </summary>
+		/// <param name="newLine">The newline string. If null, Environment.NewLine is used.</param>
+		/// <param name="indent">The indent string.</param>
+		/// <param name="afterKey">The whitespace to insert after a key in an object (before the
+		/// colon). If null, an empty string is used.</param>
+		/// <param name="beforeValue">The whitespace to insert before a value in an object (after
+		/// the colon). If null, a single space is used.</param>
+		public void Prettify(string newLine = null, string indent = "  ", Whitespace afterKey = null, Whitespace beforeValue = null)
+		{
+			IFormat format = new DefaultFormat(newLine, indent, afterKey, beforeValue ?? new Whitespace(" "));
+			Format(format);
+		}
+
+		/// <summary>
+		/// Remove all whitespace from the element and all its children, conserving space and making
+		/// it appropriate for a newline delimited JSON format.
+		/// </summary>
+		public void Minify()
+		{
+			IFormat format = new DefaultFormat(string.Empty, string.Empty, Whitespace.Empty, Whitespace.Empty);
+			Format(format);
+		}
+
+		/// <summary>
+		/// Set the whitespace of the element and all its children according to the rules of the
+		/// format.
+		/// </summary>
+		/// <param name="format">The formatting rules to use.</param>
+		/// <exception cref="ArgumentNullException">The format is null.</exception>
+		public void Format(IFormat format)
+		{
+			if (format is null)
+			{
+				throw new ArgumentNullException(nameof(format));
+			}
+
+			int depth = 0;
+			format.Format(this, depth, false, false, false);
+			List<JsonElement> level = new List<JsonElement>()
+			{
+				this
+			};
+			List<JsonElement> nextLevel = new List<JsonElement>();
+
+			while (level.Count > 0)
+			{
+				depth += 1;
+
+				foreach (var element in level)
+				{
+					if (element is JsonArray array)
+					{
+						for (int i = 0; i < array.Count; i++)
+						{
+							format.Format(array[i], depth, false, false, i + 1 >= array.Count);
+							nextLevel.Add(array[i]);
+						}
+					}
+					else if (element is JsonObject obj)
+					{
+						for (int i = 0; i < obj.Count; i++)
+						{
+							format.Format(obj[i].Key, depth, true, false, i + 1 >= obj.Count);
+							format.Format(obj[i].Value, depth, false, true, i + 1 >= obj.Count);
+							nextLevel.Add(obj[i].Value);
+						}
+					}
+				}
+
+				(level, nextLevel) = (nextLevel, level);
+				nextLevel.Clear();
 			}
 		}
 

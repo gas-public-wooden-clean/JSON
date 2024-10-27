@@ -176,7 +176,7 @@ namespace SerializationTest
 			JsonArray elem = new JsonArray();
 			_ = Assert.ThrowsException<ArgumentNullException>(delegate ()
 			{
-				elem.Add(null);
+				elem.Add((string)null);
 			});
 		}
 
@@ -196,11 +196,61 @@ namespace SerializationTest
 			Assert.AreEqual("\"\\uD83C\\uDF58\"", json);
 		}
 
+		[TestMethod]
+		public void TestPrettyPrint()
+		{
+			JsonObject root = new JsonObject();
+
+			JsonArray array = new JsonArray();
+			root.Add("array", array);
+
+			root.Add("emptyArray", new JsonArray());
+
+			root.Add("emptyObject", new JsonObject());
+
+			root.Add("null", new JsonNull());
+
+			array.Add(new JsonNull());
+
+			root.Prettify();
+
+			string expected = "{" + Environment.NewLine +
+				"  \"array\": [" + Environment.NewLine +
+				"    null" + Environment.NewLine +
+				"  ]," + Environment.NewLine +
+				"  \"emptyArray\": []," + Environment.NewLine +
+				"  \"emptyObject\": {}," + Environment.NewLine +
+				"  \"null\": null" + Environment.NewLine +
+				"}";
+			Assert.AreEqual(expected, root.ToString());
+		}
+
+		[TestMethod]
+		public void TestMinify()
+		{
+			JsonObject root = new JsonObject();
+
+			JsonArray array = new JsonArray();
+			root.Add("array", array);
+
+			root.Add("emptyArray", new JsonArray());
+
+			root.Add("emptyObject", new JsonObject());
+
+			root.Add("null", new JsonNull());
+
+			array.Add(new JsonNull());
+
+			root.Minify();
+
+			Assert.AreEqual("{\"array\":[null],\"emptyArray\":[],\"emptyObject\":{},\"null\":null}", root.ToString());
+		}
+
 		static string GetString(Encoding encoding, JsonElement element)
 		{
 			Stream mem = new MemoryStream();
 
-			TextWriter writer = new StreamWriter(mem, encoding);
+			StreamWriter writer = new StreamWriter(mem, encoding);
 			element.Serialize(writer);
 			writer.Flush();
 

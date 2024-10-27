@@ -12,8 +12,8 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Create an object pair with the given key and value.
 		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="value"></param>
+		/// <param name="key">The key.</param>
+		/// <param name="value">The value.</param>
 		public JsonObjectPair(JsonString key, JsonElement value)
 		{
 			Key = key ?? throw new ArgumentNullException(nameof(key));

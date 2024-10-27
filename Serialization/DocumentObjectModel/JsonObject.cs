@@ -77,13 +77,14 @@ namespace CER.Json.DocumentObjectModel
 		/// Gets or sets the value with the unique key.
 		/// </summary>
 		/// <param name="key">The native representation of the key using ordinal comparison.</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
 		/// <returns>The value for the given key.</returns>
 		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
 		/// <exception cref="ArgumentException">More than one instance of the key exists.</exception>
-		public JsonElement this[string key]
+		public JsonElement this[string key, StringComparison comparisonType = StringComparison.Ordinal]
 		{
-			get => GetValue(key);
-			set => SetValue(key, value);
+			get => GetValue(key, comparisonType);
+			set => SetValue(key, value, comparisonType);
 		}
 
 		/// <summary>
@@ -440,7 +441,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <summary>
 		/// Get the first value, if any, with an equivalent key.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="T">The type of element to cast to.</typeparam>
 		/// <param name="key">The value of a JSON string (not the JSON representation).</param>
 		/// <param name="value">The first value with a matching key.</param>
 		/// <param name="comparisonType">One of the enumeration values that specifies how the strings will be compared.</param>
@@ -528,7 +529,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="KeyNotFoundException">The key doesn't exist.</exception>
 		/// <exception cref="ArgumentException">The key has more than one value.</exception>
 		/// <exception cref="InvalidCastException">The value was not of the requested type.</exception>
-		T GetTypedValue<T>(string key, StringComparison comparisonType = StringComparison.Ordinal) where T : JsonElement
+		T GetTypedValue<T>(string key, StringComparison comparisonType) where T : JsonElement
 		{
 			JsonElement retval;
 			bool unique = TryGetValue(key, out retval, comparisonType);
@@ -541,6 +542,66 @@ namespace CER.Json.DocumentObjectModel
 				throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.KeyNotUnique, key), nameof(key));
 			}
 			return (T)retval;
+		}
+
+		/// <summary>
+		/// Gets an enumerable containing the items of the JsonObject.
+		/// </summary>
+		/// <typeparam name="T">The type of element to cast values to.</typeparam>
+		/// <param name="throwInvalidCast">Whether to throw an exception if the element is not the right type. Otherwise they're skipped.</param>
+		/// <returns>An enumerable containing the items of the JsonObject.</returns>
+		/// <exception cref="InvalidCastException">Not all values are the specified type and throwInvalidCast is true.</exception>
+		public IEnumerable<KeyValuePair<JsonString, T>> GetItems<T>(bool throwInvalidCast = true)
+			where T : JsonElement
+		{
+			foreach (var pair in _values)
+			{
+				if (pair.Value is T value)
+				{
+					yield return new KeyValuePair<JsonString, T>(pair.Key, value);
+				}
+				else if (throwInvalidCast)
+				{
+					yield return new KeyValuePair<JsonString, T>(pair.Key, (T)pair.Value);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets an enumerable containing the keys of the JsonObject.
+		/// </summary>
+		public IEnumerable<string> Keys
+		{
+			get
+			{
+				foreach (var pair in _values)
+				{
+					yield return pair.Key.Value;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets an enumerable containing the values of the JsonObject.
+		/// </summary>
+		/// <typeparam name="T">The type of element to cast to.</typeparam>
+		/// <param name="throwInvalidCast">Whether to throw an exception if the element is not the right type. Otherwise they're skipped.</param>
+		/// <returns>An enumerable containing the values of the JsonObject.</returns>
+		/// <exception cref="InvalidCastException">Not all values are the specified type and throwInvalidCast is true.</exception>
+		public IEnumerable<T> GetValues<T>(bool throwInvalidCast = true)
+			where T : JsonElement
+		{
+			foreach (var pair in _values)
+			{
+				if (pair.Value is T value)
+				{
+					yield return value;
+				}
+				else if (throwInvalidCast)
+				{
+					yield return (T)pair.Value;
+				}
+			}
 		}
 	}
 }
