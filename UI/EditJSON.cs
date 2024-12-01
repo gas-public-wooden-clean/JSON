@@ -607,7 +607,18 @@ namespace UI
 
 			JsonElement element;
 
-			using (Stream file = _openDialog.OpenFile())
+			Stream file;
+			try
+			{
+				file = _openDialog.OpenFile();
+			}
+			catch (IOException)
+			{
+				string message = string.Format(CultureInfo.CurrentCulture, Strings.OpenFailed, Environment.NewLine, _openDialog.FileName);
+				ShowWarning(message, Strings.Open);
+				return;
+			}
+			using (file)
 			{
 				if (_autoOption.Checked)
 				{
@@ -618,18 +629,7 @@ namespace UI
 					_detected = GetSelectedEncoding();
 				}
 
-				StreamReader reader;
-				try
-				{
-					reader = new StreamReader(file, _detected);
-				}
-				catch (IOException)
-				{
-					string message = string.Format(CultureInfo.CurrentCulture, Strings.OpenFailed, Environment.NewLine, _openDialog.FileName);
-					ShowWarning(message, Strings.Open);
-					return;
-				}
-				using (reader)
+				using (StreamReader reader = new StreamReader(file, _detected))
 				{
 					JsonReader json = new JsonReader(reader);
 					try
