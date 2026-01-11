@@ -596,6 +596,44 @@ namespace CER.Json.DocumentObjectModel
 		}
 
 		/// <summary>
+		/// Write the array, whitespace, and elements within it, as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
+		/// <exception cref="ArgumentNullException">The writer is null.</exception>
+		public override async void SerializeAsync(TextWriter writer)
+		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
+			await writer.WriteAsync(Leading.Value);
+			await writer.WriteAsync("[");
+			if (_values.Count == 0)
+			{
+				await writer.WriteAsync(EmptyWhitespace.Value);
+			}
+			else
+			{
+				bool first = true;
+				foreach (JsonElement element in _values)
+				{
+					if (!first)
+					{
+						await writer.WriteAsync(",");
+					}
+					first = false;
+
+					element.SerializeAsync(writer);
+				}
+			}
+			await writer.WriteAsync("]");
+			await writer.WriteAsync(Trailing.Value);
+		}
+
+		/// <summary>
 		/// Get an enumerable view of the elements as a specific type.
 		/// </summary>
 		/// <typeparam name="T">The type of element to cast to.</typeparam>

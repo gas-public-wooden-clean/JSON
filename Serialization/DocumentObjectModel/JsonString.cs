@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -276,6 +277,75 @@ namespace CER.Json.DocumentObjectModel
 
 			writer.Write("\"");
 			writer.Write(Trailing.Value);
+		}
+
+		/// <summary>
+		/// Write the string value and whitespace as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
+		public override async void SerializeAsync(TextWriter writer)
+		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
+			await writer.WriteAsync(Leading.Value);
+			await writer.WriteAsync("\"");
+
+			for (int i = 0; i < _json.Length; i++)
+			{
+				int sequenceLength;
+
+				if (_json[i] == '\\')
+				{
+					if (_json[i + 1] == 'u')
+					{
+						// Unicode escape sequence.
+						sequenceLength = 6;
+					}
+					else
+					{
+						sequenceLength = 2;
+					}
+
+					await writer.WriteAsync(_json.Substring(i, sequenceLength));
+				}
+				else
+				{
+					sequenceLength = char.IsHighSurrogate(_json[i]) ? 2 : 1;
+
+					bool needsEscape = false;
+					// Check if the sequence is representable natively in the target encoding.
+					try
+					{
+						_ = writer.Encoding.GetByteCount(_json.Substring(i, sequenceLength));
+					}
+					catch (EncoderFallbackException)
+					{
+						needsEscape = true;
+					}
+
+					if (needsEscape)
+					{
+						for (int sequenceIndex = 0; sequenceIndex < sequenceLength; sequenceIndex++)
+						{
+							await writer.WriteAsync(EscapeChar(_json[i + sequenceIndex]));
+						}
+					}
+					else
+					{
+						await writer.WriteAsync(_json.Substring(i, sequenceLength));
+					}
+				}
+
+				i += sequenceLength - 1;
+			}
+
+			await writer.WriteAsync("\"");
+			await writer.WriteAsync(Trailing.Value);
 		}
 
 		static string EscapeChar(char character)

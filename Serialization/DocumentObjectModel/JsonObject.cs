@@ -415,6 +415,45 @@ namespace CER.Json.DocumentObjectModel
 		}
 
 		/// <summary>
+		/// Write the object, whitespace, and elements within it, as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
+		public override async void SerializeAsync(TextWriter writer)
+		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
+			await writer.WriteAsync(Leading.Value);
+			await writer.WriteAsync("{");
+			if (_values.Count == 0)
+			{
+				await writer.WriteAsync(EmptyWhitespace.Value);
+			}
+			else
+			{
+				bool first = true;
+				foreach (JsonObjectPair entry in _values)
+				{
+					if (!first)
+					{
+						await writer.WriteAsync(",");
+					}
+					first = false;
+
+					entry.Key.SerializeAsync(writer);
+					await writer.WriteAsync(":");
+					entry.Value.SerializeAsync(writer);
+				}
+			}
+			await writer.WriteAsync("}");
+			await writer.WriteAsync(Trailing.Value);
+		}
+
+		/// <summary>
 		/// Set the value of a specific key.
 		/// </summary>
 		/// <param name="key">The key, which must exist already.</param>

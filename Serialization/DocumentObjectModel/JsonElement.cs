@@ -73,23 +73,22 @@ namespace CER.Json.DocumentObjectModel
 		public abstract void Serialize(TextWriter writer);
 
 		/// <summary>
+		/// Write the JSON element to a stream.
+		/// </summary>
+		/// <param name="writer">The stream to write to.</param>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
+		public abstract void SerializeAsync(TextWriter writer);
+
+		/// <summary>
 		/// Returns a string that represents the current object.
 		/// </summary>
 		/// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
-			using (MemoryStream mem = new MemoryStream())
-			{
-				using (TextWriter writer = new StreamWriter(mem, Encoding.Unicode, 1024, true))
-				{
-					Serialize(writer);
-				}
-				mem.Position = 0;
-				using (StreamReader reader = new StreamReader(mem, Encoding.Unicode))
-				{
-					return reader.ReadToEnd();
-				}
-			}
+			StringWriter writer = new StringWriter();
+			Serialize(writer);
+			return writer.ToString();
 		}
 
 		/// <summary>

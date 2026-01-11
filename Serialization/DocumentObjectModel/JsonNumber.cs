@@ -103,5 +103,23 @@ namespace CER.Json.DocumentObjectModel
 			writer.Write(Json);
 			writer.Write(Trailing.Value);
 		}
+
+		/// <summary>
+		/// Write the number and whitespace as JSON to the stream.
+		/// </summary>
+		/// <param name="writer">The writer to write to.</param>
+		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
+		/// <exception cref="IOException">An I/O error occurs.</exception>
+		public override async void SerializeAsync(TextWriter writer)
+		{
+			if (writer is null)
+			{
+				throw new ArgumentNullException(nameof(writer));
+			}
+
+			await writer.WriteAsync(Leading.Value);
+			await writer.WriteAsync(Json);
+			await writer.WriteAsync(Trailing.Value);
+		}
 	}
 }
