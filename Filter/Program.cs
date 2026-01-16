@@ -1,11 +1,14 @@
 using CER.Json;
+using CER.Json.DocumentObjectModel;
 using CER.Json.Stream;
 using Filter;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 [assembly: ComVisible(false)]
 [assembly: Guid("184d891c-a747-4561-ad60-00a25ee5906c")]
@@ -17,9 +20,9 @@ namespace Filter
 {
 	class Program
 	{
-		internal const string VersionString = "1.2.0.0";
+		internal const string VersionString = "1.3.0.0";
 
-		static void Main(string[] args)
+		static async Task Main(string[] args)
 		{
 			Version compiled = new Version(AssemblyInfo.Major, AssemblyInfo.Minor, AssemblyInfo.Build, AssemblyInfo.Revision);
 			Version runtime = typeof(AssemblyInfo).Assembly.GetName().Version;
@@ -60,45 +63,49 @@ namespace Filter
 			uint depth = 0;
 			bool inValue = false;
 			bool hasItem = false;
-			Exception e;
-			while (ReadException(json, out e))
+			Tuple<bool, Exception> readResult;
+			AsyncOutput output = new AsyncOutput();
+			while ((readResult = await ReadException(json)).Item1)
 			{
 				switch (json.CurrentToken)
 				{
 					case TokenType.BeginArray:
 						if (beautify && !inValue)
 						{
-							Indent(depth);
+							output.Indent(depth);
 						}
 						inValue = false;
-						Console.Out.Write("[");
+						output.Append('[');
 						if (beautify)
 						{
-							Console.Out.WriteLine();
+							output.Append(Environment.NewLine);
 						}
+						await output.Write();
 						hasItem = false;
 						depth += 1;
 						break;
 					case TokenType.BeginObject:
 						if (beautify && !inValue)
 						{
-							Indent(depth);
+							output.Indent(depth);
 						}
 						inValue = false;
-						Console.Out.Write("{");
 						if (beautify)
 						{
-							Console.Out.WriteLine();
+							output.Append(Environment.NewLine);
 						}
+						output.Append('{');
+						await output.Write();
 						hasItem = false;
 						depth += 1;
 						break;
 					case TokenType.Boolean:
 						if (beautify && !inValue)
 						{
-							Indent(depth);
+							output.Indent(depth);
 						}
-						Console.Out.Write(json.BooleanValue ? "true" : "false");
+						output.Append(json.BooleanValue ? "true" : "false");
+						await output.Write();
 						hasItem = true;
 						break;
 					case TokenType.EndArray:
@@ -107,11 +114,12 @@ namespace Filter
 						{
 							if (hasItem)
 							{
-								Console.Out.WriteLine();
+								output.Append(Environment.NewLine);
 							}
-							Indent(depth);
+							output.Indent(depth);
 						}
-						Console.Out.Write("]");
+						output.Append(']');
+						await output.Write();
 						hasItem = true;
 						break;
 					case TokenType.EndObject:
@@ -120,55 +128,62 @@ namespace Filter
 						{
 							if (hasItem)
 							{
-								Console.Out.WriteLine();
+								output.Append(Environment.NewLine);
 							}
-							Indent(depth);
+							output.Indent(depth);
 						}
-						Console.Out.Write("}");
+						output.Append('}');
+						await output.Write();
 						hasItem = true;
 						break;
 					case TokenType.KeyValueSeparator:
-						Console.Out.Write(":");
+						output.Append(':');
+						await output.Write();
 						inValue = true;
 						break;
 					case TokenType.ListSeparator:
-						Console.Out.Write(",");
+						output.Append(',');
 						inValue = false;
 						if (beautify)
 						{
-							Console.Out.WriteLine();
+							output.Append(Environment.NewLine);
 						}
+						await output.Write();
 						break;
 					case TokenType.Null:
 						if (beautify && !inValue)
 						{
-							Indent(depth);
+							output.Indent(depth);
 						}
-						Console.Out.Write("null");
+						output.Append("null");
+						await output.Write();
 						hasItem = true;
 						break;
 					case TokenType.Number:
 						if (beautify && !inValue)
 						{
-							Indent(depth);
+							output.Indent(depth);
 						}
-						Console.Out.Write(json.NumberValue);
+						output.Append(json.NumberValue);
+						await output.Write();
 						hasItem = true;
 						break;
 					case TokenType.String:
 						if (beautify && !inValue)
 						{
-							Indent(depth);
+							output.Indent(depth);
 						}
-						Console.Out.Write("\"");
-						Console.Out.Write(json.StringValue);
-						Console.Out.Write("\"");
+						output.Append('\"');
+						output.Append(json.StringValue);
+						output.Append('\"');
+						await output.Write();
 						hasItem = true;
 						break;
 					case TokenType.Whitespace:
 						if (!beautify && !minify)
 						{
-							Console.Out.Write(json.Whitespace.Value);
+							output.Append(json.Whitespace.Value);
+							await output.Write();
 						}
 						break;
 					default:
@@ -176,36 +191,69 @@ namespace Filter
 						break;
 				}
 			}
-			if (e != null)
+			await output.Finish();
+			if (readResult.Item2 is not null)
 			{
-				Console.Error.WriteLine(e.Message);
+				Console.Error.WriteLine(readResult.Item2.Message);
 			}
 		}
 
-		static bool ReadException(JsonReader json, out Exception e)
+		static async Task<Tuple<bool, Exception>> ReadException(JsonReader json)
 		{
-			e = null;
 			try
 			{
-				return json.Read();
+				return new Tuple<bool, Exception>(await json.ReadAsync(), null);
 			}
 			catch (InvalidDataException ex)
 			{
-				e = ex;
-				return false;
+				return new Tuple<bool, Exception>(false, ex);
 			}
 			catch (InvalidJsonException ex)
 			{
-				e = ex;
-				return false;
+				return new Tuple<bool, Exception>(false, ex);
 			}
 		}
 
-		static void Indent(uint depth)
+		class AsyncOutput
 		{
-			for (uint i = 0; i < depth; i++)
+			public AsyncOutput()
 			{
-				Console.Out.Write("\t");
+				_task = Task.CompletedTask;
+				_builder = new StringBuilder();
+			}
+
+			Task _task;
+			readonly StringBuilder _builder;
+
+			public async Task Write()
+			{
+				await _task;
+				_task = Console.Out.WriteAsync(_builder);
+				_builder.Clear();
+			}
+
+			public void Indent(uint depth)
+			{
+				for (uint i = 0; i < depth; i++)
+				{
+					_builder.Append('\t');
+				}
+			}
+
+			public void Append(char value)
+			{
+				_builder.Append(value);
+			}
+
+			public void Append(string value)
+			{
+				_builder.Append(value);
+			}
+
+			public async Task Finish()
+			{
+				await _task;
+				_task = Task.CompletedTask;
 			}
 		}
 	}

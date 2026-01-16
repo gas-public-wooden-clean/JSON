@@ -1,8 +1,10 @@
 using CER.Json.Stream;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -20,17 +22,14 @@ namespace CER.Json.DocumentObjectModel
 			Trailing = Whitespace.Empty;
 		}
 
-		Whitespace _leading;
-		Whitespace _trailing;
-
 		/// <summary>
 		/// Leading whitespace.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">The given value is null.</exception>
 		public Whitespace Leading
 		{
-			get => _leading;
-			set => _leading = value ?? throw new ArgumentNullException(nameof(value));
+			get;
+			set => field = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -39,29 +38,30 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The given value is null.</exception>
 		public Whitespace Trailing
 		{
-			get => _trailing;
-			set => _trailing = value ?? throw new ArgumentNullException(nameof(value));
+			get;
+			set => field = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
 		/// Read the JSON element from a stream.
 		/// </summary>
 		/// <param name="reader">The stream to read from, which should be positioned at the start.</param>
+		/// <param name="progress">The object to report progress to. Progress is reported for each element that is fully read.</param>
+		/// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is System.Threading.CancellationToken.None.</param>
 		/// <returns>The JSON element contained within the document.</returns>
 		/// <exception cref="ArgumentNullException">The reader is null.</exception>
-		/// <exception cref="InvalidOperationException">The reader is in an invalid state from a previous exception.</exception>
 		/// <exception cref="InvalidJsonException">The underlying text stream is not valid JSON.</exception>
 		/// <exception cref="ObjectDisposedException">The underlying stream has been closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
-		public static JsonElement Deserialize(JsonReader reader)
+		public static async Task<JsonElement> DeserializeAsync(JsonReader reader, IProgress<JsonParseProgress>? progress = null, CancellationToken cancellationToken = default(CancellationToken))
 		{
-			if (reader is null)
-			{
-				throw new ArgumentNullException(nameof(reader));
-			}
+			ArgumentNullException.ThrowIfNull(reader, nameof(reader));
 
-			_ = reader.Read();
-			return ReadElement(reader);
+			await reader.ReadAsync(cancellationToken);
+			JsonPath path = new JsonPath();
+			JsonElement retval = await ReadElementAsync(reader, path, progress, cancellationToken);
+			progress?.Report(new JsonParseProgress(retval, path));
+			return retval;
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="writer">The stream to write to.</param>
 		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
-		public abstract void SerializeAsync(TextWriter writer);
+		public abstract Task SerializeAsync(TextWriter writer);
 
 		/// <summary>
 		/// Returns a string that represents the current object.
@@ -128,13 +128,10 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The format is null.</exception>
 		public void Format(IFormat format)
 		{
-			if (format is null)
-			{
-				throw new ArgumentNullException(nameof(format));
-			}
+			ArgumentNullException.ThrowIfNull(format, nameof(format));
 
 			int depth = 0;
-			format.Format(this, depth, false, false, false);
+			format.Format(this, depth, JsonRole.Value, false);
 			List<JsonElement> level = new List<JsonElement>()
 			{
 				this
@@ -151,7 +148,7 @@ namespace CER.Json.DocumentObjectModel
 					{
 						for (int i = 0; i < array.Count; i++)
 						{
-							format.Format(array[i], depth, false, false, i + 1 >= array.Count);
+							format.Format(array[i], depth, JsonRole.Value, i + 1 >= array.Count);
 							nextLevel.Add(array[i]);
 						}
 					}
@@ -159,8 +156,8 @@ namespace CER.Json.DocumentObjectModel
 					{
 						for (int i = 0; i < obj.Count; i++)
 						{
-							format.Format(obj[i].Key, depth, true, false, i + 1 >= obj.Count);
-							format.Format(obj[i].Value, depth, false, true, i + 1 >= obj.Count);
+							format.Format(obj[i].Key, depth, JsonRole.ObjectKey, i + 1 >= obj.Count);
+							format.Format(obj[i].Value, depth, JsonRole.ObjectValue, i + 1 >= obj.Count);
 							nextLevel.Add(obj[i].Value);
 						}
 					}
@@ -171,7 +168,7 @@ namespace CER.Json.DocumentObjectModel
 			}
 		}
 
-		static JsonElement ReadElement(JsonReader reader)
+		static async Task<JsonElement> ReadElementAsync(JsonReader reader, JsonPath path, IProgress<JsonParseProgress>? progress = null, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			JsonElement retval;
 
@@ -179,7 +176,7 @@ namespace CER.Json.DocumentObjectModel
 			if (reader.CurrentToken == TokenType.Whitespace)
 			{
 				leading = reader.Whitespace;
-				_ = reader.Read();
+				_ = await reader.ReadAsync(cancellationToken);
 			}
 
 			Whitespace first;
@@ -188,20 +185,23 @@ namespace CER.Json.DocumentObjectModel
 			{
 				case TokenType.BeginArray:
 					JsonArray array = new JsonArray();
-					_ = reader.Read();
+					_ = await reader.ReadAsync(cancellationToken);
 					first = Whitespace.Empty;
 					if (reader.CurrentToken == TokenType.Whitespace)
 					{
 						// The first whitespace belongs to the first element, but only if it exists.
 						first = reader.Whitespace;
-						_ = reader.Read();
+						_ = await reader.ReadAsync(cancellationToken);
 					}
+					JsonPath arrayPath = new JsonPath(path, null);
 					while (reader.CurrentToken != TokenType.EndArray)
 					{
-						array.Add(ReadElement(reader));
+						JsonElement item = await ReadElementAsync(reader, arrayPath, progress, cancellationToken);
+						array.Add(item);
+						progress?.Report(new JsonParseProgress(item, arrayPath));
 						if (reader.CurrentToken == TokenType.ListSeparator)
 						{
-							_ = reader.Read();
+							_ = await reader.ReadAsync(cancellationToken);
 						}
 					}
 					if (array.Count == 0)
@@ -218,24 +218,26 @@ namespace CER.Json.DocumentObjectModel
 					break;
 				case TokenType.BeginObject:
 					JsonObject obj = new JsonObject();
-					_ = reader.Read();
+					_ = await reader.ReadAsync(cancellationToken);
 					first = Whitespace.Empty;
 					if (reader.CurrentToken == TokenType.Whitespace)
 					{
 						// The first whitespace belongs to the first key, but only if it exists.
 						first = reader.Whitespace;
-						_ = reader.Read();
+						_ = await reader.ReadAsync(cancellationToken);
 					}
 					while (reader.CurrentToken != TokenType.EndObject)
 					{
-						JsonString key = (JsonString)ReadElement(reader);
+						JsonString key = (JsonString)await ReadElementAsync(reader, path, progress, cancellationToken);
+						JsonPath objectPath = new JsonPath(path, key);
 						// Read past the key/value separator.
-						_ = reader.Read();
-						JsonObjectPair pair = new JsonObjectPair(key, ReadElement(reader));
+						_ = await reader.ReadAsync(cancellationToken);
+						JsonObjectPair pair = new JsonObjectPair(key, await ReadElementAsync(reader, objectPath, progress, cancellationToken));
+						progress?.Report(new JsonParseProgress(pair.Value, objectPath));
 						obj.Add(pair);
 						if (reader.CurrentToken == TokenType.ListSeparator)
 						{
-							_ = reader.Read();
+							_ = await reader.ReadAsync(cancellationToken);
 						}
 					}
 					if (obj.Count == 0)
@@ -263,19 +265,19 @@ namespace CER.Json.DocumentObjectModel
 					retval = new JsonString(reader.StringValue, true);
 					break;
 				default:
-					// This should never happen.
+					Debug.Fail($"Unknown token type {reader.CurrentToken}.");
 					retval = null;
 					break;
 			}
 
-			_ = reader.Read();
+			_ = await reader.ReadAsync(cancellationToken);
 
 			retval.Leading = leading;
 
 			if (reader.CurrentToken == TokenType.Whitespace)
 			{
 				retval.Trailing = reader.Whitespace;
-				_ = reader.Read();
+				_ = await reader.ReadAsync(cancellationToken);
 			}
 
 			return retval;

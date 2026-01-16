@@ -14,12 +14,11 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="element">The element to format.</param>
 		/// <param name="depth">The element's depth in the tree. Keys and values both have a depth of one
 		/// more than the containing object.</param>
-		/// <param name="isKey">Whether the element is a key in an object.</param>
-		/// <param name="isValue">Whether the element is a value in an object.</param>
+		/// <param name="role">The element's role within a container.</param>
 		/// <param name="isLastItem">Whether the element is the last item in an array or object. For
 		/// objects, both the last key and last value will have this set.</param>
 		/// <exception cref="ArgumentNullException">The element is null.</exception>
-		void Format(JsonElement element, int depth, bool isKey, bool isValue, bool isLastItem);
+		void Format(JsonElement element, int depth, JsonRole role, bool isLastItem);
 	}
 
 	/// <summary>
@@ -55,19 +54,15 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="element">The element to format.</param>
 		/// <param name="depth">The element's depth in the tree. Keys and values both have a depth of one
 		/// more than the containing object.</param>
-		/// <param name="isKey">Whether the element is a key in an object.</param>
-		/// <param name="isValue">Whether the element is a value in an object.</param>
+		/// <param name="role">The element's role within a container.</param>
 		/// <param name="isLastItem">Whether the element is the last item in an array or object. For
 		/// objects, both the last key and last value will have this set.</param>
 		/// <exception cref="ArgumentNullException">The element is null.</exception>
-		public void Format(JsonElement element, int depth, bool isKey, bool isValue, bool isLastItem)
+		public void Format(JsonElement element, int depth, JsonRole role, bool isLastItem)
 		{
-			if (element is null)
-			{
-				throw new ArgumentNullException(nameof(element));
-			}
+			ArgumentNullException.ThrowIfNull(element, nameof(element));
 
-			if (isValue)
+			if (role == JsonRole.ObjectValue)
 			{
 				element.Leading = _beforeValue;
 			}
@@ -81,7 +76,7 @@ namespace CER.Json.DocumentObjectModel
 				element.Leading = new Whitespace(whitespace);
 			}
 
-			if (isKey)
+			if (role == JsonRole.ObjectKey)
 			{
 				element.Trailing = _afterKey;
 			}

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -34,10 +35,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The writer is null.</exception>
 		public override void Serialize(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
 
 			writer.Write(Leading.Value);
 			writer.Write(Value ? "true" : "false");
@@ -51,12 +49,9 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		/// <exception cref="ArgumentNullException">The writer is null.</exception>
-		public override async void SerializeAsync(TextWriter writer)
+		public override async Task SerializeAsync(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
 
 			await writer.WriteAsync(Leading.Value);
 			await writer.WriteAsync(Value ? "true" : "false");

@@ -16,8 +16,6 @@ namespace CER.Json.Stream
 		/// <exception cref="ArgumentNullException">The value is null.</exception>
 		public Whitespace(string whitespace) => Value = whitespace;
 
-		string _validated;
-
 		/// <summary>
 		/// An instance containing no whitespace characters.
 		/// </summary>
@@ -28,13 +26,10 @@ namespace CER.Json.Stream
 		/// </summary>
 		public string Value
 		{
-			get => _validated;
+			get;
 			private set
 			{
-				if (value is null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
+				ArgumentNullException.ThrowIfNull(value, nameof(value));
 
 				foreach (char c in value)
 				{
@@ -44,7 +39,7 @@ namespace CER.Json.Stream
 						throw new ArgumentException(message, nameof(value));
 					}
 				}
-				_validated = value;
+				field = value;
 			}
 		}
 

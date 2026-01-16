@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -47,10 +48,7 @@ namespace CER.Json.DocumentObjectModel
 			get => _json;
 			set
 			{
-				if (value is null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
+				ArgumentNullException.ThrowIfNull(value, nameof(value));
 
 				try
 				{
@@ -73,10 +71,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="OverflowException">The value being retrieved is less than System.Decimal.MinValue or greater than System.Decimal.MaxValue.</exception>
 		public static decimal JsonToDecimal(string json)
 		{
-			if (json is null)
-			{
-				throw new ArgumentNullException(nameof(json));
-			}
+			ArgumentNullException.ThrowIfNull(json, nameof(json));
 
 			if (json.StartsWith(CultureInfo.InvariantCulture.NumberFormat.PositiveSign, StringComparison.Ordinal))
 			{
@@ -94,10 +89,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
 
 			writer.Write(Leading.Value);
 			writer.Write(Json);
@@ -110,12 +102,9 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="writer">The writer to write to.</param>
 		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
-		public override async void SerializeAsync(TextWriter writer)
+		public override async Task SerializeAsync(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
 
 			await writer.WriteAsync(Leading.Value);
 			await writer.WriteAsync(Json);

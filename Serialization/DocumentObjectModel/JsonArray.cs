@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -19,8 +20,6 @@ namespace CER.Json.DocumentObjectModel
 			_values = new List<JsonElement>();
 			EmptyWhitespace = Whitespace.Empty;
 		}
-
-		Whitespace _emptyWhitespace;
 
 		readonly IList<JsonElement> _values;
 
@@ -43,8 +42,8 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The value being set is null.</exception>
 		public Whitespace EmptyWhitespace
 		{
-			get => _emptyWhitespace;
-			set => _emptyWhitespace = value ?? throw new ArgumentNullException(nameof(value));
+			get;
+			set => field = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		/// <summary>
@@ -233,10 +232,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">Element is null.</exception>
 		public void Insert(int index, JsonElement item)
 		{
-			if (item is null)
-			{
-				throw new ArgumentNullException(nameof(item));
-			}
+			ArgumentNullException.ThrowIfNull(item, nameof(item));
 
 			_values.Insert(index, item);
 		}
@@ -250,10 +246,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">Value is null.</exception>
 		public void Insert(int index, string value)
 		{
-			if (value is null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
+			ArgumentNullException.ThrowIfNull(value, nameof(value));
 
 			_values.Insert(index, new JsonString(value));
 		}
@@ -464,10 +457,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The element to locate is null.</exception>
 		public int IndexOf(JsonElement item)
 		{
-			if (item is null)
-			{
-				throw new ArgumentNullException(nameof(item));
-			}
+			ArgumentNullException.ThrowIfNull(item, nameof(item));
 
 			return _values.IndexOf(item);
 		}
@@ -481,10 +471,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The element to locate is null.</exception>
 		public int IndexOf(string item, StringComparison comparisonType = StringComparison.Ordinal)
 		{
-			if (item is null)
-			{
-				throw new ArgumentNullException(nameof(item));
-			}
+			ArgumentNullException.ThrowIfNull(item, nameof(item));
 
 			for (int i = 0; i < _values.Count; i++)
 			{
@@ -566,10 +553,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ArgumentNullException">The writer is null.</exception>
 		public override void Serialize(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
 
 			writer.Write(Leading.Value);
 			writer.Write("[");
@@ -602,12 +586,9 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		/// <exception cref="ArgumentNullException">The writer is null.</exception>
-		public override async void SerializeAsync(TextWriter writer)
+		public override async Task SerializeAsync(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
 
 			await writer.WriteAsync(Leading.Value);
 			await writer.WriteAsync("[");
@@ -626,7 +607,7 @@ namespace CER.Json.DocumentObjectModel
 					}
 					first = false;
 
-					element.SerializeAsync(writer);
+					await element.SerializeAsync(writer);
 				}
 			}
 			await writer.WriteAsync("]");

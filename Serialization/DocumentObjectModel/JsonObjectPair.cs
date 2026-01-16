@@ -60,12 +60,12 @@ namespace CER.Json.DocumentObjectModel
 		{
 			int hashCode = 0;
 
-			if (!(Key is null))
+			if (Key is not null)
 			{
 				hashCode ^= Key.GetHashCode();
 			}
 
-			if (!(Value is null))
+			if (Value is not null)
 			{
 				hashCode ^= Value.GetHashCode();
 			}

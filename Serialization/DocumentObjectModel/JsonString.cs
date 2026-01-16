@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CER.Json.DocumentObjectModel
 {
@@ -100,10 +101,7 @@ namespace CER.Json.DocumentObjectModel
 			get => _json;
 			set
 			{
-				if (value is null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
+				ArgumentNullException.ThrowIfNull(value, nameof(value));
 
 				_value = JsonToString(value);
 				_json = value;
@@ -119,10 +117,7 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="FormatException">The representation is a JSON string that is not well-formed or is not a sequence of unicode codepoints.</exception>
 		public static string JsonToString(string json)
 		{
-			if (json is null)
-			{
-				throw new ArgumentNullException(nameof(json));
-			}
+			ArgumentNullException.ThrowIfNull(json, nameof(json));
 
 			StringBuilder builder = new StringBuilder();
 			bool isEscaped = false;
@@ -218,65 +213,8 @@ namespace CER.Json.DocumentObjectModel
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void Serialize(TextWriter writer)
 		{
-			if (writer is null)
-			{
-				throw new ArgumentNullException(nameof(writer));
-			}
-
-			writer.Write(Leading.Value);
-			writer.Write("\"");
-
-			for (int i = 0; i < _json.Length; i++)
-			{
-				int sequenceLength;
-
-				if (_json[i] == '\\')
-				{
-					if (_json[i + 1] == 'u')
-					{
-						// Unicode escape sequence.
-						sequenceLength = 6;
-					}
-					else
-					{
-						sequenceLength = 2;
-					}
-
-					writer.Write(_json.Substring(i, sequenceLength));
-				}
-				else
-				{
-					sequenceLength = char.IsHighSurrogate(_json[i]) ? 2 : 1;
-
-					bool needsEscape = false;
-					// Check if the sequence is representable natively in the target encoding.
-					try
-					{
-						_ = writer.Encoding.GetByteCount(_json.Substring(i, sequenceLength));
-					}
-					catch (EncoderFallbackException)
-					{
-						needsEscape = true;
-					}
-
-					if (needsEscape)
-					{
-						for (int sequenceIndex = 0; sequenceIndex < sequenceLength; sequenceIndex++)
-						{
-							writer.Write(EscapeChar(_json[i + sequenceIndex]));
-						}
-					}
-					else
-					{
-						writer.Write(_json.Substring(i, sequenceLength));
-					}
-				}
-
-				i += sequenceLength - 1;
-			}
-
-			writer.Write("\"");
-			writer.Write(Trailing.Value);
+			// Serialize with async=false must run synchronously and return an already-completed task to avoid deadlock.
+			Serialize(writer, false).Wait();
 		}
 
 		/// <summary>
@@ -285,16 +223,25 @@ namespace CER.Json.DocumentObjectModel
 		/// <param name="writer">The writer to write to.</param>
 		/// <exception cref="ObjectDisposedException">The writer is closed.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
-		public override async void SerializeAsync(TextWriter writer)
+		public override async Task SerializeAsync(TextWriter writer)
 		{
-			if (writer is null)
+			await Serialize(writer, true);
+		}
+
+		async Task Serialize(TextWriter writer, bool isAsync)
+		{
+			ArgumentNullException.ThrowIfNull(writer, nameof(writer));
+
+			if (isAsync)
 			{
-				throw new ArgumentNullException(nameof(writer));
+				await writer.WriteAsync(Leading.Value);
+				await writer.WriteAsync("\"");
 			}
-
-			await writer.WriteAsync(Leading.Value);
-			await writer.WriteAsync("\"");
-
+			else
+			{
+				writer.Write(Leading.Value);
+				writer.Write("\"");
+			}
 			for (int i = 0; i < _json.Length; i++)
 			{
 				int sequenceLength;
@@ -311,7 +258,14 @@ namespace CER.Json.DocumentObjectModel
 						sequenceLength = 2;
 					}
 
-					await writer.WriteAsync(_json.Substring(i, sequenceLength));
+					if (isAsync)
+					{
+						await writer.WriteAsync(_json.AsMemory(i, sequenceLength));
+					}
+					else
+					{
+						writer.Write(_json.AsMemory(i, sequenceLength));
+					}
 				}
 				else
 				{
@@ -321,7 +275,7 @@ namespace CER.Json.DocumentObjectModel
 					// Check if the sequence is representable natively in the target encoding.
 					try
 					{
-						_ = writer.Encoding.GetByteCount(_json.Substring(i, sequenceLength));
+						_ = writer.Encoding.GetByteCount(_json.AsSpan(i, sequenceLength));
 					}
 					catch (EncoderFallbackException)
 					{
@@ -332,20 +286,42 @@ namespace CER.Json.DocumentObjectModel
 					{
 						for (int sequenceIndex = 0; sequenceIndex < sequenceLength; sequenceIndex++)
 						{
-							await writer.WriteAsync(EscapeChar(_json[i + sequenceIndex]));
+							if (isAsync)
+							{
+								await writer.WriteAsync(EscapeChar(_json[i + sequenceIndex]));
+							}
+							else
+							{
+								writer.Write(EscapeChar(_json[i + sequenceIndex]));
+							}
 						}
 					}
 					else
 					{
-						await writer.WriteAsync(_json.Substring(i, sequenceLength));
+						if (isAsync)
+						{
+							await writer.WriteAsync(_json.AsMemory(i, sequenceLength));
+						}
+						else
+						{
+							writer.Write(_json.AsMemory(i, sequenceLength));
+						}
 					}
 				}
 
 				i += sequenceLength - 1;
 			}
 
-			await writer.WriteAsync("\"");
-			await writer.WriteAsync(Trailing.Value);
+			if (isAsync)
+			{
+				await writer.WriteAsync("\"");
+				await writer.WriteAsync(Trailing.Value);
+			}
+			else
+			{
+				writer.Write("\"");
+				writer.Write(Trailing.Value);
+			}
 		}
 
 		static string EscapeChar(char character)
